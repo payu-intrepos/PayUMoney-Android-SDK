@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    android:id="@+id/enterCardDetailsLayout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/enterCardDetailsTextView"
+        android:layout_marginBottom="3dp"
+        android:gravity="center"
+        android:textStyle="normal"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardNumberEditText"
+        android:hint="@string/card_number"
+        android:background="@drawable/box"
+        android:inputType="number"
+        android:maxLength="19"
+        android:layout_marginBottom="1dp"
+        android:textSize="15sp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardNameEditText"
+        android:hint="@string/card_name"
+        android:background="@drawable/box"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 "
+        android:visibility="gone"
+        android:layout_marginBottom="1dp"
+        android:padding="0dp"/>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/expiryCvvLinearLayout">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/box"
+            android:id="@+id/expiryDatePickerEditText"
+            android:hint="@string/expires"
+            android:layout_marginBottom="1dp"
+            android:padding="0dp"
+            android:inputType="date"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cvvEditText"
+            android:layout_gravity="center"
+            android:hint="@string/cvv"
+            android:background="@drawable/box"
+            android:inputType="numberPassword"
+            android:password="true"
+            android:maxLength="3"
+            android:layout_marginBottom="1dp"
+            android:padding="0dp"
+            android:textSize="15sp"/>
+    </LinearLayout>
+    <CheckBox
+        android:id="@+id/store_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:checked="true"
+        android:button="@drawable/checkbox_green"
+        android:text="Save this card"
+        android:textSize="10dp"/>
+
+    <EditText
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/card_label"
+        android:textSize="13dp"
+        android:inputType="text"
+        android:maxLength="20"
+        android:maxLines="1" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/makePayment"
+            android:text="@string/pay_now"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@drawable/button"
+            android:layout_marginTop="5dp"
+
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center"
+            android:enabled="false"/>
+    </LinearLayout>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="18sp"
+        android:layout_gravity="center"
+        android:src="@drawable/security_icons"/>
+
+
+
+
+</LinearLayout>

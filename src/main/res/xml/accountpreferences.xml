@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+        <PreferenceCategory android:title="PayUMoney Auth" />
+        <CheckBoxPreference
+            android:key="isDebug"
+            android:summary="Connecting to a debug server instead of production server"
+            android:title="Use debug server" />
+        <SwitchPreference
+            android:summary="Increase logging verbosity for LogCat output"
+            android:title="Debug Logs" />
+    </PreferenceScreen>

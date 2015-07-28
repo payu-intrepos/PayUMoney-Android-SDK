@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="one">1dp</dimen>
+    <dimen name="four">4dp</dimen>
+    <dimen name="twelve">12dp</dimen>
+    <dimen name="sixteen">16dp</dimen>
+    <!--<dimen name="sixteen_scaled">16sp</dimen>-->
+    <dimen name="eight">8dp</dimen>
+    <dimen name="thirtyTwo">32dp</dimen>
+    <dimen name="fiftySix">56dp</dimen>
+    <!--<dimen name="forty">40dp</dimen>-->
+    <dimen name="fortyEight">48dp</dimen>
+    <dimen name="two">2dp</dimen>
+    <dimen name="twenty_four">24dp</dimen>
+    <dimen name="thirty_two">32dp</dimen>
+    <dimen name="sixty_four">64dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="twenty">20dp</dimen>
+
+</resources>

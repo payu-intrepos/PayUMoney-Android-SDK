@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/linear_interpolator">
+
+    <alpha
+        android:fromAlpha="1.0"
+        android:fillAfter="true"
+        android:toAlpha="0.1"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:duration="500"/>
+</set>

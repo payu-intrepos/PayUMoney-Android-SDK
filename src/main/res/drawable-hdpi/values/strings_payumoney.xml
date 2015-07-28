@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PayUMoney</string>
+    <!--<string name="search_hint">Enter the email/phone of merchant</string>-->
+    <string name="success">Payment Successful!</string>
+    <string name="failure">We are sorry</string>
+    <string name="cancelled">Payment cancelled!</string>
+    <string name="turn_on_torch">Turn on torch</string>
+    <string name="help">Help</string>
+    <string name="scan_help_text">Scan the merchant\'s QR code to make a quick payment.</string>
+    <string name="help_text">1. Point your camera at the QR code at the merchant outlet.\n\n2. QR code will be detected automatically.\n\n3. Enter the amount that you want to pay. You can also add a description, if you want to.</string>
+    <!--<string name="next">Next</string>-->
+    <!--<string name="prev">Prev</string>-->
+    <string name="payment_success_thanks">Your payment has been successfully processed. Thank you for using PayUMoney!</string>
+    <string name="payment_cancelled_help_offer">Uh-oh! We are sorry to see you had to cancel your payment. Is there something we can help you with? Let us know your feedback, and we\'ll get back to you ASAP.</string>
+    <string name="try_again_different_method">We feel bad for saying it, but your payment failed. Do you want to try again with a different payment method?</string>
+    <string name="no_results_found">Uh oh! Merchant details seems incorrect. Please recheck the details and search again</string>
+    <!--<string name="cntn">Continue</string>-->
+    <!--<string name="make_payment">Make Payment</string>-->
+    <string name="how_does_it_work">How does it work?</string>
+    <!--<string name="note_text">NOTE: Please check the payment amount carefully before you continue to make payment.</string>-->
+    <!--<string name="eg_desc">Eg. Coffee Bill</string>-->
+    <!--<string name="enter_payment_desc">Enter Payment Description (Optional)</string>-->
+    <!--<string name="eg_amount">Eg. 500</string>-->
+    <!--<string name="enter_payment_amount">Enter Payment Amount</string>-->
+    <string name="search_error_broken">An error occurred while trying to search for the merchant</string>
+    <string name="search_error_no_result">We could not find a merchant with the information given</string>
+    <string name="connect_to_internet">Please connect to the internet before continuing</string>
+    <string name="failure_contact_us"><![CDATA[For any issue, please contact <a href=\"mailto:care@payumoney.com\">care@payumoney.com</a>]]></string>
+    <string name="go">Go</string>
+    <string name="not_around">Sorry, but it looks like you haven\'t been around for long. Why not make a few payments to get started?</string>
+    <string name="submit_feedback">Submit Feedback</string>
+    <string name="make_another_payment">Make another payment</string>
+    <!--<string name="try_again">Try Again</string>-->
+    <string name="search">Search</string>
+    <string name="your_message">Your message</string>
+    <string name="eg_feedback">Eg. This app is AWESOME!</string>
+    <string name="your_email">Your email(Optional)</string>
+    <string name="eg_email">Eg. user@example.com</string>
+    <string name="enter_here">Enter here</string>
+    <!--<string name="registration_userexists">You seem to signed up already. You could try to use reset your password if you have forgotten it.</string>-->
+    <!--<string name="please_login_again">You have been logged out due to inactivity. Please login again.</string>-->
+</resources>

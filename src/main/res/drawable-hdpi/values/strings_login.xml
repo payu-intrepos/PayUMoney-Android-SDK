@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter_email_id">Your email is required</string>
+    <string name="invalid_email_id">This email appears to be invalid</string>
+    <string name="invalid_phone_number">This phone number appears to be invalid</string>
+    <string name="invalid_password">Password must be at least 6 characters and must have an alphabet and a number</string>
+    <string name="password_pattern">(.*?[\\d]+[\\D]+.*?)|(.*?[\\D]+[\\d]+.*?)</string>
+    <string name="phone_pattern">([\\d]{10})</string>
+    <string name="invalid_email_or_password">This does not seem to be a valid username and/or password.</string>
+</resources>

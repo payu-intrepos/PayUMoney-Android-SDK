@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?><!-- File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Theme.eashmart" parent="@style/Theme.Sherlock.Light">
+        <item name="actionBarItemBackground">@drawable/selectable_background_eashmart</item>
+        <item name="homeAsUpIndicator">@drawable/back</item>
+        <!-- <item name="popupMenuStyle">@style/eashmart_PopupMenu</item>
+        <item name="dropDownListViewStyle">@style/eashmart_DropDownListView</item>
+        <item name="actionBarTabStyle">@style/eashmart_ActionBarTabStyle</item>
+        <item name="actionDropDownStyle">@style/eashmart_DropDownNav</item> -->
+        <item name="actionBarStyle">@style/eashmart_solid_ActionBar</item>
+        <item name="actionMenuTextColor">@drawable/menu_item</item>
+
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_eashmart</item>
+        <item name="android:homeAsUpIndicator">@drawable/back</item>
+        <!-- <item name="android:popupMenuStyle">@style/eashmart_PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/eashmart_DropDownListView</item>
+        <item name="android:actionBarTabStyle">@style/eashmart_ActionBarTabStyle</item>
+        <item name="android:actionDropDownStyle">@style/eashmart_DropDownNav</item> -->
+        <item name="android:actionBarStyle">@style/eashmart_solid_ActionBar</item>
+        <item name="android:panelBackground">@drawable/menu_hardkey_panel_eashmart</item>
+        <item name="android:actionMenuTextColor">@drawable/menu_item</item>
+
+        <!--<item name="android:alertDialogTheme">@style/eashmart_dialog_theme</item>-->
+    </style>
+
+    <!--<style name="EashmartDialogWindowTitle">-->
+    <!--<item name="android:maxLines">1</item>-->
+    <!--<item name="android:scrollHorizontally">true</item>-->
+    <!--<item name="android:textColor">@color/dialog_title_color</item>-->
+    <!--<item name="android:background">@color/primary_blue</item>-->
+    <!--</style>-->
+
+    <!--<style name="eashmart_dialog_theme" parent="@android:style/Theme.Dialog">-->
+    <!--<item name="android:windowTitleStyle">@style/EashmartDialogWindowTitle</item>-->
+    <!--</style>-->
+
+    <style name="eashmart_title_text_style" parent="@style/TextAppearance.Sherlock.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="eashmart_solid_ActionBar" parent="@style/Widget.Sherlock.ActionBar.Solid">
+        <!--<item name="titleTextStyle">@style/eashmart_title_text_style</item>-->
+        <!-- <item name="android:titleTextStyle">@style/eashmart_title_text_style</item> -->
+        <item name="background">@color/actionbar_background</item>
+        <!-- <item name="backgroundStacked">@drawable/ab_stacked_solid_eashmart</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_eashmart</item>
+        <item name="progressBarStyle">@style/eashmart_ProgressBar</item> -->
+        <item name="titleTextStyle">@style/eashmart_title_text_style</item>
+        <item name="progressBarStyle">@style/eashmart_progress_horizontal</item>
+
+        <item name="android:background">@color/actionbar_background</item>
+        <!-- <item name="android:backgroundStacked">@drawable/ab_stacked_solid_eashmart</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_eashmart</item>
+        <item name="android:progressBarStyle">@style/eashmart_ProgressBar</item> -->
+        <item name="android:titleTextStyle">@style/eashmart_title_text_style</item>
+        <item name="android:progressBarStyle">@style/eashmart_progress_horizontal</item>
+    </style>
+
+    <style name="eashmart_progress_horizontal" parent="@style/Widget.Sherlock.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_background</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:maxHeight">48dip</item>
+    </style>
+
+    <!-- <style name="eashmart_transparent_ActionBar" parent="@style/Widget.Sherlock.ActionBar">
+        <item name="background">@drawable/ab_transparent_eashmart</item>
+        <item name="progressBarStyle">@style/eashmart_ProgressBar</item>
+        
+        <item name="android:background">@drawable/ab_transparent_eashmart</item>
+        <item name="android:progressBarStyle">@style/eashmart_ProgressBar</item>
+    </style> -->
+
+    <!-- <style name="eashmart_PopupMenu" parent="@style/Widget.Sherlock.ListPopupWindow">	
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_eashmart</item>	
+    </style> -->
+
+    <!-- <style name="eashmart_DropDownListView" parent="@style/Widget.Sherlock.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_eashmart</item>
+    </style>
+
+    <style name="eashmart_ActionBarTabStyle" parent="@style/Widget.Sherlock.ActionBar.TabView">
+        <item name="background">@drawable/tab_indicator_ab_eashmart</item>
+
+        <item name="android:background">@drawable/tab_indicator_ab_eashmart</item>
+    </style>
+	
+    <style name="eashmart_DropDownNav" parent="@style/Widget.Sherlock.Spinner.DropDown.ActionBar">
+        <item name="background">@drawable/spinner_background_ab_eashmart</item>
+
+        <item name="android:background">@drawable/spinner_background_ab_eashmart</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_eashmart</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_eashmart</item>
+    </style>
+    
+    <style name="eashmart_ProgressBar" parent="@style/Widget.Sherlock.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_eashmart</item>
+    </style> -->
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <!-- <style name="Theme.eashmartdemo.widget" parent="@style/Theme.Sherlock">
+        <item name="popupMenuStyle">@style/eashmart_PopupMenu</item>
+        <item name="dropDownListViewStyle">@style/eashmart_DropDownListView</item>
+        
+        <item name="android:popupMenuStyle">@style/eashmart_PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/eashmart_DropDownListView</item>
+    </style> -->
+
+</resources>

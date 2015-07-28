@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/search_background"
+    android:orientation="vertical"
+    android:id="@+id/lastUsedCardLayout"
+    android:visibility="visible"
+    >
+
+    <!--<ImageView-->
+    <!--android:id="@+id/icon"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/card" />-->
+    <LinearLayout
+        android:id="@+id/lastUsedCardData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/lastUsedCardIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/four"
+            android:paddingLeft="0dp"
+            android:paddingRight="@dimen/four"
+            android:paddingTop="@dimen/four"
+            android:src="@drawable/card" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lastUsedCardLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/latUsedCardNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/lastUsedCardDeleteIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/four"
+            android:paddingLeft="0dp"
+            android:paddingRight="@dimen/four"
+            android:paddingTop="@dimen/four"
+            android:src="@drawable/error_icon" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/enter_cvv"></include>
+
+    </LinearLayout>
+    </LinearLayout>
+

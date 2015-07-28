@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<string name="card_name_required">Please enter the card holder\'s name</string>-->
+    <!--<string name="card_mode_required">Please mention the card type</string>-->
+    <!--<string name="card_number_required">Card number is required</string>-->
+    <!--<string name="card_number_invalid">Card number seems to be invalid</string>-->
+    <!--<string name="card_invalid_cvv">Please enter a valid CVV number</string>-->
+</resources>
