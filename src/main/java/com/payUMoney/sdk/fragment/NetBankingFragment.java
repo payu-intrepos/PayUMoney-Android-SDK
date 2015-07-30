@@ -117,16 +117,24 @@ public class NetBankingFragment extends Fragment {
             JSONArray keyNames = bankObject.names();
 //sagar_start
             JSONObject paymentOption = ((HomeActivity) getActivity()).getBankObject().getJSONObject(Constants.PAYMENT_OPTION);
-            JSONObject priority = new JSONObject(paymentOption.getString("priority"));
-            JSONObject preferredPaymentOption = priority.getJSONObject("preferredPaymentOption");
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Constants.SP_SP_NAME, Context.MODE_PRIVATE);
             lastUsedBank = sharedPreferences.getString(Constants.LASTUSEDBANK, "XYZ");
-            if (preferredPaymentOption.optString("optionType","New User").equals("NB")) {
-                lastUsedBank = preferredPaymentOption.getString("bankCode");
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(Constants.LASTUSEDBANK, lastUsedBank);
-                editor.commit();
+            if (paymentOption != null && paymentOption.has("priority") && !paymentOption.isNull("priority"))
+            {
+                JSONObject priority = new JSONObject(paymentOption.getString("priority"));
+                if (priority.has("preferredPaymentOption") && !priority.isNull("preferredPaymentOption"))
+                {
+                    JSONObject preferredPaymentOption = priority.getJSONObject("preferredPaymentOption");
+                if (preferredPaymentOption.optString("optionType", "New User").equals("NB")) {
+                    if(preferredPaymentOption.has("bankCode") && !preferredPaymentOption.isNull("bankCode")) {
+                        lastUsedBank = preferredPaymentOption.getString("bankCode");
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(Constants.LASTUSEDBANK, lastUsedBank);
+                        editor.commit();
+                    }
+                }
             }
+        }
 //sagar_end
             final String[][] banks1 = new String[102][2];
 
