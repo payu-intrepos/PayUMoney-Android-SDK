@@ -121,7 +121,7 @@ public class NetBankingFragment extends Fragment {
             JSONObject preferredPaymentOption = priority.getJSONObject("preferredPaymentOption");
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Constants.SP_SP_NAME, Context.MODE_PRIVATE);
             lastUsedBank = sharedPreferences.getString(Constants.LASTUSEDBANK, "XYZ");
-            if (preferredPaymentOption.getString("optionType").equals("NB")) {
+            if (preferredPaymentOption.optString("optionType","New User").equals("NB")) {
                 lastUsedBank = preferredPaymentOption.getString("bankCode");
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(Constants.LASTUSEDBANK, lastUsedBank);
