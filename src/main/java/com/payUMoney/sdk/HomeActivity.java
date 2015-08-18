@@ -843,8 +843,15 @@ public class HomeActivity extends FragmentActivity implements Credit.MakePayment
 
     public Double getPoints() {
         try {
-            if (points.has("cashback")&&points.getString("cashback")!=null && points.getString("cashback").toString().equals("") && points.getString("cashback").toString().equals("null"))
-                return points.getJSONObject("cashback").getDouble("availableAmount");
+            if (points != null && points.has("cashback") && !points.isNull("cashback")) {
+                JSONObject tempCashback = points.getJSONObject("cashback");
+                if(tempCashback.has("availableAmount") && !tempCashback.isNull("availableAmount")) {
+                    Double tempPoints = tempCashback.optDouble("availableAmount", 0.0);
+                    return tempPoints;
+                }
+                else
+                    return 0.0;
+            }
             else
                 return 0.0; //No points
         } catch (JSONException e) {
