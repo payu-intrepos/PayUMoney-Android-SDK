@@ -1057,8 +1057,7 @@ public class HomeActivity extends FragmentActivity implements Credit.MakePayment
                         Log.d("Exception while getting wallet detials", e.toString());
                     }
                 } else {
-                    dismissProgress();
-                    Toast.makeText(this, "Some error occurred! Try again", Toast.LENGTH_LONG).show();
+                   
                 }
             } else if (event.getType() == CobbocEvent.CREATE_PAYMENT)  //New Payment
             {
