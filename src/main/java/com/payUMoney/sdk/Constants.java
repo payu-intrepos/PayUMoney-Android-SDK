@@ -26,7 +26,7 @@ public class Constants {
 
     public static final String CRITTERCISM_ID = "53ba89d41787840d8e000003";
 
-    public static final Boolean DEBUG = true;
+    public static final Boolean DEBUG = false;
 
     /**
      * Name of the {@link SharedPreferences} that are to be used
