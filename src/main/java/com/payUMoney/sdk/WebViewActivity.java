@@ -149,7 +149,7 @@ public class WebViewActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
 
-        webView.postUrl("https://" + (Constants.DEBUG ? "test" : "secure") + ".payu.in/_seamless_payment", p.toString().getBytes());
+        webView.postUrl("https://" + (Constants.DEBUG ? "mobiletest" : "secure") + ".payu.in/_seamless_payment", p.toString().getBytes());
     }
 
     @Override

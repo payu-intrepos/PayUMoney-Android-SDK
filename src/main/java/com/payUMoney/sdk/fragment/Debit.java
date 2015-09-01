@@ -307,10 +307,10 @@ public class Debit extends Fragment implements FragmentLifecycle {
                     }
                     if (card_store_check == true) {
                         if (mCardLabel.getText().toString().trim().length() == 0) {
-                            data.put(Constants.LABEL, "payu");
+                            data.put(Constants.LABEL, "PayUmoney Debit Card");
                             data.put(Constants.STORE, "1");
                         } else {
-                            data.put(Constants.LABEL, mCardLabel.getText().toString());
+                            data.put(Constants.LABEL, "DC - "+ mCardLabel.getText().toString().toUpperCase());
                             data.put(Constants.STORE, "1");
                         }
                     }

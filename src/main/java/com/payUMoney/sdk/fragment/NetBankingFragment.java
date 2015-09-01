@@ -162,7 +162,6 @@ public class NetBankingFragment extends Fragment {
                 }
             }
             final String banks[] = new String[keyNames.length()];
-
             for (int j = 0; j < keyNames.length(); j++) {
                 banks[j] = banks1[j][1];
             }

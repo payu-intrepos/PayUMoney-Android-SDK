@@ -325,14 +325,18 @@ public class Credit extends Fragment implements FragmentLifecycle {
                     if (Card.isAmex(cardNumber)) {
                         data.put("bankcode", Constants.AMEX);
                     } else {
-                        data.put("bankcode", SetupCardDetails.findIssuer(cardNumber, "CC"));
+                        String tempIssuer = SetupCardDetails.findIssuer(cardNumber, "CC");
+                        if(!tempIssuer.contentEquals("AMEX") || !tempIssuer.contentEquals("DINR") || !tempIssuer.contentEquals("CC") || !tempIssuer.contentEquals("CC-C") || !tempIssuer.contentEquals("CC-M") || !tempIssuer.contentEquals("CC-O"))
+                            tempIssuer = "cc";
+
+                        data.put("bankcode",tempIssuer);
                     }
                     if (card_store_check == true) {
                         if (mCardLabel.getText().toString().trim().length() == 0) {
-                            data.put(Constants.LABEL, "payu");
+                            data.put(Constants.LABEL, "PayUmoney Credit Card");
                             data.put(Constants.STORE, "1");
                         } else {
-                            data.put(Constants.LABEL, mCardLabel.getText().toString());
+                            data.put(Constants.LABEL,"CC - " +mCardLabel.getText().toString().toUpperCase());
                             data.put(Constants.STORE, "1");
                         }
                     }

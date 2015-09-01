@@ -1617,8 +1617,6 @@ public class Session extends Activity {
             //DecimalFormat format = new DecimalFormat("0.#");
             Dis_amt = discount;
         }
-
-
         /*no payupoints
           * this will be fired in most cases*/
         if (cashback != null && cashback == 0) {

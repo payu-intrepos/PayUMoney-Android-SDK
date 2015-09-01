@@ -57,7 +57,7 @@ public class WebViewActivityPoints extends ActionBarActivity {
                 e.printStackTrace();
             }
             if (Constants.DEBUG)
-                mWebView.loadUrl("https://test.payumoney.com/payment/postBackParam.do?" + p.toString());
+                mWebView.loadUrl("https://mobiletest.payumoney.com/payment/postBackParam.do?" + p.toString());
                 //https:\/\/test.payumoney.com\/payment\/postBackParam.do
             else
                 mWebView.loadUrl("https://www.payumoney.com/payment/postBackParam.do?" + p.toString());

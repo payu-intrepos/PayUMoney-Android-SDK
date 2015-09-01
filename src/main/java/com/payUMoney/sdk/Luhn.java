@@ -39,19 +39,20 @@ public class Luhn {
         }
         if (sum % 10 == 0) {
             // valid now check length
-            if (SetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("VISA") && ccNumber.length() == 16) {
+            String tempIssuer = SetupCardDetails.findIssuer(ccNumber, "CC");
+            if (tempIssuer.contentEquals("VISA") && ccNumber.length() == 16) {
                 return true;
-            } else if (SetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("LASER")) {
+            } else if (tempIssuer.contentEquals("LASER")) {
                 return true;
-            } else if (SetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("MAST") && ccNumber.length() == 16) {
+            } else if (tempIssuer.contentEquals("MAST") && ccNumber.length() == 16) {
                 return true;
-            } else if (SetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("MAES") && ccNumber.length() >= 12 && ccNumber.length() <= 19) {
+            } else if (tempIssuer.contentEquals("MAES") && ccNumber.length() >= 12 && ccNumber.length() <= 19) {
                 return true;
-            } else if (SetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("DINR") && ccNumber.length() == 14) {
+            } else if (tempIssuer.contentEquals("DINR") && ccNumber.length() == 14) {
                 return true;
-            } else if (SetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("AMEX") && ccNumber.length() == 15) {
+            } else if (tempIssuer.contentEquals("AMEX") && ccNumber.length() == 15) {
                 return true;
-            } else if (SetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("JCB") && ccNumber.length() == 16) {
+            } else if (tempIssuer.contentEquals("JCB") && ccNumber.length() == 16) {
                 return true;
             }
         }
