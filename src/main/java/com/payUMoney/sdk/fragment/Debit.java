@@ -3,6 +3,7 @@ package com.payUMoney.sdk.fragment;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import com.payUMoney.sdk.HomeActivity;
 import com.payUMoney.sdk.Luhn;
 import com.payUMoney.sdk.R;
 import com.payUMoney.sdk.SetupCardDetails;
+import com.payUMoney.sdk.dialog.CustomDatePicker;
 import com.payUMoney.sdk.entity.Card;
 import com.payUMoney.sdk.interfaces.FragmentLifecycle;
 
@@ -94,6 +96,7 @@ public class Debit extends Fragment implements FragmentLifecycle {
     private CheckBox mCardStore;
     private EditText mCardLabel;
     View debitCardDetails;
+    CustomDatePicker mDatePicker;
 
     public Debit() {
         // Required empty public constructor
@@ -277,7 +280,21 @@ public class Debit extends Fragment implements FragmentLifecycle {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    SetupCardDetails.customDatePicker(getActivity(), mDateSetListener, mYear, mMonth, mDay).show();
+                    mDatePicker = new CustomDatePicker(getActivity());
+                    mDatePicker.build(mMonth, mYear, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //positive button
+                            checkExpiry((EditText)debitCardDetails.findViewById(R.id.expiryDatePickerEditText),mDatePicker.getSelectedYear(),mDatePicker.getSelectedMonth(),0);
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //negative button
+                            mDatePicker.dismissDialog();
+                        }
+                    });
+                    mDatePicker.show();
                 }
                 return false;
             }

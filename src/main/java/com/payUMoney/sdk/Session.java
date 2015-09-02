@@ -445,7 +445,8 @@ public class Session extends Activity {
                     final User user = new User();
                     user.setEmail(username);
                     mSessionData.setUser(user);
-                    postFetch("/auth/user", new Task() {
+                    eventBus.post(new CobbocEvent(CobbocEvent.LOGIN, true, jsonObject));
+                   /* postFetch("/auth/user", new Task() {
                         @Override
                         public void onSuccess(JSONObject object) {
                             try {
@@ -471,7 +472,7 @@ public class Session extends Activity {
                         public void onProgress(int percent) {
 
                         }
-                    }, Method.GET);
+                    }, Method.GET);*/
                 } catch (Throwable e) {
                     if (Constants.DEBUG) {
                         Log.d(Constants.TAG, e.getMessage());

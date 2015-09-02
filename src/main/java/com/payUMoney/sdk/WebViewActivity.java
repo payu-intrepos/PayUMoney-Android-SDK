@@ -151,6 +151,18 @@ public class WebViewActivity extends ActionBarActivity {
 
         webView.postUrl("https://" + (Constants.DEBUG ? "mobiletest" : "secure") + ".payu.in/_seamless_payment", p.toString().getBytes());
     }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        try {
+            if (mReceiver != null) {
+                unregisterReceiver(mReceiver);
+                mReceiver = null;
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onDestroy() {
