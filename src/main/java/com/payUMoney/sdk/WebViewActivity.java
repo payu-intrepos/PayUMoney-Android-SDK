@@ -282,7 +282,7 @@ public class WebViewActivity extends ActionBarActivity {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    cancelPayment();
+                    failPayment();
                 }
             });
         }
