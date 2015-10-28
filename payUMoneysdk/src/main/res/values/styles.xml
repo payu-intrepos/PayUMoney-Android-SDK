@@ -1,0 +1,97 @@
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <style name="MyTheme" parent="@android:style/Theme.Holo.Light" tools:ignore="NewApi">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar" tools:ignore="NewApi">
+        <item name="android:background">#6ac451</item>
+    </style>
+
+
+    <style name="editTextViewStyle" parent="android:style/Widget.EditText">
+
+    </style>
+
+    <style name="autoCompleteTextViewStyle" parent="android:style/Widget.AutoCompleteTextView">
+
+    </style>
+
+    <style name="button" parent="android:style/Widget.Button">
+        <item name="android:textColor">@drawable/button_txt_selector</item>
+    </style>
+
+    <style name="ProgressBar.Horizontal" parent="@android:style/Widget.ProgressBar.Horizontal">
+
+
+
+    </style>
+
+    <style name="ProgressDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    <!-- <style name="grayButton" parent="style/button">
+        <item name="android:background">@color/gray</item>
+    </style> -->
+
+    <!--<style name="PauseDialog" parent="android:Theme.DeviceDefault.Light.Dialog">-->
+    <!--<item name="android:windowAnimationStyle">@style/PauseDialogAnimation</item>-->
+    <!--<item name="android:typeface">serif</item>-->
+    <!--<item name="android:background">#ffffff</item>-->
+    <!--<item name="android:textSize">20sp</item>-->
+
+    <!--</style>-->
+
+    <!--<style name="PauseDialogAnimation">-->
+
+    <!--<item name="windowEnterAnimation">@res:anim/slide_down</item>-->
+    <!--<item name="windowExitAnimation">@res:anim/slide_up</item>-->
+
+    <!--</style>-->
+
+    <style name="PauseDialog" parent="android:Theme.Holo.Light.Dialog">
+        <item name="android:windowAnimationStyle">@style/PauseDialogAnimation</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
+    <style name="PauseDialogAnimation">
+
+        <item name="android:windowEnterAnimation">@anim/slide_down</item>
+        <item name="android:windowExitAnimation">@anim/slide_up</item>
+
+    </style>
+
+    <style name="CouponDialog" parent="android:Theme.DeviceDefault.Light.Dialog">
+        <item name="android:windowAnimationStyle">@style/CouponDialogAnimation</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:background">#ffffff</item>
+        <item name="android:textSize">20sp</item>
+
+    </style>
+    <style name="CouponDialogAnimation">
+
+        <item name="android:windowEnterAnimation">@anim/slide_right</item>
+
+
+    </style>
+
+    <!--<style name="AppTheme.Transparent" parent="Theme.AppCompat.Light">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>-->
+
+</resources>

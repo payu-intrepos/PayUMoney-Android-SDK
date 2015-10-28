@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/enterCardDetailsLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/details_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        card_view:cardCornerRadius="5dp"
+        card_view:cardUseCompatPadding="true"
+        card_view:contentPaddingBottom="5dp"
+        card_view:contentPaddingLeft="5dp"
+        card_view:contentPaddingRight="5dp"
+        card_view:contentPaddingTop="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/expiryCvvLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/cardNumberEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/card_number"
+                    android:inputType="phone"
+                    android:digits="1234567890 "
+                    android:maxLength="23"
+                    android:textSize="15sp" />
+                <EditText
+                    android:id="@+id/expiryDatePickerEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/expires"
+                    android:inputType="date"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/cvvEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/cvv"
+                    android:inputType="numberPassword"
+                    android:maxLength="3"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+    <CheckBox
+        android:id="@+id/store_card"
+        android:layout_below="@+id/details_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="0dp"
+        android:button="@drawable/checkbox_green"
+        android:checked="true"
+        android:text="Save this card"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/label"
+        android:layout_below="@+id/store_card"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/card_label"
+        android:digits="abcdefghijklmnopqrstuvwxyz0123456789 "
+        android:maxLines="1"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/makePayment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/button_bkg_selector"
+        android:layout_below="@+id/label"
+        android:text="@string/pay_now"
+        android:enabled="false"
+        android:textColor="@color/active_text"
+        android:textStyle="bold" />
+
+    <!--<ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="20sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:src="@drawable/security_icons" />-->
+
+
+</RelativeLayout>

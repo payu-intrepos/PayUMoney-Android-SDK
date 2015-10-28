@@ -1,0 +1,188 @@
+-- Merging decision tree log ---
+manifest
+ADDED from AndroidManifest.xml:2:1
+	package
+		ADDED from AndroidManifest.xml:3:5
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:versionName
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	xmlns:android
+		ADDED from AndroidManifest.xml:2:11
+	android:versionCode
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+uses-permission#android.permission.AUTHENTICATE_ACCOUNTS
+ADDED from AndroidManifest.xml:5:5
+MERGED from payumoneyandroidsdk:payUMoneysdk:unspecified:21:5
+	android:name
+		ADDED from AndroidManifest.xml:5:22
+uses-permission#android.permission.MANAGE_ACCOUNTS
+ADDED from AndroidManifest.xml:6:5
+MERGED from payumoneyandroidsdk:payUMoneysdk:unspecified:22:5
+	android:name
+		ADDED from AndroidManifest.xml:6:22
+uses-permission#android.permission.GET_ACCOUNTS
+ADDED from AndroidManifest.xml:7:5
+MERGED from payumoneyandroidsdk:payUMoneysdk:unspecified:16:5
+	android:name
+		ADDED from AndroidManifest.xml:7:22
+uses-permission#android.permission.USE_CREDENTIALS
+ADDED from AndroidManifest.xml:8:5
+MERGED from payumoneyandroidsdk:payUMoneysdk:unspecified:20:5
+	android:name
+		ADDED from AndroidManifest.xml:8:22
+application
+ADDED from AndroidManifest.xml:10:5
+MERGED from payumoneyandroidsdk:payUMoneysdk:unspecified:45:5
+MERGED from com.android.support:design:22.2.0:22:5
+MERGED from com.android.support:appcompat-v7:22.2.0:22:5
+MERGED from com.android.support:support-v4:22.2.0:22:5
+MERGED from com.android.support:support-v4:22.2.0:22:5
+MERGED from com.android.support:support-v4:22.2.0:22:5
+MERGED from com.android.support:cardview-v7:21.0.3:16:5
+	android:label
+		ADDED from AndroidManifest.xml:13:9
+	android:windowSoftInputMode
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:50:9
+	android:allowBackup
+		ADDED from AndroidManifest.xml:11:9
+	android:icon
+		ADDED from AndroidManifest.xml:12:9
+	android:theme
+		ADDED from AndroidManifest.xml:14:9
+activity#payumoney.payu.com.payumoneysdkapp.MyActivity
+ADDED from AndroidManifest.xml:15:9
+	android:label
+		ADDED from AndroidManifest.xml:17:13
+	android:name
+		ADDED from AndroidManifest.xml:16:13
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:18:13
+action#android.intent.action.MAIN
+ADDED from AndroidManifest.xml:19:17
+	android:name
+		ADDED from AndroidManifest.xml:19:25
+category#android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:21:17
+	android:name
+		ADDED from AndroidManifest.xml:21:27
+activity#payumoney.payu.com.payumoneysdkapp.paymentSuccess
+ADDED from AndroidManifest.xml:25:9
+	android:label
+		ADDED from AndroidManifest.xml:27:13
+	android:name
+		ADDED from AndroidManifest.xml:26:13
+uses-sdk
+INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
+MERGED from payumoneyandroidsdk:payUMoneysdk:unspecified:7:5
+MERGED from de.keyboardsurfer.android.widget:crouton:1.8.5:22:5
+MERGED from com.android.support:design:22.2.0:20:5
+MERGED from com.android.support:appcompat-v7:22.2.0:20:5
+MERGED from com.android.support:support-v4:22.2.0:20:5
+MERGED from com.android.support:support-v4:22.2.0:20:5
+MERGED from com.android.support:support-v4:22.2.0:20:5
+MERGED from com.android.support:cardview-v7:21.0.3:15:5
+MERGED from payumoneyandroidsdk:CustomBrowser-release:unspecified:7:5
+	android:targetSdkVersion
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:minSdkVersion
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+uses-permission#android.permission.INTERNET
+ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:11:5
+	android:name
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:11:22
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:12:5
+MERGED from payumoneyandroidsdk:CustomBrowser-release:unspecified:12:5
+	android:name
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:12:22
+uses-permission#android.permission.VIBRATE
+ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:13:5
+	android:name
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:13:22
+uses-permission#android.permission.READ_PROFILE
+ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:17:5
+	android:name
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:17:22
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:34:5
+	android:name
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:34:22
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:37:5
+	android:name
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:37:22
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:39:5
+	android:name
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:39:22
+uses-feature#android.hardware.telephony
+ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:41:5
+	android:required
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:43:9
+	android:name
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:42:9
+activity#com.payUMoney.sdk.SdkWebViewActivityNew
+ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:51:9
+	android:screenOrientation
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:54:13
+	android:label
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:53:13
+	android:windowSoftInputMode
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:56:13
+	android:theme
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:55:13
+	android:name
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:52:13
+activity#com.payUMoney.sdk.SdkLoginSignUpActivity
+ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:58:9
+	android:screenOrientation
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:62:13
+	android:label
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:61:13
+	android:configChanges
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:60:13
+	android:theme
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:63:13
+	android:name
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:59:13
+activity#com.payUMoney.sdk.SdkWebViewActivityPoints
+ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:71:9
+	android:label
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:73:13
+	android:windowSoftInputMode
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:75:13
+	android:theme
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:74:13
+	android:name
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:72:13
+activity#com.payUMoney.sdk.dialog.SdkOtpProgressDialog
+ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:77:9
+	android:screenOrientation
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:80:13
+	android:label
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:79:13
+	android:name
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:78:13
+activity#com.payUMoney.sdk.SdkHomeActivityNew
+ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:82:9
+	android:screenOrientation
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:84:13
+	android:windowSoftInputMode
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:85:13
+	android:name
+		ADDED from payumoneyandroidsdk:payUMoneysdk:unspecified:83:13
+uses-permission#android.permission.READ_SMS
+ADDED from payumoneyandroidsdk:CustomBrowser-release:unspecified:11:5
+	android:name
+		ADDED from payumoneyandroidsdk:CustomBrowser-release:unspecified:11:22
+uses-permission#android.permission.RECEIVE_SMS
+ADDED from payumoneyandroidsdk:CustomBrowser-release:unspecified:13:5
+	android:protectionLevel
+		ADDED from payumoneyandroidsdk:CustomBrowser-release:unspecified:15:9
+	android:name
+		ADDED from payumoneyandroidsdk:CustomBrowser-release:unspecified:14:9

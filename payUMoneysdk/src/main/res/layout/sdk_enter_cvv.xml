@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cvvBox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="36dp"
+    android:background="@drawable/dialog_bg"
+    android:gravity="center_horizontal|center_vertical"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="left"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:layout_margin="1dp"
+            android:textSize="20sp"
+            android:text="Enter CVV "/>
+
+        <EditText
+            android:id="@+id/cvv"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:layout_margin="1dp"
+            android:layout_marginLeft="40dp"
+            android:ems="10"
+            android:inputType="numberPassword"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:paddingBottom="5dp">
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="@dimen/dialog_layout_button_width"
+            android:layout_height="@dimen/dialog_layout_button_height"
+            android:padding="@dimen/dialog_layout_button_boundary_padding"
+            android:visibility="gone"
+            android:text="Cancel"
+            android:textAppearance="@drawable/button_txt_selector"
+            android:background="@color/light_grey"
+            android:textSize="@dimen/dialog_layout_text_size" />
+
+        <Button
+            android:id="@+id/makePayment"
+            android:layout_width="@dimen/dialog_layout_button_width"
+            android:layout_height="@dimen/dialog_layout_button_height"
+            android:padding="@dimen/dialog_layout_button_boundary_padding"
+            android:enabled="false"
+            android:textColor="@color/active_text"
+            android:background="@drawable/button_bkg_selector"
+            android:text="@string/pay"
+            android:textSize="@dimen/dialog_layout_text_size" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.payu.sdk.fragments.NetBankingFragment"
+    android:orientation="vertical"
+    android:paddingTop="40dp">
+
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="0dp"
+        android:id="@+id/netBankingSpinner"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:text="@string/netbankingNote"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nbPayButton"
+        android:text="@string/pay_now"
+        android:textStyle="bold"
+        android:textColor="@color/active_text"
+        android:background="@drawable/button_bkg_selector"
+        android:layout_margin="10dp"
+        android:enabled="false"
+        android:layout_gravity="center"/>
+
+
+    <!--<ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="20sp"
+        android:layout_gravity="center"
+        android:src="@drawable/security_icons"/>-->
+
+
+</LinearLayout>

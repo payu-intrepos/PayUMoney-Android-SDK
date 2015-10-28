@@ -1,0 +1,57 @@
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginBottom="0dp"
+    tools:context="com.payUMoney.sdk.fragment.SdkStoredCardFragment">
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:id="@+id/buttonsContainer"
+        android:layout_marginBottom="30dp"
+        >
+
+
+    </LinearLayout>-->
+
+    <!--<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/select_save_card"
+        android:layout_margin="10dp"
+        android:id="@+id/savedCardTextView"
+        android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/noCardFoundTextView"
+        android:text="@string/no_card_found"
+        android:padding="128dp"
+        android:visibility="gone"/>-->
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:descendantFocusability="beforeDescendants"
+        android:id="@+id/storedCardListView"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="20.0sp"
+        />
+
+   <!--<ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="20sp"
+        android:src="@drawable/security_icons"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />-->
+
+</LinearLayout>
+

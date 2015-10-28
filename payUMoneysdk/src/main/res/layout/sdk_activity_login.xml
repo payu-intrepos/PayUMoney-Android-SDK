@@ -1,0 +1,241 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/plastic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/sixteen"
+        android:paddingRight="@dimen/sixteen">
+
+        <LinearLayout
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="32dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".75"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/logo_color" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/slogan"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/login_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12sp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <AutoCompleteTextView
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/twelve"
+                    android:drawableLeft="@drawable/message_icon"
+                    android:ems="10"
+                    android:hint="@string/email"
+
+                    android:inputType="textEmailAddress"
+                    android:paddingLeft="5dp" />
+
+
+                <RadioGroup
+                    android:id="@+id/loginOptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/guest_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Guest Login"
+                        android:visibility="gone"/>
+
+                    <RadioButton
+                        android:id="@+id/passwordLogin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Login with Password"
+                        android:visibility="gone"/>
+
+                    <RelativeLayout
+                        android:id="@+id/passwordLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/twelve"
+                        android:drawableLeft="@drawable/password"
+                        android:ems="10"
+                        android:gravity="center|left"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:paddingLeft="5dp"/>
+                    <!--<ImageView
+                        android:id="@+id/show_password_eye"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/card"
+                        android:layout_alignTop="@+id/password"
+                        android:layout_alignBottom="@+id/password"
+                        android:layout_alignRight="@+id/password"/>-->
+                    </RelativeLayout>
+
+                    <RadioButton
+                        android:id="@+id/loginotp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Login with OTP"
+                        android:visibility="gone"/>
+
+
+                        <LinearLayout
+                            android:id="@+id/loginOTP"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/otpEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:inputType="phone"
+                                android:hint="Please Enter OTP"/>
+
+                            <include layout="@layout/sdk_progressdialog_sendingotp"
+                                    android:id="@+id/otpProgress"
+                                android:layout_centerVertical="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                />
+
+                            <Button
+                                android:id="@+id/sendOtpBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_marginRight="5dp"
+                                android:paddingRight="2dp"
+                                android:paddingLeft="2dp"
+                                android:layout_alignParentTop="true"
+                                android:text="Send Otp"
+                                android:textSize="15sp"
+                                android:textColor="@color/white"
+                                android:background="@drawable/send_otp"
+                                android:layout_alignParentRight="true"
+                                />
+                            </RelativeLayout>
+
+                        </LinearLayout>
+                        <!--password otpend-->
+                    <!--<CheckBox
+                        android:id="@+id/remember_me"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/twenty_four"
+                        android:layout_marginBottom="@dimen/twelve"
+                        android:button="@drawable/checkbox_selector"
+                        android:text="Remember Me"
+                        android:visibility="gone"
+                        />-->
+                </RadioGroup>
+                <!--android:id="@+id/show_password"-->
+
+                <Button
+                    android:id="@+id/login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/twelve"
+                    android:background="@drawable/button1"
+                    android:text="@string/login"
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:id="@+id/forgot_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/forgot_password"
+                    android:textColorLink="#6ac451"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/twelve">
+
+                <TextView
+                    android:id="@+id/sign_up"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="center_horizontal"
+                    android:text="@string/dont_have_account"
+                    android:textColorLink="#6ac451"
+                    android:visibility="gone"/>
+            </LinearLayout>-->
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="20sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="7sp"
+                android:src="@drawable/security_icons" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

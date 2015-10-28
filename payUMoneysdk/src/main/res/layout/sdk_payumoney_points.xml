@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<!--    <LinearLayout
+        android:id="@+id/cS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/rectangle_box"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sC1"
+            android:visibility="gone"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/select_coupon_option"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sC"
+            android:visibility="gone"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/view_coupon"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>-->
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Yoo - Hoo !!"
+    android:textStyle="bold"
+    android:layout_margin="20dp"
+    android:textSize="30sp"/>
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_margin="10dp"
+        android:textSize="14sp"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_height="wrap_content" />
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:indeterminate="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:text="Pay Now"
+        android:textSize="20sp"
+        android:textColor="@color/active_text"
+        android:textStyle="bold"
+        android:background="@drawable/button_bkg_selector"
+        android:id="@+id/checkout"
+        android:layout_height="wrap_content" />
+
+   <!-- <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="20sp"
+        android:src="@drawable/security_icons"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />-->
+
+</LinearLayout>
+</ScrollView>

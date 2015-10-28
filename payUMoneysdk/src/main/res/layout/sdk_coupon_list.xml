@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Enter Coupon"
+        android:visibility="gone"
+        android:textSize="20sp"
+        android:textColor="@color/gray"
+        android:gravity="center_horizontal"/>
+    <TextView
+        android:id="@+id/OR"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="OR"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="#6ac451"
+        android:gravity="center_horizontal"
+        android:visibility="gone"/>
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#6ac451"/>-->
+    <TextView
+        android:id="@+id/chooseExistingCoupons"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Choose Coupon"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:background="@color/active_yellow"
+        android:visibility="visible"
+        android:gravity="center"/>
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"/>
+
+
+</LinearLayout>

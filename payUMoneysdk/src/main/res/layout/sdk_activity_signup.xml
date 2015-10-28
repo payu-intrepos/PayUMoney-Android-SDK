@@ -1,0 +1,103 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="64dp"
+        android:paddingLeft="@dimen/sixteen"
+        android:paddingRight="@dimen/sixteen">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/logo_color"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/slogan"
+            android:textSize="18sp"
+            android:layout_marginBottom="32dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000"
+            />
+
+        <AutoCompleteTextView
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/eight"
+            android:ems="10"
+            android:paddingLeft="5dp"
+            android:hint="@string/email"
+            android:drawableLeft="@drawable/message_icon"
+            android:inputType="textEmailAddress" />
+
+        <AutoCompleteTextView
+            android:id="@+id/phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/eight"
+            android:ems="10"
+            android:paddingLeft="5dp"
+            android:maxLength="10"
+            android:drawableLeft="@drawable/mobile"
+            android:hint="@string/phone_number"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/eight"
+            android:paddingLeft="5dp"
+            android:ems="10"
+            android:hint="@string/password"
+            android:drawableLeft="@drawable/password"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/twelve"
+            android:background="@drawable/button1"
+            android:textColor="#ffffff"
+            android:text="@string/sign_up" />
+
+        <TextView
+            android:id="@+id/tos_n_privacy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColorLink="#000000"
+            android:text="@string/tos_n_privacy" />
+
+        <!--<TextView
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorLink="#6ac451"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:text="@string/already_have_account" />-->
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"
+            android:layout_marginTop="17sp"
+            android:layout_marginBottom="0dp"
+            android:src="@drawable/security_icons"/>
+
+   </LinearLayout>
+
+</ScrollView>

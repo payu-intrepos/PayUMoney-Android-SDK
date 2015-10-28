@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="gray">#95a5a6</color>
+    <color name="clouds">#ecf0f1</color>
+    <item name="white" type="color">#FFFFFFFF</item>
+    <color name="input_gray">#FFDEE6E6</color>
+    <color name="button_green">#5fc73b</color>
+    <color name="button_gray">#cbcbcb</color>
+    <color name="blue">#FF1784C7</color>
+    <color name="cards_number_textColor">#514538</color>
+    <color name="cards_label_textColor">#13100d</color>
+    <color name ="orange">#c56100</color>
+
+
+    <color name="primary_blue">#00aeef</color>
+    <color name="sky_blue">#7ec0ee</color>
+    <color name="dark_gray">#d5d5d5</color>
+    <color name="darker_gray">#8c8c8c</color>
+    <color name="light_blue">#aecdd8</color>
+    <color name="deep_blue">#1c3f95</color>
+    <color name="error_strip">#e74040</color>
+    <color name="success">#3bbe01</color>
+
+    <color name="actionbar_background">@color/primary_blue</color>
+    <color name="help_text">@color/primary_blue</color>
+    <color name="circle_indicator">@color/primary_blue</color>
+    <color name="title_indicator">@color/primary_blue</color>
+    <color name="highlighted_icon">@color/primary_blue</color>
+    <color name="button_background">@color/active_yellow</color>
+    <color name="button_disabled_background">@color/inactive_bg</color>
+    <color name="input_glow">@color/primary_blue</color>
+    <color name="input_glow_hidden">@color/dark_gray</color>
+    <color name="slogan_text">@color/deep_blue</color>
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="activate_text_color">#FF666666</color>
+    <color name="deactivate_text_color">#FFCCCCCC</color>
+    <color name="transparent">#00000000</color>
+    <color name="light_grey">#d3d3d3</color>
+    <color name="active_yellow">#ffdd00</color>
+    <color name="inactive_text">#d0cbc6</color>
+    <color name="inactive_bg">#fffbe2</color>
+    <color name="active_text">#3c3329</color>
+    <color name="color_13">#fffbe2</color>
+    <color name="color_3">#13100d</color>
+    <color name="primary_green">#6ac451</color>
+    <!--<color name="dialog_title_color">@android:color/white</color>-->
+</resources>

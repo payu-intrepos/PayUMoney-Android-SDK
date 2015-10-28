@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MyActivity" >
+    <item android:id="@+id/enable"
+        android:title="enable"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item android:id="@+id/disable"
+        android:title="disable"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+</menu>

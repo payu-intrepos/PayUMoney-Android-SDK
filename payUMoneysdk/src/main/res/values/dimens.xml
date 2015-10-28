@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="one">1dp</dimen>
+    <dimen name="four">4dp</dimen>
+    <dimen name="twelve">12dp</dimen>
+    <dimen name="sixteen">16dp</dimen>
+    <dimen name="eight">8dp</dimen>
+    <dimen name="fiftySix">56dp</dimen>
+    <dimen name="fortyEight">48dp</dimen>
+    <dimen name="two">2dp</dimen>
+    <dimen name="twenty_four">24dp</dimen>
+    <dimen name="thirty_two">32dp</dimen>
+    <dimen name="sixty_four">64dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="twenty">20dp</dimen>
+    <dimen name="cards_number_textsize">37sp</dimen>
+    <dimen name="cards_label_textsize">13sp</dimen>
+    <dimen name="padding_small">8dip</dimen>
+    <dimen name="padding_medium">8dip</dimen>
+    <dimen name="padding_large">16dip</dimen>
+    <dimen name="dialog_layout_button_width">150dp</dimen>
+    <dimen name="dialog_layout_button_height">40dp</dimen>
+    <dimen name="dialog_layout_button_boundary_padding">1dp</dimen>
+    <dimen name="dialog_layout_text_size">15sp</dimen>
+    <dimen name="dialog_layout_button_space">10dp</dimen>
+    <dimen name="thirtytwo">32dp</dimen>
+</resources>

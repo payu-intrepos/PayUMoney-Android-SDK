@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+** Copyright 2010, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+
+
+-->
+
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/topPanel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/active_yellow">
+    <LinearLayout android:id="@+id/title_template"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical|start"
+        android:minHeight="64dip"
+        android:layout_marginStart="0dip"
+        android:layout_marginEnd="0dip" >
+
+
+
+        <!--<ImageView android:id="@+id/icon"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingEnd="8dip"-->
+        <!---->
+        <!--android:src="@null" -->
+        <!--android:contentDescription="@string/alert_image_content_description"/>-->
+        <com.android.internal.widget.DialogTitle
+            android:id="@+id/alertTitle"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:ellipsize="end"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            />
+    </LinearLayout>
+    <View android:id="@+id/titleDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:visibility="visible"
+        android:background="@android:color/holo_blue_light" />
+    <LinearLayout android:id="@+id/contentPanel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@color/white">
+        <TextView android:id="@+id/message"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dip"
+            android:paddingEnd="16dip"
+            android:paddingTop="8dip"
+            android:layout_marginLeft="16dip"
+            android:paddingBottom="8dip"
+            android:textIsSelectable="true"
+
+            />
+    </LinearLayout>
+</LinearLayout>
+
+
+
+    <!--<FrameLayout android:id="@+id/customPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+    </FrameLayout>-->
+

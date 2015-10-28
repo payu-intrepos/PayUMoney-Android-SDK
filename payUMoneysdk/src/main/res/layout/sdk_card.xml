@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/sdk_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/white"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardUseCompatPadding="true"
+        card_view:contentPaddingBottom="17dp"
+        card_view:contentPaddingLeft="22dp"
+        card_view:contentPaddingRight="10dp"
+        card_view:contentPaddingTop="10dp">
+
+
+        <RelativeLayout
+            android:id="@+id/sdk_card_container_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/sdk_card_number_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/sdk_card_number_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|start"
+                    android:fontFamily="sans-serif-light"
+                    android:text="3434"
+                    android:textColor="@color/cards_number_textColor"
+                    android:textSize="@dimen/cards_number_textsize" />
+
+                <TextView
+                    android:id="@+id/sdk_card_label_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|start"
+                    android:layout_marginTop="13dp"
+                    android:text="PayU"
+                    android:textColor="@color/cards_label_textColor"
+                    android:textSize="@dimen/cards_label_textsize" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/sdk_card_type_imageView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_toEndOf="@+id/sdk_card_number_layout"
+                android:layout_toRightOf="@+id/sdk_card_number_layout"
+                android:src="@drawable/card_maestro" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

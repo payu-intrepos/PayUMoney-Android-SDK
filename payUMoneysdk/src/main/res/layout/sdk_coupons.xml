@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/coupon_list"
+    android:weightSum="1">
+
+    <RadioButton
+        android:id="@+id/coupanSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight=".1"
+        android:focusable="false"
+        android:checked="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"/>
+
+    <TextView
+        android:id="@+id/coupanNameForUser"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:ellipsize="end"
+        android:text="Verify"
+        android:layout_marginTop="@dimen/eight"
+        android:lines="1"
+        android:layout_weight=".5"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/coupanValidDate"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="end"
+        android:text="Verify"
+        android:layout_weight=".4"
+        android:lines="2"
+        android:textColor="@android:color/black" />
+
+</LinearLayout>

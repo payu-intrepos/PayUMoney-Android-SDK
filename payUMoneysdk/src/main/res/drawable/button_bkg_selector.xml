@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/four" />
+            <!-- <gradient android:startColor="@color/button_top" android:endColor="@color/button_bottom" android:angle="90"/> -->
+            <solid android:color="@color/active_yellow" />
+            <padding android:bottom="@dimen/sixteen" android:left="@dimen/sixteen" android:right="@dimen/sixteen" android:top="@dimen/sixteen" />
+            <!-- <stroke android:width="@dimen/one" android:color="@color/button_border" /> -->
+        </shape>
+    </item>
+
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/four" />
+            <!-- <gradient android:startColor="@color/button_top_hover" android:endColor="@color/button_bottom_hover" android:angle="90"/> -->
+            <solid android:color="@color/active_yellow" />
+            <!-- <stroke android:width="@dimen/one" android:color="@color/button_border" /> -->
+        </shape>
+    </item>
+
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/four" />
+            <!-- <gradient android:startColor="@color/button_top" android:endColor="@color/button_bottom" android:angle="90"/> -->
+            <solid android:color="@color/inactive_bg" />
+            <!-- <stroke android:width="@dimen/one" android:color="@color/button_border" /> -->
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/four" />
+            <!-- <gradient android:startColor="@color/button_top" android:endColor="@color/button_bottom" android:angle="90"/> -->
+            <solid android:color="@color/active_yellow" />
+            <!-- <stroke android:width="@dimen/one" android:color="@color/button_border" /> -->
+        </shape>
+    </item>
+</selector>
