@@ -207,11 +207,7 @@ public class MyActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if(id == R.id.enable)
-            SdkSession.getInstance(getApplicationContext()).enableCvvLessTransaction("1");
-        else if(id == R.id.disable)
-            SdkSession.getInstance(getApplicationContext()).enableCvvLessTransaction("0");
+
         return  super.onOptionsItemSelected(item);
 
     }

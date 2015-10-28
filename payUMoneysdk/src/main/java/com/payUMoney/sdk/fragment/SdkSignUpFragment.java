@@ -66,9 +66,9 @@ public class SdkSignUpFragment extends Fragment implements Validator.ValidationL
     @Required(order = 3, message = "Please enter your phone number")
     private AutoCompleteTextView mPhone = null;
     @Password(order = 5, message = "Password is required")
-    @TextRule(order = 6, minLength = 6, message = "Password should be minimum 6 character with atleast 1 letter and 1 number")
+    @TextRule(order = 6, minLength = 6, message = "Password should be minimum 7 character with atleast 1 letter and 1 number")
     private EditText mPassword = null;
-    final String regex = "^(?=.{6,}$)((.*[A-Za-z]+.*[0-9]+|.*[0-9]+.*[A-Za-z]+).*$)";
+    final String regex = "^(?=.{7,}$)((.*[A-Za-z]+.*[0-9]+|.*[0-9]+.*[A-Za-z]+).*$)";
     Pattern patt = Pattern.compile(regex);
     private Crouton mCrouton = null;
 
