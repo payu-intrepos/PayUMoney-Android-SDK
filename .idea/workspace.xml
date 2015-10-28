@@ -5,293 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0430f59d-ecfc-4cd5-9d47-8924c4c961ac" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CustomBrowser-release/CustomBrowser-release.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/CustomBrowser_release_unspecified.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/android_async_http_1_4_6.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/android_saripaar_1_0_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/cardview_v7_23_0_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/crouton_1_8_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/eventbus_2_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/library_1_0_18.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/multidex_1_0_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/pagerslidingtabstrip_1_0_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/payUMoneysdk/payUMoneysdk.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_19_0_0.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/payUMoneysdk.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/proguard-rules.pro" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/.classpath" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/.project" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/R.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/actionbarsherlock/R$attr.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/actionbarsherlock/R$bool.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/actionbarsherlock/R$color.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/actionbarsherlock/R$dimen.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/actionbarsherlock/R$drawable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/actionbarsherlock/R$id.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/actionbarsherlock/R$integer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/actionbarsherlock/R$layout.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/actionbarsherlock/R$string.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/actionbarsherlock/R$style.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/actionbarsherlock/R$styleable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/actionbarsherlock/R.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/BuildConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/CobbocEvent.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/Constants.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/EashmartActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/FinalActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/ForgotPasswordActivity$ProfileQuery.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/ForgotPasswordActivity$SetupEmailAutoCompleteTask.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/ForgotPasswordActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/HomeActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/LoginActivity$SetupEmailAutoCompleteTask.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/LoginActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/Luhn.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/MainActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/Manifest$permission.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/Manifest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/PlasticLinearLayout.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R$array.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R$attr.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R$bool.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R$color.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R$dimen.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R$drawable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R$id.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R$integer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R$layout.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R$menu.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R$string.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R$style.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R$styleable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/R.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/Session$Method.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/Session$PaymentMode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/Session$SessionData.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/Session$Task.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/Session.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/SetupCardDetails.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/SignUpActivity$ProfileQuery.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/SignUpActivity$SetupEmailAutoCompleteTask.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/SignUpActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/WebViewActivity$PayUJavaScriptInterface.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/WebViewActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/WebViewActivityPoints$PayUJavaScriptInterface.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/WebViewActivityPoints.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/adapter/CardAdapter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/adapter/CardCursorAdapter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/adapter/EMCursorAdapter$ChangeObserver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/adapter/EMCursorAdapter$MyDataSetObserver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/adapter/EMCursorAdapter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/adapter/EMList.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/adapter/NetBankingAdapter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/adapter/PaymentModeAdapter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/adapter/StoredCardAdapter$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/adapter/StoredCardAdapter$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/adapter/StoredCardAdapter$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/adapter/StoredCardAdapter$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/adapter/StoredCardAdapter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/database/Cards.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/database/DBOpenHelper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/database/Entities.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/database/Users.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/entity/Card.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/entity/Entity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/entity/Invoice.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/entity/Issuer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/entity/Merchant.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/entity/User.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/fragment/CreditCardFragment.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/fragment/DebitCardFragment.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/fragment/NetBankingFragment.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/fragment/PaymentOptionsFragment.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/fragment/StoredCardFragment.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/manager/CardManager.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/manager/Manager.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/classes/com/payUMoney/sdk/manager/UserManager.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/bin/jarlist.cache" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/gen/com/actionbarsherlock/R.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/gen/com/payUMoney/sdk/BuildConfig.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/gen/com/payUMoney/sdk/Manifest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/gen/com/payUMoney/sdk/R.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/AccountAuthenticatorService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/AuthActivity/AuthenticatorActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/CobbocEvent.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/Constants.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/ForgotPasswordActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/HomeActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/LoginActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/Luhn.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/PagerSlidingTabStripCustomised.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/PlasticLinearLayout.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/Session.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/SetupCardDetails.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/SignUpActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/WebViewActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/WebViewActivityPoints.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/adapter/CouponListAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/adapter/NetBankingAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/adapter/PaymentModeAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/adapter/StoredCardAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/database/Cards.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/database/DBOpenHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/database/Entities.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/database/Users.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/dialog/CustomDatePicker.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/dialog/QustomDialogBuilder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/entity/Card.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/entity/Entity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/entity/Invoice.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/entity/Issuer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/entity/Merchant.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/entity/User.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/fragment/Credit.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/fragment/Debit.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/fragment/NetBankingFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/fragment/PayUMoneyPointsFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/fragment/StoredCardFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/interfaces/FragmentLifecycle.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/manager/CardManager.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/manager/Manager.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/payUMoney/sdk/manager/UserManager.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/project.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/anim/app_face_out.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/anim/app_fade_in.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/animator-v11/card_flip_left_out.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/animator/card_flip_left_in.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/animator/card_flip_left_out.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/animator/card_flip_right_in.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/animator/card_flip_right_out.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/animator/slide_ltr.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/animator/slide_rtl.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/list_focused_eashmart.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/logo_color.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/logout.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/menu_hardkey_panel_eashmart.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/values/analytics.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/values/colors.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/values/colors_eashmart.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/values/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/values/ids.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/values/strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/values/strings_create_card.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/values/strings_login.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/values/strings_payumoney.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/values/styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-hdpi/values/styles_eashmart.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-mdpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-mdpi/list_focused_eashmart.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-mdpi/logo_color.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-mdpi/menu_hardkey_panel_eashmart.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-mdpi/payu_logo_transparent.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-mdpi/security_icons.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xhdpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xhdpi/list_focused_eashmart.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xhdpi/menu_hardkey_panel_eashmart.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/amex.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/arrow.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/arrow_off.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/arrow_on.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/back.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/calendar.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/card.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/cash_card.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/checkbox_green.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/chip.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/coin.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/diner.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/discover.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/error_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/error_large.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/jcb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/laser.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/lock.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/lock2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/logo_color.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/maestro.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/master.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/mastercard.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/message_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/mobile.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/nopoint.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/onepoint.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/password.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/payu_money.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/store_card.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/success.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/threepoint.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/twopoint.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/user.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/visa.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/arrow.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/box.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/button.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/button1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/button_bkg.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/button_other_option.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/card_background.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/checkbox_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/checked.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/dialog_bg.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/download.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/green_app_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/history.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/ic_action_add_person.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/img.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/input_bkg.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/menu_item.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/progress_background.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/progress_bkg.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/progress_primary.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/rectangle_box.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/search_background.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/selected_checkbox.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/selector_tab.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/shape.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/unchecked.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/unselected_checkbox.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/zigzag.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/drawable/zigzag_new.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/activity_authenticate.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/activity_final.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/activity_forgot_password.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/activity_home.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/activity_login.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/activity_signup.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/activity_web_view.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/card.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/chooser.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/coupon_list.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/coupons.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/custom_month_year_picker.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/enter_cvv.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/fragment_card_details.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/fragment_net_banking.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/fragment_stored_card.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/last_used_card.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/layout.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/payumoney_points.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/prog_dialog.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/layout/qustom_dialog_layout.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/menu/activity_forgot_password.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/menu/activity_web_view.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/values-w820dp/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/values/attrs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/values/colors.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/values/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/values/integers.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/values/strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/values/styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/xml/accountpreferences.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/res/xml/authenticator.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PayUMoneySDK-Android.iml" afterPath="$PROJECT_DIR$/PayUMoneySDK-Android.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkSession.java" afterPath="$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkSession.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PayUMoneySDK-Android.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -332,12 +50,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/payUMoneysdk/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0843374">
-              <caret line="30" column="49" selection-start-line="30" selection-start-column="49" selection-end-line="30" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MyActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/payumoney/payu/com/payumoneysdkapp/MyActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="211" column="73" selection-start-line="211" selection-start-column="73" selection-end-line="211" selection-end-column="73" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SdkSession.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkSession.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.2313253">
+              <caret line="478" column="4" selection-start-line="478" selection-start-column="4" selection-end-line="478" selection-end-column="4" />
+              <folding>
+                <element signature="e#3137#3138#0" expanded="true" />
+                <element signature="e#3179#3180#0" expanded="true" />
+                <element signature="e#11993#11994#0" expanded="true" />
+                <element signature="e#12029#12030#0" expanded="true" />
+                <element signature="e#17267#17403#0" expanded="true" />
+                <element signature="e#17402#17403#0" expanded="true" />
+                <element signature="e#17658#17659#0" expanded="true" />
+                <element signature="e#17702#17703#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -2721,6 +2468,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/payUMoneysdk/build.gradle" />
+        <option value="$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkSession.java" />
       </list>
     </option>
   </component>
@@ -2774,6 +2522,34 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PayUMoneySDK-Android" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PayUMoneySDK-Android" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="payumoneysdkapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
@@ -2797,6 +2573,36 @@
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="0" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="SELECTED_CLOUD_DEVICE_CONFIGURATION_ID" value="0" />
+      <option name="SELECTED_CLOUD_DEVICE_PROJECT_ID" value="" />
+      <option name="IS_VALID_CLOUD_MATRIX_SELECTION" value="false" />
+      <option name="INVALID_CLOUD_MATRIX_SELECTION_ERROR" value="" />
+      <option name="IS_VALID_CLOUD_DEVICE_SELECTION" value="false" />
+      <option name="INVALID_CLOUD_DEVICE_SELECTION_ERROR" value="" />
+      <option name="CLOUD_DEVICE_SERIAL_NUMBER" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
       <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
@@ -2854,6 +2660,11 @@
       </option>
       <envs />
       <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="JarApplication" factoryName="JAR Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -2949,11 +2760,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1228" height="777" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32980332" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -2962,7 +2773,7 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32980332" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -3005,9 +2816,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/payUMoneysdk/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0843374">
-          <caret line="30" column="49" selection-start-line="30" selection-start-column="49" selection-end-line="30" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/payumoney/payu/com/payumoneysdkapp/MyActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="211" column="73" selection-start-line="211" selection-start-column="73" selection-end-line="211" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkSession.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2313253">
+          <caret line="478" column="4" selection-start-line="478" selection-start-column="4" selection-end-line="478" selection-end-column="4" />
+          <folding>
+            <element signature="e#3137#3138#0" expanded="true" />
+            <element signature="e#3179#3180#0" expanded="true" />
+            <element signature="e#11993#11994#0" expanded="true" />
+            <element signature="e#12029#12030#0" expanded="true" />
+            <element signature="e#17267#17403#0" expanded="true" />
+            <element signature="e#17402#17403#0" expanded="true" />
+            <element signature="e#17658#17659#0" expanded="true" />
+            <element signature="e#17702#17703#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

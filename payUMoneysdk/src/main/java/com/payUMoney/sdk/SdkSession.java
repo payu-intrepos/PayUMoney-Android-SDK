@@ -476,46 +476,6 @@ public class SdkSession extends Activity {
     public void setToken(String token) {
         mSessionData.setToken(token);
     }
-    /**
-     * set CVV less transactions
-     */
-    public void enableCvvLessTransaction(String enable) {
-
-        final Map<String, String> p = new HashMap<>();
-        p.put("username", "sagar.chauhan@payu.in");
-        p.put(SdkConstants.ONE_TAP_PAYMENT,enable);
-        p.put("name","sagar");
-        p.put("phone","9873179584");
-        postFetch("/auth/app/user/update", p, new Task() {
-
-            @Override
-            public void onSuccess(JSONObject object) {
-                SharedPreferences.Editor editor = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Context.MODE_PRIVATE).edit();
-                editor.putString(SdkConstants.ONE_TAP_PAYMENT, "1");
-                editor.commit();
-            }
-
-            @Override
-            public void onSuccess(String response) {
-                SharedPreferences.Editor editor = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Context.MODE_PRIVATE).edit();
-                editor.putString(SdkConstants.ONE_TAP_PAYMENT, "1");
-                editor.commit();
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                SharedPreferences.Editor editor = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Context.MODE_PRIVATE).edit();
-                editor.putString(SdkConstants.ONE_TAP_PAYMENT, "0");
-                editor.commit();
-            }
-
-            @Override
-            public void onProgress(int percent) {
-
-            }
-        }, Request.Method.POST);
-
-    }
 
 
     /**
