@@ -184,6 +184,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
         else  /*default case*/
         {
             //signUp.setVisibility(VISIBLE);
+            loginMode = "default";
             view.findViewById(R.id.passwordLayout).setVisibility(View.VISIBLE);
             view.findViewById(R.id.forgot_password).setVisibility(View.VISIBLE);
             // passwordLogin.setVisibility(VISIBLE);
@@ -276,12 +277,14 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                 if(otpProgress != null && otpProgress.getVisibility() == View.VISIBLE)
                     otpProgress.setVisibility(View.INVISIBLE);
                 radioGroup.clearCheck();
-                if (view.findViewById(R.id.loginOTP).getVisibility() == VISIBLE)
+                if ( view.findViewById(R.id.loginOTP).getVisibility() == VISIBLE)
                     view.findViewById(R.id.loginOTP).setVisibility(View.GONE);
-                if (view.findViewById(R.id.password).getVisibility() == VISIBLE)
-                    view.findViewById(R.id.password).setVisibility(View.GONE);
-                if (view.findViewById(R.id.passwordLayout).getVisibility() == VISIBLE)
-                    view.findViewById(R.id.passwordLayout).setVisibility(View.GONE);
+                if(!loginMode.equals("default")) {
+                    if (view.findViewById(R.id.password).getVisibility() == VISIBLE)
+                        view.findViewById(R.id.password).setVisibility(View.GONE);
+                    if (view.findViewById(R.id.passwordLayout).getVisibility() == VISIBLE)
+                        view.findViewById(R.id.passwordLayout).setVisibility(View.GONE);
+                }
                 return false;
 
             }
@@ -601,8 +604,8 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                     //Store your app Creds??
 
                     /**** Remember me option would not work with SDK
-                    * As Account Manager doesn't allow other than the Native app
-                    * to add acounts to device *****/
+                     * As Account Manager doesn't allow other than the Native app
+                     * to add acounts to device *****/
 
                      /*if(rememberMe.isChecked())
                     {
