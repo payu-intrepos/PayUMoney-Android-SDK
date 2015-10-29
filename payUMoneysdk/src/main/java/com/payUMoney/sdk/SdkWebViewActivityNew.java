@@ -189,7 +189,7 @@ public class SdkWebViewActivityNew extends FragmentActivity {
                     if (getIntent().getExtras().getString("proceedForCvvLessTransaction").equals("0"))
                         p.put(SdkConstants.ONE_CLICK_CHECKOUT, "1");
                     else
-                        p.put(SdkConstants.CARD_CVV_MERCHANT, getIntent().getExtras().getString("proceedForCvvLessTransaction"));
+                        p.put(SdkConstants.CARD_MERCHANT_PARAM, getIntent().getExtras().getString("proceedForCvvLessTransaction"));
                 } else if (paymentMode.equals("DC") || paymentMode.equals("CC")) {
                     p.put(SdkConstants.ONE_CLICK_CHECKOUT, "1");
                 }

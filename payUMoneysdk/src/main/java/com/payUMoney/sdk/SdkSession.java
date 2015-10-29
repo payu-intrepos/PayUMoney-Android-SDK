@@ -654,6 +654,7 @@ public class SdkSession extends Activity {
     public void updateTransactionDetails() {
 
         final Map<String,String> p = new HashMap<>();
+       // p.put("guest")
         Task task1 = new Task() {
             @Override
             public void onSuccess(JSONObject object) {

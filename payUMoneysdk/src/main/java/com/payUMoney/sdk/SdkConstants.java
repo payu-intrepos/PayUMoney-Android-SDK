@@ -82,7 +82,7 @@ public class SdkConstants {
     public static final String MODE = "mode";
     public static final String STORE = "store_card";
     public static final String ONE_CLICK_CHECKOUT = "one_click_checkout";
-    public static final String CARD_CVV_MERCHANT = "card_cvv_merchant";
+    public static final String CARD_MERCHANT_PARAM = "card_merchant_param";
     private static final String BASE_URL_LIVE = "https://www.payumoney.com";
 
     //URL FOR TEST ENVIRONMENT

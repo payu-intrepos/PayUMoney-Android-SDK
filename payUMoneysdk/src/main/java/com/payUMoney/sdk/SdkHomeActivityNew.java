@@ -149,11 +149,12 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 initLayout();
             }
         } else {
-            if (!SdkSession.getInstance(getApplicationContext()).isLoggedIn()) {
+            /*if (!SdkSession.getInstance(getApplicationContext()).isLoggedIn()) {
                 SdkSession.getInstance(getApplicationContext()).fetchMechantParams(map.get("MerchantId"));
             } else {
                 check_login();
-            }
+            }*/
+            check_login();
         }
     }
 
@@ -338,9 +339,9 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
         invalidateOptionsMenu();
         if (mProgressDialog != null && !mProgressDialog.isShowing())
             mProgressDialog = showProgress(this);
-        if (guestCheckOut && !fromPayUMoneyApp && !fromPayUBizzApp) {
-            SdkSession.getInstance(getApplicationContext()).updateTransactionDetails();
-        }
+        /*if (guestCheckOut && !fromPayUMoneyApp && !fromPayUBizzApp) {
+           SdkSession.getInstance(getApplicationContext()).updateTransactionDetails();
+        }*/
         if (fromPayUMoneyApp || fromPayUBizzApp)
             startPayment(appResponse);
         else

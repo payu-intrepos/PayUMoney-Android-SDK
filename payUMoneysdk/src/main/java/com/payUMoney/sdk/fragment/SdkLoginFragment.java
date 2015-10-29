@@ -140,16 +140,6 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
             }
         }
         mEmail.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, new ArrayList<String>(emailSet)));
-        mEmail.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    mEmail.showDropDown();
-                }
-                return false;
-            }
-        });
-
         //showPassword = (ImageView) view.findViewById(R.id.show_password_eye);
         otpProgress = view.findViewById(R.id.otpProgress);
         otpProgress.setVisibility(View.INVISIBLE);
@@ -175,7 +165,8 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
 
             } else if (allowGuestCheckoutValue.equals(SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_ONLY)) {
 
-                guestLogin.setVisibility(VISIBLE);
+                //guestLogin.setVisibility(VISIBLE);
+                loginMode = "guestLogin";
 
             }/*quickGuestCheckout Not Used in the app yet*/
            /* else if (allowGuestCheckoutValue.equals("quickGuestCheckout")) {
@@ -232,6 +223,8 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
 
                     if (view.findViewById(R.id.loginOTP).getVisibility() == VISIBLE)
                         view.findViewById(R.id.loginOTP).setVisibility(View.GONE);
+                    if(otpProgress != null && otpProgress.getVisibility() == View.VISIBLE)
+                        otpProgress.setVisibility(View.INVISIBLE);
                 } else if (checkedId == R.id.loginotp) {
 
                     loginMode = "otpLogin";
@@ -264,6 +257,8 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                         view.findViewById(R.id.passwordLayout).setVisibility(View.GONE);
                     if (view.findViewById(R.id.forgot_password).getVisibility() == VISIBLE)
                         view.findViewById(R.id.forgot_password).setVisibility(View.GONE);
+                    if(otpProgress != null && otpProgress.getVisibility() == View.VISIBLE)
+                        otpProgress.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -274,11 +269,21 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
         }*/
         mEmail.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public boolean onTouch(View view1, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     mEmail.showDropDown();
                 }
+                if(otpProgress != null && otpProgress.getVisibility() == View.VISIBLE)
+                    otpProgress.setVisibility(View.INVISIBLE);
+                radioGroup.clearCheck();
+                if (view.findViewById(R.id.loginOTP).getVisibility() == VISIBLE)
+                    view.findViewById(R.id.loginOTP).setVisibility(View.GONE);
+                if (view.findViewById(R.id.password).getVisibility() == VISIBLE)
+                    view.findViewById(R.id.password).setVisibility(View.GONE);
+                if (view.findViewById(R.id.passwordLayout).getVisibility() == VISIBLE)
+                    view.findViewById(R.id.passwordLayout).setVisibility(View.GONE);
                 return false;
+
             }
         });
         /*signUp.setOnClickListener(new View.OnClickListener() {
@@ -297,6 +302,10 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
 
             @Override
             public void onClick(View view) {
+                if (mCrouton != null) {
+                    mCrouton.cancel();
+                    mCrouton = null;
+                }
                 ((SdkLoginSignUpActivity)getActivity()).loadForgotPasswordFragment(true);
             }
         });
