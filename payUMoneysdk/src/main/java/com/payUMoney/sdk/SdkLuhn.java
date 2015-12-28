@@ -40,11 +40,11 @@ public class SdkLuhn {
             // valid now check length
             if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("VISA") && ccNumber.length() == 16) {
                 return true;
-            } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("LASER")) {
+            } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("LASER") && ccNumber.length() >= 16 && ccNumber.length() <= 19) {
                 return true;
             } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("MAST") && ccNumber.length() == 16) {
                 return true;
-            } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("MAES") && ccNumber.length() >= 12 && ccNumber.length() <= 19) {
+            } else if ((SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("MAES")/* || SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("SMAE")*/) && ccNumber.length() >= 12 && ccNumber.length() <= 19) {
                 return true;
             } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("DINR") && ccNumber.length() == 14) {
                 return true;
@@ -52,7 +52,14 @@ public class SdkLuhn {
                 return true;
             } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("JCB") && ccNumber.length() == 16) {
                 return true;
+            } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("RUPAY") && (ccNumber.length() == 16 || ccNumber.length() == 19)) {
+                return true;
+            } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("JCB") && ccNumber.length() == 16) {
+                return true;
+            } else if (ccNumber.matches("6(?:011|5[0-9]{2})[0-9]{12}") && ccNumber.length() == 16) {
+                return true;//discover
             }
+
         }
         return false;
     }

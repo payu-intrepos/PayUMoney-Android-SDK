@@ -41,7 +41,13 @@
     <color name="inactive_bg">#fffbe2</color>
     <color name="active_text">#3c3329</color>
     <color name="color_13">#fffbe2</color>
-    <color name="color_3">#13100d</color>
     <color name="primary_green">#6ac451</color>
+    <color name="color_3">#13100d</color>
+    <color name="color_2">#c56100</color>
+    <color name="primary_orange">#c56100</color>
+    <color name="trans_black">#32000000</color>
+    <color name="color_20">#f2f2f2</color>
+    <color name="color_9">#514538</color>
+    <color name="color_5">#7bd6d6c6</color>
     <!--<color name="dialog_title_color">@android:color/white</color>-->
 </resources>

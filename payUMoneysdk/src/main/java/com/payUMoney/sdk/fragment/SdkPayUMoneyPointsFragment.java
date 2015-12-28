@@ -37,7 +37,7 @@ public class SdkPayUMoneyPointsFragment extends Fragment {
     final HashMap<String, Object> data = new HashMap<>();
     ProgressBar pb = null;
     Button checkout = null;
-    public static String choosedCoupan = null;
+    //public static String choosedCoupan = null;
     JSONObject details = null;
     private double discount = 0.0, cashback = 0.0, couponAmt = 0.0;
 

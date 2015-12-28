@@ -20,8 +20,8 @@ public class SdkCustomDatePicker {
 
     private static final int MAX_YEAR = 2099;
 
-    private static final String[] PICKER_DISPLAY_MONTHS_NAMES = new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
-            "Nov", "Dec" };
+    private static final String[] PICKER_DISPLAY_MONTHS_NAMES = new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+            "11", "12" };
 
     private static final String[] MONTHS = new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September",
             "October", "November", "December" };
@@ -32,7 +32,6 @@ public class SdkCustomDatePicker {
     private boolean build = false;
     private NumberPicker monthNumberPicker = null;
     private NumberPicker yearNumberPicker = null;
-    private boolean mIsSelectedMonth = true;
     private int mSelectedMonth = 1;
 
     /**
@@ -102,15 +101,11 @@ public class SdkCustomDatePicker {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setView(view);
 
-        final String[] initialMonths = new String[MONTHS.length-selectedMonth];
-        for(int i=selectedMonth;i<MONTHS.length;i++) {
-            initialMonths[i-selectedMonth] = PICKER_DISPLAY_MONTHS_NAMES[i];
-        }
         monthNumberPicker = (NumberPicker) view.findViewById(R.id.monthNumberPicker);
-        monthNumberPicker.setDisplayedValues(initialMonths);
+        monthNumberPicker.setDisplayedValues(PICKER_DISPLAY_MONTHS_NAMES);
 
         monthNumberPicker.setMinValue(0);
-        monthNumberPicker.setMaxValue(MONTHS.length - 1-selectedMonth);
+        monthNumberPicker.setMaxValue(MONTHS.length-1);
         monthNumberPicker.setWrapSelectorWheel(false);
 
         yearNumberPicker = (NumberPicker) view.findViewById(R.id.yearNumberPicker);
@@ -123,20 +118,10 @@ public class SdkCustomDatePicker {
         yearNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int oldValue, int newValue) {
-                if(newValue > selectedYearTemp) {
-                    mIsSelectedMonth = false;
-                    monthNumberPicker.setDisplayedValues(PICKER_DISPLAY_MONTHS_NAMES);
-                    monthNumberPicker.setMinValue(0);
-                    monthNumberPicker.setMaxValue(MONTHS.length - 1);
-                    monthNumberPicker.setWrapSelectorWheel(false);
-                } else if (newValue == selectedYearTemp) {
-                    mIsSelectedMonth = true;
-                    monthNumberPicker.setValue(0);
-                    monthNumberPicker.setDisplayedValues(initialMonths);
-                    monthNumberPicker.setMinValue(0);
-                    monthNumberPicker.setMaxValue(MONTHS.length - 1-selectedMonthTemp);
-                    monthNumberPicker.setWrapSelectorWheel(false);
-                }
+                monthNumberPicker.setDisplayedValues(PICKER_DISPLAY_MONTHS_NAMES);
+                monthNumberPicker.setMinValue(0);
+                monthNumberPicker.setMaxValue(MONTHS.length - 1);
+                monthNumberPicker.setWrapSelectorWheel(false);
             }
         });
         monthNumberPicker.setValue(0);
@@ -169,11 +154,7 @@ public class SdkCustomDatePicker {
      * @return the selected month
      */
     public int getSelectedMonth() {
-        if(mIsSelectedMonth) {
-            return monthNumberPicker.getValue()+mSelectedMonth;
-        } else {
-            return monthNumberPicker.getValue();
-        }
+        return monthNumberPicker.getValue();
     }
 
     /**

@@ -56,7 +56,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
  * Created by amit on 25/07/13.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class SdkSignUpFragment extends Fragment implements Validator.ValidationListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class SdkSignUpFragment extends Fragment implements Validator.ValidationListener/*, LoaderManager.LoaderCallbacks<Cursor>*/ {
 
     Validator mValidator = null;
     private Button mSignUp = null;
@@ -129,7 +129,7 @@ public class SdkSignUpFragment extends Fragment implements Validator.ValidationL
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 
             ArrayList<String> myNumbers = new ArrayList<>();
             Cursor cursor = getActivity().getContentResolver().query(ContactsContract.Profile.CONTENT_URI, new String[]{ContactsContract.Profile._ID}, null, null, null);
@@ -158,7 +158,7 @@ public class SdkSignUpFragment extends Fragment implements Validator.ValidationL
                     return false;
                 }
             });
-        }
+        }*/
 
         mEmail.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -183,7 +183,7 @@ public class SdkSignUpFragment extends Fragment implements Validator.ValidationL
         return view;
     }
 
-    private void populateAutoComplete() {
+    /*private void populateAutoComplete() {
         if (Build.VERSION.SDK_INT >= 14) {
             // Use ContactsContract.Profile (API 14+)
             getActivity().getLoaderManager().initLoader(0, null, this);
@@ -191,13 +191,13 @@ public class SdkSignUpFragment extends Fragment implements Validator.ValidationL
             // Use AccountManager (API 8+)
             new SetupEmailAutoCompleteTask().execute(null, null);
         }
-    }
+    }*/
 
     @Override
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        populateAutoComplete();
+        //populateAutoComplete();
     }
 
     @Override
@@ -234,11 +234,11 @@ public class SdkSignUpFragment extends Fragment implements Validator.ValidationL
             if (event.getStatus()) {
 
                 // we'll now take you to login screen, which will, automatically put in your number, and will now listen for an incoming SMS
-                SharedPreferences.Editor editor = getActivity().getApplicationContext().getSharedPreferences(SdkConstants.SP_SP_NAME, getActivity().getApplicationContext().MODE_PRIVATE).edit();
+                /*SharedPreferences.Editor editor = getActivity().getApplicationContext().getSharedPreferences(SdkConstants.SP_SP_NAME, getActivity().getApplicationContext().MODE_PRIVATE).edit();
                 editor.putString(SdkConstants.TOKEN, SdkSession.getInstance(getActivity().getApplicationContext()).getToken());
                 editor.putString(SdkConstants.EMAIL, SdkSession.getInstance(getActivity().getApplicationContext()).getUser().getEmail());
 
-                editor.commit();
+                editor.commit();*/
                 ((SdkLoginSignUpActivity)getActivity()).close();
             }
 //		} else if(event.getType() == CobbocEvent.UNKNOWN_ERROR) {
@@ -279,7 +279,7 @@ public class SdkSignUpFragment extends Fragment implements Validator.ValidationL
         view.requestFocus();
     }
 
-    @Override
+    /*@Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(getActivity(),
                 // Retrieve data rows for the device user's 'profile' contact.
@@ -329,13 +329,13 @@ public class SdkSignUpFragment extends Fragment implements Validator.ValidationL
 
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
-    }
+    }*/
 
     /**
      * Use an AsyncTask to fetch the user's email addresses on a background thread, and update
      * the email text field with results on the main UI thread.
      */
-    private class SetupEmailAutoCompleteTask extends AsyncTask<Void, Void, List<String>> {
+    /*private class SetupEmailAutoCompleteTask extends AsyncTask<Void, Void, List<String>> {
 
         @Override
         protected List<String> doInBackground(Void... voids) {
@@ -359,5 +359,5 @@ public class SdkSignUpFragment extends Fragment implements Validator.ValidationL
         protected void onPostExecute(List<String> emailAddressCollection) {
             addEmailsToAutoComplete(emailAddressCollection);
         }
-    }
+    }*/
 }

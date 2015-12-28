@@ -12,6 +12,8 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,9 +28,12 @@ import android.widget.ImageView;
 
 import com.loopj.android.http.RequestParams;
 import com.payUMoney.sdk.adapter.SdkStoredCardAdapter;
+import com.payUMoney.sdk.utils.SdkLogger;
 import com.payu.custombrowser.Bank;
 import com.payu.custombrowser.PayUWebChromeClient;
 import com.payu.custombrowser.PayUWebViewClient;
+import com.payu.magicretry.Helpers.Util;
+import com.payu.magicretry.MagicRetryFragment;
 
 /*import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -45,7 +50,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class SdkWebViewActivityNew extends FragmentActivity {
+public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetryFragment.ActivityCallback {
 
     Bundle bundle = null;
     String url = null;
@@ -55,23 +60,45 @@ public class SdkWebViewActivityNew extends FragmentActivity {
     private boolean viewPortWide = false;
     private WebView mWebView = null;
     private ProgressDialog progressDialog = null;
+    MagicRetryFragment magicRetryFragment;
+    private RequestParams p;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        if (savedInstanceState != null) {
-            super.onCreate(null);
-            finish();//call activity u want to as activity is being destroyed it is restarted
-        } else {
-            super.onCreate(savedInstanceState);
-        }
-        setContentView(R.layout.sdk_activity_web_view);
-        mWebView = (WebView) findViewById(R.id.webview);
-        SharedPreferences mPref = getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE);
-        bundle = getIntent().getExtras();
-
         JSONObject object;
+        JSONObject userConfigDto = null;
+        String userToken = null;
+        Boolean oneClickPayment = false, oneTapFeature = false;
+
         try {
+            if (savedInstanceState != null) {
+                super.onCreate(null);
+                finish();//call activity u want to as activity is being destroyed it is restarted
+            } else {
+                super.onCreate(savedInstanceState);
+            }
+            setContentView(R.layout.sdk_activity_web_view);
+            mWebView = (WebView) findViewById(R.id.webview);
+            SharedPreferences mPref = getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE);
+            String paymentMode = getIntent().getExtras().getString(SdkConstants.PAYMENT_MODE);
+            if (mPref.contains(SdkConstants.CONFIG_DTO))
+                userConfigDto = new JSONObject(mPref.getString(SdkConstants.CONFIG_DTO, "XYZ"));
+
+            if (userConfigDto != null) {
+                if (userConfigDto.has(SdkConstants.ONE_CLICK_PAYMENT) && !userConfigDto.isNull(SdkConstants.ONE_CLICK_PAYMENT)) {
+                    oneClickPayment = userConfigDto.optBoolean(SdkConstants.ONE_CLICK_PAYMENT);
+                    if (oneClickPayment && userConfigDto.has(SdkConstants.ONE_TAP_FEATURE) && !userConfigDto.isNull(SdkConstants.ONE_TAP_FEATURE)) {
+                        oneTapFeature = userConfigDto.optBoolean(SdkConstants.ONE_TAP_FEATURE);
+                    }
+                }
+            }
+            if (userConfigDto != null && userConfigDto.has("userToken") && !userConfigDto.isNull("userToken")) {
+                userToken = userConfigDto.getString("userToken");
+            }
+
+            bundle = getIntent().getExtras();
+
             Class.forName("com.payu.custombrowser.Bank");
             final Bank bank = new Bank() {
                 @Override
@@ -115,7 +142,7 @@ public class SdkWebViewActivityNew extends FragmentActivity {
 
             args.putBoolean(Bank.VIEWPORTWIDE, viewPortWide);
             JSONObject temp = new JSONObject(getIntent().getStringExtra(SdkConstants.RESULT));
-            String txnId = temp.getString("txnid");
+            String txnId = temp.getString(SdkConstants.TXNID);
 
             txnId = txnId == null ? String.valueOf(System.currentTimeMillis()) : txnId;
             args.putString(Bank.TXN_ID, txnId);
@@ -128,7 +155,7 @@ public class SdkWebViewActivityNew extends FragmentActivity {
                 args.putBoolean(Bank.SHOW_CUSTOMROWSER, getIntent().getBooleanExtra("showCustom", false));
             }
             args.putBoolean(Bank.SHOW_CUSTOMROWSER, true);
-            if(mPref.getBoolean(SdkConstants.ONE_TAP_PAYMENT, false)) {
+            if (oneTapFeature) {
                 args.putBoolean(Bank.AUTO_APPROVE, true);
                 args.putBoolean(Bank.AUTO_SELECT_OTP, true);
             }
@@ -167,39 +194,90 @@ public class SdkWebViewActivityNew extends FragmentActivity {
 */
 
             });
-            mWebView.setWebViewClient(new PayUWebViewClient(bank));
-            mWebView.getSettings().setJavaScriptEnabled(true);
-            mWebView.getSettings().setDomStorageEnabled(true);
-            RequestParams p = new RequestParams();
-            try {
-                object = new JSONObject(getIntent().getStringExtra(SdkConstants.RESULT));
-                Iterator keys = object.keys();
-                while (keys.hasNext()) {
-                    String key = (String) keys.next();
-                    p.put(key, object.getString(key));
-                }
-            } catch (JSONException exc) {
-                exc.printStackTrace();
+            p = new RequestParams();
+
+            object = new JSONObject(getIntent().getStringExtra(SdkConstants.RESULT));
+            Iterator keys = object.keys();
+            while (keys.hasNext()) {
+                String key = (String) keys.next();
+                p.put(key, object.getString(key));
             }
-            String paymentMode = getIntent().getExtras().getString(SdkConstants.PAYMENT_MODE);
 
-
-            if (paymentMode != null && mPref != null && mPref.getBoolean(SdkConstants.ONE_TAP_PAYMENT, false)) {
+            if (paymentMode != null && oneClickPayment) {
                 if (paymentMode.equals("")) {
-                    if (getIntent().getExtras().getString("proceedForCvvLessTransaction").equals("0"))
+                    if (getIntent().getExtras().getString("cardHashForOneClickTxn").equals("0")) {
                         p.put(SdkConstants.ONE_CLICK_CHECKOUT, "1");
-                    else
-                        p.put(SdkConstants.CARD_MERCHANT_PARAM, getIntent().getExtras().getString("proceedForCvvLessTransaction"));
+                        if (userToken != null && !userToken.isEmpty())
+                            p.put("userToken", userToken);
+                    } else
+                        p.put(SdkConstants.CARD_MERCHANT_PARAM, getIntent().getExtras().getString("cardHashForOneClickTxn"));
                 } else if (paymentMode.equals("DC") || paymentMode.equals("CC")) {
                     p.put(SdkConstants.ONE_CLICK_CHECKOUT, "1");
+                    if (userToken != null && !userToken.isEmpty())
+                        p.put("userToken", userToken);
                 }
             }
+
+            initMagicRetry(txnId);
+            mWebView.setWebViewClient(new PayUWebViewClient(bank, magicRetryFragment));
+            //mWebView is the WebView Object
+            magicRetryFragment.setWebView(mWebView);
+            // MR Integration - initMRSettingsFromSharedPreference
+            magicRetryFragment.initMRSettingsFromSharedPreference(this);
+            mWebView.getSettings().setJavaScriptEnabled(true);
+            mWebView.getSettings().setDomStorageEnabled(true);
             mWebView.postUrl("https://" + (SdkConstants.DEBUG.booleanValue() ? "mobiletest" : "secure") + ".payu.in/_seamless_payment", p.toString().getBytes());
+
 
         } catch (ClassNotFoundException e) {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void initMagicRetry(String txnId) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        magicRetryFragment = new MagicRetryFragment();
+        Bundle newInformationBundle = new Bundle();
+        newInformationBundle.putString(MagicRetryFragment.KEY_TXNID, txnId);
+        magicRetryFragment.setArguments(newInformationBundle);
+
+        Map<String, String> urlList = new HashMap<String, String>();
+        urlList.put(url, p.toString());
+        magicRetryFragment.setUrlListWithPostData(urlList);
+
+        fragmentManager.beginTransaction().add(R.id.magic_retry_container, magicRetryFragment, "magicRetry").commit();
+        // magicRetryFragment = (MagicRetryFragment) fragmentManager.findFragmentBy(R.id.magicretry_fragment);
+
+        toggleFragmentVisibility(Util.HIDE_FRAGMENT);
+
+        magicRetryFragment.isWhiteListingEnabled(true);
+    }
+
+
+    public void toggleFragmentVisibility(int flag) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (!isFinishing()) {
+            if (flag == Util.SHOW_FRAGMENT) {
+                // Show fragment
+                ft.show(magicRetryFragment).commitAllowingStateLoss();
+            } else if (flag == Util.HIDE_FRAGMENT) {
+                // Hide fragment
+                ft.hide(magicRetryFragment).commitAllowingStateLoss();
+                // ft.hide(magicRetryFragment);
+                // SdkLogger.v("#### PAYU", "hidhing magic retry");
+            }
+        }
+    }
+
+    @Override
+    public void showMagicRetry() {
+        toggleFragmentVisibility(Util.SHOW_FRAGMENT);
+    }
+
+    @Override
+    public void hideMagicRetry() {
+        toggleFragmentVisibility(Util.HIDE_FRAGMENT);
     }
 
     private final class PayUJavaScriptInterface {

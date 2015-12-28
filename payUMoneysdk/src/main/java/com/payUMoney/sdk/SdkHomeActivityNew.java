@@ -1,7 +1,7 @@
 package com.payUMoney.sdk;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -10,11 +10,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
+import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,17 +25,20 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.payUMoney.sdk.adapter.SdkCouponListAdapter;
 import com.payUMoney.sdk.adapter.SdkExpandableListAdapter;
 import com.payUMoney.sdk.adapter.SdkStoredCardAdapter;
+import com.payUMoney.sdk.dialog.SdkOtpProgressDialog;
 import com.payUMoney.sdk.dialog.SdkQustomDialogBuilder;
 import com.payUMoney.sdk.fragment.SdkDebit;
 import com.payUMoney.sdk.fragment.SdkNetBankingFragment;
@@ -64,7 +67,9 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
     public final int WEB_VIEW = 2;
     public final int SIGN_UP = 7;
     public final int RESULT_BACK = 8;
-    public TextView mAmount = null, savings = null, mAmoutDetails = null;
+    private final int PAYMNET_CANCELLED = 21;
+    private final int PAYMNET_LOGOUT = 22;
+    public TextView mAmount = null, savings = null, mOrderSummary = null, mCvvTnCLink;
     SdkSession sdkSession = null;
     int count = 0;
     private ProgressDialog mProgressDialog = null;
@@ -74,7 +79,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
             amt_net = 0.0,
             amount = 0.0,
             walletBal = 0.0;
-    public static double coupan_amt = 0.0, choosedItem = 0.0;//Undo
+    public static double coupan_amt = 0.0/*,choosedItem = 0.0*/;//Undo
     private JSONObject walletJason = null;
     private JSONObject details = null;
     private CheckBox walletCheck = null;
@@ -107,86 +112,93 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
     private boolean isAnotherGroupExpanding = false;
     private SdkExpandableListAdapter listAdapter = null;
     private String paymentId = "";
-    private String proceedForCvvLessTransaction = null;
+    private String cardHashForOneClickTxn = null;
+    private boolean userParamsFetchedExplicitely = false;
+    private Button verifyCouponBtn = null;
+    private EditText mannualCouponEditText = null;
+    private RelativeLayout verifyCouponProgress = null;
+    private boolean manualCouponEntered = false;
+    private LinearLayout whenHideChooseCouponLayoutRequired;
+    private AlertDialog splashDialog;
+    private AlertDialog.Builder alertDialogBuilder;
+    private boolean loadWalletCall = false;
+    private boolean walletActive = true;
+    private boolean pointsActive = true;
+    private String manualCouopnNameString;
+    private CheckBox mOneTap;
 
+    public String getUserId() {
+        return userId;
+    }
+
+    private String userId;
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
+        sdkSession = SdkSession.getInstance(getApplicationContext());
         mProgressDialog = showProgress(this);
-        getAndroidID(this);
-        getAppVersion();
-        map = (HashMap<String, String>) getIntent().getSerializableExtra(SdkConstants.PARAMS);
-        map.put(SdkConstants.DEVICE_ID, device_id);
-        map.put(SdkConstants.APP_VERSION, currentVersion);
-        if (map.containsKey(SdkConstants.PAYUMONEY_APP)) {
-            try {
-                fromPayUMoneyApp = true;
-                appResponse = new JSONObject(map.get(SdkConstants.PAYUMONEY_APP));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else if (map.containsKey(SdkConstants.PAYUBIZZ_APP)) {
-            fromPayUBizzApp = true;
-            try {
-                appResponse = new JSONObject(map.get(SdkConstants.PAYUBIZZ_APP));
-
-                if (!SdkSession.getInstance(getApplicationContext()).isLoggedIn()) {
-                    check_login();
-                } else if (appResponse != null) {
-
-                    initLayout();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-        if (fromPayUMoneyApp) {
-            if (appResponse != null) {
-
-                initLayout();
-            }
-        } else {
-            /*if (!SdkSession.getInstance(getApplicationContext()).isLoggedIn()) {
-                SdkSession.getInstance(getApplicationContext()).fetchMechantParams(map.get("MerchantId"));
-            } else {
-                check_login();
-            }*/
-            check_login();
-        }
-    }
-
-    public String getAndroidID(Context context) {
-
-        if (context == null)
-            return "";
-        device_id = Settings.Secure.getString(context.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        return device_id;
-    }
-
-    public String getAppVersion() {
-
+        device_id = SdkHelper.getAndroidID(this);
+        currentVersion = SdkHelper.getAppVersion(this);
         try {
-            PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), 0);
-            currentVersion = pInfo.versionName;
-            return currentVersion;
-        } catch (Exception e) {
-//Start the next activity
-            return "";
-        }
+            if (SdkConstants.WALLET_SDK) {
+                details = new JSONObject(getIntent().getStringExtra(SdkConstants.PAYMENT_DETAILS_OBJECT));
+                initLayout();
+            } else {
+                map = (HashMap<String, String>) getIntent().getSerializableExtra(SdkConstants.PARAMS);
+                map.put(SdkConstants.DEVICE_ID, device_id);
+                map.put(SdkConstants.APP_VERSION, currentVersion);
+                if (map.containsKey(SdkConstants.PAYUMONEY_APP)) {
+                    fromPayUMoneyApp = true;
+                    appResponse = new JSONObject(map.get(SdkConstants.PAYUMONEY_APP));
+                    if (map.containsKey(SdkConstants.PAYMENT_TYPE)) {
+                        if (map.get(SdkConstants.PAYMENT_TYPE).equals(SdkConstants.LOAD_WALLET))
+                            loadWalletCall = true;
+                    }
+                } else if (map.containsKey(SdkConstants.PAYUBIZZ_APP)) {
+                    fromPayUBizzApp = true;
+                    JSONObject tmp = new JSONObject(map.get(SdkConstants.PAYUBIZZ_APP));
+                    appResponse = tmp.getJSONObject(SdkConstants.RESULT);
+                    if (!sdkSession.isLoggedIn()) {
+                        if (appResponse.has("configData") && !appResponse.isNull("configData")) {
+                            JSONObject merchantLoginParams = appResponse.getJSONObject("configData");
+                            allowGuestCheckout = merchantLoginParams.optString(SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_VALUE, "");
+                            String temp = merchantLoginParams.optString("quickLoginEnabled", "");
+                            if (!temp.isEmpty() && temp.equals("true"))
+                                quickLogin = "1";
+                            else
+                                quickLogin = "0";
+                        }
+                        check_login();
+                        return;
+                    } else if (appResponse != null) {
+                        initLayout();
+                        return;
+                    }
 
+                }
+                if (fromPayUMoneyApp) {
+                    if (appResponse != null) {
+                        initLayout();
+                    }
+                } else {
+                    if (!sdkSession.isLoggedIn()) {
+                        sdkSession.fetchMechantParams(map.get(SdkConstants.MERCHANT_ID));
+                    } else {
+                        check_login();
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    /*@Override
-    public boolean dispatchTouchEvent(MotionEvent ev){
-        if(ev.getAction()==MotionEvent.ACTION_DOWN)
-            return true;
-        Toast.makeText(SdkHomeActivityNew.this,"touched :" ,Toast.LENGTH_SHORT).show();
-        return super.dispatchTouchEvent(ev);
-    }*/
+    public String getPaymentId() {
+        return paymentId;
+    }
+
     private void createPaymentModesList() {
 
         listAdapter = new SdkExpandableListAdapter(this, availableModes);
@@ -289,8 +301,6 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-
-
     }
 
     @Override
@@ -302,7 +312,6 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
     public void check_login()       // Function to check login and if yes then initiate the payment
     {
         SdkLogger.d(SdkConstants.TAG, "entered in check login()");
-        sdkSession = SdkSession.getInstance(getApplicationContext()); //get attached object of SdkSession
         if (!sdkSession.isLoggedIn() && !guestCheckOut)  //Not logged in
         {
 
@@ -312,8 +321,8 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 intent.putExtra(SdkConstants.AMOUNT, getIntent().getStringExtra(SdkConstants.AMOUNT));
                 intent.putExtra(SdkConstants.MERCHANTID, getIntent().getStringExtra(SdkConstants.MERCHANTID));
                 intent.putExtra(SdkConstants.PARAMS, getIntent().getSerializableExtra(SdkConstants.PARAMS));
-                intent.putExtra(SdkConstants.USER_EMAIL, getIntent().getStringExtra(SdkConstants.USER_EMAIL));
-                intent.putExtra(SdkConstants.USER_PHONE, getIntent().getStringExtra(SdkConstants.USER_PHONE));
+                intent.putExtra(SdkConstants.EMAIL, getIntent().getStringExtra(SdkConstants.EMAIL));
+                intent.putExtra(SdkConstants.PHONE, getIntent().getStringExtra(SdkConstants.PHONE));
                 intent.putExtra(SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_VALUE, allowGuestCheckout);
                 intent.putExtra(SdkConstants.OTP_LOGIN, quickLogin);
                 startActivityForResult(intent, LOGIN);
@@ -339,27 +348,55 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
         invalidateOptionsMenu();
         if (mProgressDialog != null && !mProgressDialog.isShowing())
             mProgressDialog = showProgress(this);
-        /*if (guestCheckOut && !fromPayUMoneyApp && !fromPayUBizzApp) {
-           SdkSession.getInstance(getApplicationContext()).updateTransactionDetails();
-        }*/
-        if (fromPayUMoneyApp || fromPayUBizzApp)
+        if (fromPayUMoneyApp || fromPayUBizzApp || SdkConstants.WALLET_SDK)
             startPayment(appResponse);
         else
-            SdkSession.getInstance(this).createPayment(map);//Create  event fired when Parent Activity is created
+            sdkSession.createPayment(map);//Create  event fired when Parent Activity is created
     }
 
     private void initHomeLayout() {
-        getAndroidID(this);
         setContentView(R.layout.sdk_activity_home_new);
         mAmount = ((TextView) findViewById(R.id.sdkAmountText));
         savings = (TextView) findViewById(R.id.savings);
-        mAmoutDetails = (TextView) findViewById(R.id.amountDetails);
+        mOrderSummary = (TextView) findViewById(R.id.orderSummary);
         walletBoxLayout = (LinearLayout) findViewById(R.id.walletLayout);
         walletCheck = (CheckBox) walletBoxLayout.findViewById(R.id.walletcheck);
         //walletText = (TextView) walletBoxLayout.findViewById(R.id.wallettext);
         walletBalance = (TextView) walletBoxLayout.findViewById(R.id.walletbalance);
         couponLayout = (LinearLayout) findViewById(R.id.couponSection);
         applyCoupon = (TextView) couponLayout.findViewById(R.id.selectCoupon);
+
+        mOneTap = (CheckBox) findViewById(R.id.user_profile_is_cvv_less_checkbox);
+        mCvvTnCLink = (TextView) findViewById(R.id.cvv_tnc_link);
+        mCvvTnCLink.setMovementMethod(LinkMovementMethod.getInstance());
+        mCvvTnCLink.setVisibility(View.GONE);
+        mOneTap.setVisibility(View.GONE);
+        mOneTap.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    sdkSession.enableOneClickTransaction("1");
+                    //item.setTitle("Disable One Tap Payment");
+                } else {
+                    sdkSession.enableOneClickTransaction("0");
+                    // item.setTitle("Enable One Tap Payment");
+                }
+            }
+        });
+        SharedPreferences mPref = getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE);
+        try {
+            if (mPref.contains(SdkConstants.CONFIG_DTO)) {
+                JSONObject userConfigDto = new JSONObject(mPref.getString(SdkConstants.CONFIG_DTO, "XYZ"));
+                if (userConfigDto != null) {
+                    if (userConfigDto.has(SdkConstants.ONE_TAP_FEATURE) && !userConfigDto.isNull(SdkConstants.ONE_TAP_FEATURE) && userConfigDto.optBoolean(SdkConstants.ONE_TAP_FEATURE)) {
+                        mOneTap.setVisibility(View.VISIBLE);
+                        mCvvTnCLink.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         /*pagerContainerLayout = (RelativeLayout) findViewById(R.id.pagerContainer);
         mViewPager = (ViewPager) pagerContainerLayout.findViewById(R.id.pager);
         tabs = (SdkPagerSlidingTabStripCustomised) pagerContainerLayout.findViewById(R.id.tabs);*/
@@ -405,7 +442,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
             }
         });
 
-        mAmoutDetails.setOnClickListener(new View.OnClickListener() {
+        mOrderSummary.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 handleViewDetails();
             }
@@ -418,12 +455,29 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
         availableModes = new ArrayList<>();
         availableCreditCards = new ArrayList<>();
         availableDebitCards = new ArrayList<>();
-        if ((fromPayUMoneyApp || fromPayUBizzApp) && !chooseOtherMode) {
-            details = params;
-            calculateOffersAndCashback();
-        }
-
         try {
+        /*Will be skipped in case of Wallet Sdk*/
+            if (SdkConstants.WALLET_SDK) {
+
+                applyCoupon.setVisibility(View.GONE);
+                couponLayout.setVisibility(View.GONE);
+                walletCheck.setVisibility(View.GONE);//CHECKED
+                walletBoxLayout.setVisibility(View.GONE);
+                savings.setVisibility(View.GONE);
+                if (details.has(SdkConstants.USER) && !details.isNull(SdkConstants.USER)) {
+                    if (!userParamsFetchedExplicitely)
+                        user = details.getJSONObject(SdkConstants.USER);
+                    if (details != null && details.has(SdkConstants.PAYMENT_ID) && !details.isNull(SdkConstants.PAYMENT_ID))
+                        paymentId = details.getString(SdkConstants.PAYMENT_ID);
+                    if (user.has(SdkConstants.USER_ID) && !user.isNull(SdkConstants.USER_ID))
+                        userId = user.getString(SdkConstants.USER_ID);
+                }
+            }
+            if ((fromPayUMoneyApp || fromPayUBizzApp) && !chooseOtherMode) {
+                details = params;
+                calculateOffersAndCashback();
+            }
+
             if (user != null && user.has("savedCards") && !user.isNull("savedCards")) {
                 availableModes.add("STORED_CARDS");
                 JSONArray tempArr = user.getJSONArray("savedCards");
@@ -461,6 +515,14 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                     }
                     if (paymentOption.has("nb")) {
                         availableModes.add("NB");
+                    }
+                    if (paymentOption.has("wallet")) {
+                        if (paymentOption.getString("wallet").equals("false"))
+                            walletActive = false;
+                    }
+                    if (paymentOption.has("points")) {
+                        if (paymentOption.getString("points").equals("false"))
+                            pointsActive = false;
                     }
                 }
                 if (tempPaymentOption != null && tempPaymentOption.has("config") && !tempPaymentOption.isNull("config")) {
@@ -521,13 +583,15 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 /*if(!chooseOtherMode)
                 walletCheck.setChecked(true);*/
                 /****COUPONS*****/
-                if (user.has("coupons") && !user.isNull("coupons")) {
+                //if (user.has("coupons") && !user.isNull("coupons")) {
+                if (!SdkConstants.WALLET_SDK) {
                     updateCouponsVisibility();
                     if (coupan_amt <= 0.0) {
                         ((TextView) findViewById(R.id.selectCoupon)).setText(R.string.view_coupon);
                         handleCoupon();
                     }
                 }
+                // }
                 dismissProgress();
             }
         } catch (JSONException ignored) {
@@ -549,6 +613,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
             public void onClick(View view) {
                 if ((((TextView) findViewById(R.id.selectCoupon)).getText().toString()).equals("Remove")) {
 
+                    choosedCoupan = null;
                     coupan_amt = 0.0;
                     amt_discount = discount;
 
@@ -573,10 +638,43 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                     View convertView = getLayoutInflater().inflate(R.layout.sdk_coupon_list, null);
                     couponList = (ListView) convertView.findViewById(R.id.lv);
                     couponList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                    whenHideChooseCouponLayoutRequired = (LinearLayout) convertView.findViewById(R.id.whenHideChooseCouponLayoutRequired);
+                    verifyCouponBtn = (Button) convertView.findViewById(R.id.verifyCoupon);
+                    mannualCouponEditText = (EditText) convertView.findViewById(R.id.mannualCouponEditText);
+                    verifyCouponProgress = (RelativeLayout) convertView.findViewById(R.id.verifyCouponProgress);
+                    verifyCouponProgress.setVisibility(View.INVISIBLE);
+                    verifyCouponBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            hideKeyboardIfShown();
+                            String manualCoupon = "";
+                            if (mannualCouponEditText.getText() != null) {
+                                manualCoupon = mannualCouponEditText.getText().toString();
+                            }
+                            if (!manualCoupon.isEmpty()) {
+                                sdkSession.verifyManualCoupon(manualCoupon, paymentId, device_id, "0");
+                                for (int j = 0; j < couponList.getCount(); j++) {
+                                    if (((RadioButton) couponList.getChildAt(j).findViewById(R.id.coupanSelect)).isChecked()) {
+                                        ((RadioButton) couponList.getChildAt(j).findViewById(R.id.coupanSelect)).setChecked(false);
+                                    }
+                                }
+                                verifyCouponProgress.setVisibility(View.VISIBLE);
+                                mannualCouponEditText.clearFocus();
+                                mannualCouponEditText.setText("");
+                                mannualCouponEditText.setHint("");
+                                SdkOtpProgressDialog.showDialog(getApplicationContext(), verifyCouponProgress);
+                            } else
+                                Toast.makeText(SdkHomeActivityNew.this, "Coupon Field is empty!", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
                     try {
                         if (user.has("coupons") && !user.isNull("coupons") && mCouponsArray != null) {
                             coupanAdapter = new SdkCouponListAdapter(SdkHomeActivityNew.this, mCouponsArray);
                             couponList.setAdapter(coupanAdapter);
+                        } else {
+                            whenHideChooseCouponLayoutRequired.setVisibility(View.GONE);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -584,61 +682,88 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
 
                     alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+                            manualCouponEntered = false;
+                            choosedCoupan = null;
+                            coupan_amt = 0.0;
+                            manualCouopnNameString = null;
                         }
                     });
-                    alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    alertDialog.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // coupan_amt = 0.0;
-                            choosedItem = -1;
-                            for (int j = 0; j < couponList.getCount(); j++) {
+                            //choosedItem = -1;
+                            if (!manualCouponEntered) {
+                                int j;
+                                for (j = 0; j < couponList.getCount(); j++) {
 
-                                if (((RadioButton) couponList.getChildAt(j).findViewById(R.id.coupanSelect)).isChecked()) {
-                                    /*****Apply the coupons ********/
-
-                                    couponListItem = (JSONObject) coupanAdapter.getItem(j);
-                                    try {
-                                        choosedCoupan = couponListItem.getString("couponString");
-                                        choosedItem = j;
-                                        coupan_amt = couponListItem.getDouble("couponAmount");
-                                        SdkLogger.i("Choosed coupan", choosedCoupan);
-                                        amt_discount = coupan_amt;
-                                        if (walletCheck.isChecked()) {
-                                            updateWalletDetails();
-                                        } else {
-                                            updateDetails(mode);
+                                    if (((RadioButton) couponList.getChildAt(j).findViewById(R.id.coupanSelect)).isChecked()) {
+                                        /*****Apply the coupons ********/
+                                        try {
+                                            couponListItem = (JSONObject) coupanAdapter.getItem(j);
+                                            choosedCoupan = couponListItem.getString("couponString");
+                                            //choosedItem = j;
+                                            coupan_amt = couponListItem.getDouble("couponAmount");
+                                            SdkLogger.i("Choosed coupan", choosedCoupan);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
                                         }
-                                        if (amount + amt_convenience_wallet - amt_discount - userPoints <= 0.0 && !chooseOtherMode) {
-
-                                            pointDialog();
-                                        }
-                                        if (amount - amt_discount == 0.0) //100% Coupon discount
-                                        {
-                                            if (payByWalletButton.isShown()) {
-                                                mAmount.setText(" " + round((amt_convenience), 2));
-                                                walletUsage = (walletAmount - amt_net);
-                                                walletBal = walletAmount - walletUsage;
-                                                walletBalance.setText("Wallet balance: " + round((float) (walletBal / 100) * 100, 2));
-                                            } else {
-                                                mAmount.setText(" " + 0.0);
-                                            }
-                                        }
-                                        //Not enough but has some
-                                        String coupon_string = couponListItem.getString("couponString") + " Applied";
-                                        ((TextView) findViewById(R.id.selectCoupon1)).setText(coupon_string);
-                                        (findViewById(R.id.selectCoupon1)).setVisibility(View.VISIBLE);
-                                        ((TextView) findViewById(R.id.selectCoupon)).setText(R.string.remove);
-                                        (findViewById(R.id.selectCoupon)).setVisibility(View.VISIBLE);
-                                        if (amt_discount > 0.0 || userPoints > 0.0) {
-                                            savings.setText("Savings : Rs." + (round((float) ((amt_discount + userPoints) / 100) * 100, 2)));
-                                            savings.setVisibility(View.VISIBLE);
-                                        } else
-                                            savings.setVisibility(View.INVISIBLE);
-                                        break;
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
                                     }
+
+
+                                }
+                                if (mannualCouponEditText != null && !mannualCouponEditText.getText().toString().isEmpty()) {
+
+                                    Toast.makeText(SdkHomeActivityNew.this, "Invalid Coupon entered", Toast.LENGTH_SHORT).show();
+                                }
+                                else if (j == couponList.getCount()) {
+                                    Toast.makeText(SdkHomeActivityNew.this, "No Coupon Selected", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                            }
+                            amt_discount = coupan_amt;
+                            if (walletCheck.isChecked()) {
+                                updateWalletDetails();
+                            } else {
+                                updateDetails(mode);
+                            }
+                            if (amount + amt_convenience_wallet - amt_discount - userPoints <= 0.0 && !chooseOtherMode) {
+
+                                pointDialog();
+                            }
+                            if (amount - amt_discount == 0.0) //100% Coupon discount
+                            {
+                                if (payByWalletButton.isShown()) {
+                                    mAmount.setText(" " + round((amt_convenience), 2));
+                                    walletUsage = (walletAmount - amt_net);
+                                    walletBal = walletAmount - walletUsage;
+                                    walletBalance.setText("Wallet balance: " + round((float) (walletBal / 100) * 100, 2));
+                                } else {
+                                    mAmount.setText(" " + 0.0);
                                 }
                             }
+                            //Not enough but has some
+                            if (coupan_amt > 0.0) {
+                                String coupon_string;
+                                if (manualCouponEntered) {
+                                    coupon_string = /*couponListItem.getString("couponString")*/manualCouopnNameString + " Applied";
+                                } else {
+                                    coupon_string = /*couponListItem.getString("couponString")*/ choosedCoupan + " Applied";
+                                }
+                                ((TextView) findViewById(R.id.selectCoupon1)).setText(coupon_string);
+                                (findViewById(R.id.selectCoupon1)).setVisibility(View.VISIBLE);
+                                ((TextView) findViewById(R.id.selectCoupon)).setText(R.string.remove);
+                                (findViewById(R.id.selectCoupon)).setVisibility(View.VISIBLE);
+                                /*reset manualCouponEntered*/
+                                if (manualCouponEntered)
+                                    manualCouponEntered = false;
+                            } else {
+
+                            }
+                            if (amt_discount > 0.0 || userPoints > 0.0) {
+                                savings.setText("Savings : Rs." + (round((float) ((amt_discount + userPoints) / 100) * 100, 2)));
+                                savings.setVisibility(View.VISIBLE);
+                            } else
+                                savings.setVisibility(View.INVISIBLE);
                         }
 
                     }).setView(convertView).show();
@@ -652,7 +777,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             /*adapter.notifyDataSetChanged();*/
-
+                            mannualCouponEditText.setHint(R.string.enter_coupon);
                             if (((RadioButton) view.findViewById(R.id.coupanSelect)).isChecked()) {
                                 ((RadioButton) view.findViewById(R.id.coupanSelect)).setChecked(false);
                             } else {
@@ -675,22 +800,34 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
     }
 
     private void updateCouponsVisibility() {
-        mCouponsArray = new JSONArray();
-        try {
-            if (user.getJSONArray("coupons") != null) {
-                JSONArray tempArrayCoupons = user.getJSONArray("coupons");
-                for (int i = 0; i < tempArrayCoupons.length(); i++) {
-                    if (tempArrayCoupons.getJSONObject(i).getBoolean("enabled"))
-                        mCouponsArray.put(tempArrayCoupons.getJSONObject(i));
+        if (user.has("coupons") && !user.isNull("coupons")) {
+            mCouponsArray = new JSONArray();
+            try {
+                if (user.getJSONArray("coupons") != null) {
+                    JSONArray tempArrayCoupons = user.getJSONArray("coupons");
+                    for (int i = 0; i < tempArrayCoupons.length(); i++) {
+                        if (tempArrayCoupons.getJSONObject(i).getBoolean("enabled"))
+                            mCouponsArray.put(tempArrayCoupons.getJSONObject(i));
+                    }
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
         if (coupan_amt > 0.0)
             return;
         else {
-            if (mCouponsArray.length() > 0) {
+            /*if ( mCouponsArray != null && mCouponsArray.length() > 0) {
+                applyCoupon.setText(R.string.view_coupon);
+                applyCoupon.setVisibility(View.VISIBLE);
+                couponLayout.setVisibility(View.VISIBLE);
+            } else {
+                applyCoupon.setVisibility(View.GONE);
+                couponLayout.setVisibility(View.GONE);
+
+            }*/
+            /*FLow changed after manual coupon*/
+            if (!loadWalletCall && !guestCheckOut) {
                 applyCoupon.setText(R.string.view_coupon);
                 applyCoupon.setVisibility(View.VISIBLE);
                 couponLayout.setVisibility(View.VISIBLE);
@@ -698,6 +835,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 applyCoupon.setVisibility(View.GONE);
                 couponLayout.setVisibility(View.GONE);
             }
+
         }
     }
 
@@ -740,14 +878,14 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
     {
         if (requestCode == LOGIN) {
             if (resultCode == RESULT_OK) {
-                if (SdkSession.getInstance(getApplicationContext()).getLoginMode().equals("guestLogin")) {
+                if (sdkSession.getLoginMode().equals("guestLogin")) {
                     guestCheckOut = true;
                 }
-                if (fromPayUBizzApp) {
+                /*if (fromPayUBizzApp) {
                     setResult(RESULT_OK, data);
                     fromPayUBizzApp = false;
-                } else
-                    check_login();
+                } else*/
+                check_login();
             } else if (resultCode == SdkLoginSignUpActivity.RESULT_QUIT) {
                 // check_login();
                 close();
@@ -788,26 +926,42 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.logout) {
-            logout();
+        int id = item.getItemId();
+        if (id == R.id.logout) {
+            if (SdkConstants.WALLET_SDK) {
+                sdkSession.logout();
+            } else {
+                logout();
+            }
+
+        }
+        if (item.getTitle().equals("Enable One Tap Payment")) {
+            sdkSession.enableOneClickTransaction("1");
+            //item.setTitle("Disable One Tap Payment");
+        } else if (item.getTitle().equals("Disable One Tap Payment")) {
+            sdkSession.enableOneClickTransaction("0");
+            // item.setTitle("Enable One Tap Payment");
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void logout() {
-        SdkSession.getInstance(getApplicationContext()).logout("");
+
+        sdkSession.logout("");
         SharedPreferences.Editor edit = getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE).edit();
         edit.clear();
         edit.commit();
         /*SdkCards.getInstance(getApplicationContext()).deleteAll();
         SdkUsers.getInstance(getApplicationContext()).deleteAll();*/
-        SdkSession.getInstance(getApplicationContext()).startPaymentProcess(this, map);//LoginLogoutFlowIssue
+        /*reset login mode as well*/
+        sdkSession.setLoginMode("");
+        sdkSession.startPaymentProcess(sdkSession.merchantContext, map);//LoginLogoutFlowIssue
         this.finish();
     }
 
     @Override
-    public void proceedForCvvLessTransaction(String s) {
-        proceedForCvvLessTransaction = s;
+    public void setCardHashForOneClickTxn(String s) {
+        cardHashForOneClickTxn = s;
     }
 
     @Override
@@ -834,7 +988,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
         } else {
             //  handleCvvLessTransaction();
             mProgressDialog = showProgress(this);
-            SdkSession.getInstance(this).sendToPayUWithWallet(details, mode, data, Double.valueOf(userPoints), Double.valueOf(walletUsage), Double.valueOf(discount));
+            sdkSession.sendToPayUWithWallet(details, mode, data, Double.valueOf(userPoints), Double.valueOf(walletUsage), Double.valueOf(discount));
         }
     }
 
@@ -867,7 +1021,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
         saveCvvDialog.show();
     }*/
 
-    private void hideKeyboardIfShown() {
+    public void hideKeyboardIfShown() {
 
         InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
@@ -879,19 +1033,136 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    @SuppressLint("NewApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+        SharedPreferences mPref = this.getSharedPreferences(SdkConstants.SP_SP_NAME, Context.MODE_PRIVATE);
         /*Not required in case of SDK in the app*/
-        menu.add(Menu.NONE, R.id.logout, menu.size(), R.string.logout).setIcon(R.drawable.logout).setShowAsAction(MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+        //menu.add(Menu.NONE, R.id.logout, menu.size(), R.string.logout).setIcon(R.drawable.logout).setShowAsAction(MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+        getMenuInflater().inflate(R.menu.sdk_menu, menu);
+        /*if (menu.size() >= 1 && mPref != null) {
+            if (mPref != null && mPref.contains(SdkConstants.CONFIG_DTO)) {
+                try {
+                    JSONObject mTempConfigDto = new JSONObject(mPref.getString(SdkConstants.CONFIG_DTO, "XYZ"));
+                    if (mTempConfigDto.has(SdkConstants.AUTHORIZATION_SALT) && !mTempConfigDto.isNull(SdkConstants.AUTHORIZATION_SALT) && mTempConfigDto.getString(SdkConstants.AUTHORIZATION_SALT).equals(SdkConstants.AUTHORIZATION_SALT_TEST)) {
+                        if (mPref.contains(SdkConstants.ONE_TAP_FEATURE)) {
+                            if (mPref.getBoolean(SdkConstants.ONE_TAP_FEATURE, false)) {
+                                menu.getItem(1).setTitle("Disable One Tap Payment");
+                            } else {
+                                menu.getItem(1).setTitle("Enable One Tap Payment");
+                            }
+                        } else {
+                            menu.getItem(1).setTitle("Enable One Tap Payment");
+                        }
+                    } else {
+                        menu.getItem(1).setVisible(false);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }else {
+                menu.getItem(1).setVisible(false);
+            }
+        }*/
         return super.onCreateOptionsMenu(menu);
+    }
+
+    /*@Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        menu.clear();
+        onCreateOptionsMenu(menu);
+        return super.onPrepareOptionsMenu(menu);
+    }*/
+
+    private void handleOneClickAndOneTapFeature(JSONObject userDto) {
+        SharedPreferences.Editor editor = this.getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE).edit();
+        try {
+            if (userDto.has(SdkConstants.CONFIG_DTO) && !userDto.isNull(SdkConstants.CONFIG_DTO)) {
+                JSONObject userConfigDtoTmp = userDto.getJSONObject(SdkConstants.CONFIG_DTO);
+                String salt = SdkConstants.DEBUG ? SdkConstants.AUTHORIZATION_SALT_TEST : SdkConstants.AUTHORIZATION_SALT_PROD;
+                if (userConfigDtoTmp.has(SdkConstants.AUTHORIZATION_SALT) && !userConfigDtoTmp.isNull(SdkConstants.AUTHORIZATION_SALT)) {
+                    if (salt.equals(userConfigDtoTmp.optString(SdkConstants.AUTHORIZATION_SALT, "XYZ"))) {
+                        editor.putBoolean(SdkConstants.ONE_CLICK_PAYMENT, false);
+                    } else {
+                        editor.putBoolean(SdkConstants.ONE_CLICK_PAYMENT, userConfigDtoTmp.optBoolean(SdkConstants.ONE_CLICK_PAYMENT, false));
+                        editor.putString(SdkConstants.CONFIG_DTO, userConfigDtoTmp.toString());
+                        if (userConfigDtoTmp.has(SdkConstants.ONE_TAP_FEATURE) && !userConfigDtoTmp.isNull(SdkConstants.ONE_TAP_FEATURE)) {
+                            boolean temp = userConfigDtoTmp.optBoolean(SdkConstants.ONE_TAP_FEATURE, false);
+                            editor.putBoolean(SdkConstants.ONE_TAP_FEATURE, temp);
+                            if (temp) {
+                                mOneTap.setVisibility(View.VISIBLE);
+                                mCvvTnCLink.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+                    }
+                }
+
+            }
+            editor.commit();
+            editor.apply();
+        } catch (Exception e) {
+
+            editor.putBoolean(SdkConstants.ONE_TAP_FEATURE, false);
+            editor.putBoolean(SdkConstants.ONE_CLICK_PAYMENT, false);
+            mOneTap.setVisibility(View.GONE);
+            mCvvTnCLink.setVisibility(View.GONE);
+
+            editor.commit();
+            editor.apply();
+            e.printStackTrace();
+        }
+
     }
 
     public void onEventMainThread(final SdkCobbocEvent event) //Bus Function
     {
         if (event != null) {
+            if (event.getType() == SdkCobbocEvent.CONTACT_INFO_UPDATE) {
+                JSONObject result = (JSONObject) event.getValue();
+                handleOneClickAndOneTapFeature(result);
+                // invalidateOptionsMenu();
+            }
+
+            if (event.getType() == SdkCobbocEvent.VERIFY_MANUAL_COUPON) {
+                verifyCouponProgress.setVisibility(View.INVISIBLE);
+                if (event.getStatus()) {
+                    try {
+                        JSONObject manualCoupon = (JSONObject) event.getValue();
+                        if (manualCoupon.has("couponStringForUser") && !manualCoupon.isNull("couponStringForUser")) {
+                            manualCouopnNameString = manualCoupon.getString("couponStringForUser");
+                            mannualCouponEditText.setText(manualCouopnNameString + " Added");
+                        } else
+                            mannualCouponEditText.setText("Coupon Added");
+
+                        if (manualCoupon.has("couponString") && !manualCoupon.isNull("couponString")) {
+                            choosedCoupan = manualCoupon.getString("couponString");
+                        }
+                        if (manualCoupon.has("amount") && !manualCoupon.isNull("amount")) {
+                            coupan_amt = manualCoupon.getDouble("amount");
+                        } else
+                            coupan_amt = 0.0;
+
+                        manualCouponEntered = true;
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        manualCouponEntered = false;
+                        mannualCouponEditText.setText("Invalid Coupon");
+                        SdkLogger.d(SdkConstants.TAG, "Invalid Coupon Entered");
+                    }
+
+                } else {
+                    manualCouponEntered = false;
+                    mannualCouponEditText.setText("Invalid Coupon");
+                    SdkLogger.d(SdkConstants.TAG, "Invalid Coupon Entered");
+                }
+
+            }
             if (event.getType() == SdkCobbocEvent.FETCH_USER_PARAMS) {
                 if (event.getStatus()) {
+                    userParamsFetchedExplicitely = true;
                     user = (JSONObject) event.getValue();
                     initLayout();
                 } else {
@@ -938,17 +1209,34 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                         Intent intent = new Intent(SdkHomeActivityNew.this, SdkLoginSignUpActivity.class);
                         intent.putExtra(SdkConstants.AMOUNT, getIntent().getStringExtra(SdkConstants.AMOUNT));
                         intent.putExtra(SdkConstants.PARAMS, getIntent().getSerializableExtra(SdkConstants.PARAMS));
-                        intent.putExtra(SdkConstants.USER_EMAIL, getIntent().getStringExtra(SdkConstants.USER_EMAIL));
-                        intent.putExtra(SdkConstants.USER_PHONE, getIntent().getStringExtra(SdkConstants.USER_PHONE));
+                        intent.putExtra(SdkConstants.EMAIL, getIntent().getStringExtra(SdkConstants.EMAIL));
+                        intent.putExtra(SdkConstants.PHONE, getIntent().getStringExtra(SdkConstants.PHONE));
                         intent.putExtra(SdkConstants.LOGOUT_FORCE, SdkConstants.LOGOUT_FORCE);
                         startActivityForResult(intent, LOGIN);
+                    } else if (SdkConstants.WALLET_SDK) {
+
+                        SdkHelper.dismissProgressDialog();
+                        if (event.getStatus()) {
+                            SdkHelper.showToastMessage(this, getString(R.string.logout_success), false);
+                            close(PAYMNET_LOGOUT);
+                        } else {
+
+                            if (!SdkHelper.checkNetwork(this)) {
+                                SdkHelper.showToastMessage(this, getString(R.string.disconnected_from_internet), true);
+                            } else {
+                                SdkHelper.showToastMessage(this, getString(R.string.something_went_wrong), true);
+                            }
+
+                        }
+
                     }
+
                 }
                 // clear the token stored in SharedPreferences
             } else if (event.getType() == SdkCobbocEvent.USER_POINTS) //Add wallet points
             {
                 SdkLogger.d(SdkConstants.TAG, "Entered in User Points");
-                if (event.getStatus()) {
+                /*if (event.getStatus()) {
                     try {
                         walletJason = (JSONObject) event.getValue();
 
@@ -969,7 +1257,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 } else {
                     dismissProgress();
                     Toast.makeText(this, "Some error occurred! Try again", Toast.LENGTH_LONG).show();
-                }
+                }*/
             } else if (event.getType() == SdkCobbocEvent.CREATE_PAYMENT)  //New Payment
             {
                 SdkLogger.d(SdkConstants.TAG, "Entered in Create Payment");
@@ -978,14 +1266,18 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                         details = (JSONObject) event.getValue();
                         if (details != null && details.has(SdkConstants.PAYMENT_ID) && !details.isNull(SdkConstants.PAYMENT_ID))
                             paymentId = details.getString(SdkConstants.PAYMENT_ID);
+                        if (guestCheckOut && !fromPayUMoneyApp && !fromPayUBizzApp) {
+                            String guestEmail = sdkSession.getGuestEmail();
+                            sdkSession.updateTransactionDetails(paymentId, guestEmail);
+                        }
                         calculateOffersAndCashback();
-                        // SdkSession.getInstance(this).getPaymentDetails(details.getJSONObject("payment").getString(Constants.PAYMENT_ID));//merge
-                        //SdkSession.getInstance(this).getPaymentDetails(result.getString(Constants.PAYMENT_ID)); //Fire getpaymentdetails of sdkSession
+                        // sdkSession.getPaymentDetails(details.getJSONObject("payment").getString(Constants.PAYMENT_ID));//merge
+                        //sdkSession.getPaymentDetails(result.getString(Constants.PAYMENT_ID)); //Fire getpaymentdetails of sdkSession
                     } catch (Exception e) {
                         dismissProgress();
                         e.printStackTrace();
                     }
-                    //   SdkSession.getInstance(this).getPaymentDetails((String)event.getValue());
+                    //   sdkSession.getPaymentDetails((String)event.getValue());
                     SdkLogger.d(SdkConstants.TAG, "exited from Create Payment");
                 } else {
                     dismissProgress();
@@ -999,6 +1291,8 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                     intent.putExtra(SdkConstants.PAYMENT_ID, paymentId);
                     this.startActivityForResult(intent, this.WEB_VIEW);
 
+                } else if (event.getValue().toString().equals(SdkConstants.INVALID_APP_VERSION)) {
+                    showAlertDialog();
                 }
             } else if (event.getType() == SdkCobbocEvent.PAYMENT) {
                 dismissProgress();
@@ -1009,14 +1303,16 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                     intent.putExtra(SdkConstants.RESULT, event.getValue().toString());
                     intent.putExtra(SdkConstants.PAYMENT_MODE, mode);
                     if (mode.equals("")) {
-                        if (proceedForCvvLessTransaction != null)
-                            intent.putExtra("proceedForCvvLessTransaction", proceedForCvvLessTransaction);
+                        if (cardHashForOneClickTxn != null)
+                            intent.putExtra("cardHashForOneClickTxn", cardHashForOneClickTxn);
                         else
-                            intent.putExtra("proceedForCvvLessTransaction", "0");
+                            intent.putExtra("cardHashForOneClickTxn", "0");
                     }
                     intent.putExtra(SdkConstants.MERCHANT_KEY, getIntent().getExtras().getString("key"));
                     intent.putExtra(SdkConstants.PAYMENT_ID, paymentId);
                     this.startActivityForResult(intent, this.WEB_VIEW);
+                } else if (event.getValue().toString().equals(SdkConstants.INVALID_APP_VERSION)) {
+                    //showAlertDialog();
                 } else {
                     SdkLogger.i("reached", "failed");
                     //If not status do nothing
@@ -1025,6 +1321,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
             }
         }
     }
+
 
     private void calculateOffersAndCashback() {
         if (details != null) {
@@ -1047,27 +1344,37 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                     }
                 }
                 if (details.has(SdkConstants.USER) && !details.isNull(SdkConstants.USER)) {
-                    user = details.getJSONObject(SdkConstants.USER);
-
-                    if (user.has(SdkConstants.POINTS) && !user.isNull(SdkConstants.POINTS)) {
-                        JSONObject tempPoints = user.getJSONObject(SdkConstants.POINTS);
-                        userPoints = tempPoints.optDouble(SdkConstants.AMOUNT, 0.0);
+                    if (!userParamsFetchedExplicitely)
+                        user = details.getJSONObject(SdkConstants.USER);
+                    if (details != null && details.has(SdkConstants.PAYMENT_ID) && !details.isNull(SdkConstants.PAYMENT_ID))
+                        paymentId = details.getString(SdkConstants.PAYMENT_ID);
+                    if (user.has("userId") && !user.isNull("userId"))
+                        userId = user.getString("userId");
+                    if (pointsActive) {
+                        if (user.has(SdkConstants.POINTS) && !user.isNull(SdkConstants.POINTS)) {
+                            JSONObject tempPoints = user.getJSONObject(SdkConstants.POINTS);
+                            userPoints = tempPoints.optDouble(SdkConstants.AMOUNT, 0.0);
                         /*if (chooseOtherMode)
                             userPoints = 0.0;*/ //CHECKED
+                        }
+                    } else {
+                        userPoints = 0.0;
                     }
-                    if (user.has(SdkConstants.WALLET) && !user.isNull(SdkConstants.WALLET)) {
-                        walletJason = user.getJSONObject(SdkConstants.WALLET);
-                        if ((walletJason.has(SdkConstants.AMOUNT)) && !walletJason.isNull(SdkConstants.AMOUNT))
-                            walletAmount = walletJason.optDouble(SdkConstants.AMOUNT, 0.0);
+                    if (walletActive) {
+                        if (user.has(SdkConstants.WALLET) && !user.isNull(SdkConstants.WALLET)) {
+                            walletJason = user.getJSONObject(SdkConstants.WALLET);
+                            if ((walletJason.has(SdkConstants.AMOUNT)) && !walletJason.isNull(SdkConstants.AMOUNT))
+                                walletAmount = walletJason.optDouble(SdkConstants.AMOUNT, 0.0);
 
-                        walletBal = walletAmount;
-                        if (walletAmount > 0.0) {
-                            walletCheck.setVisibility(View.VISIBLE);//CHECKED
-                            walletBoxLayout.setVisibility(View.VISIBLE);
-                            walletBalance.setText("Wallet balance: " + round(walletAmount, 2));
+                            walletBal = walletAmount;
+                            if (walletAmount > 0.0) {
+                                walletCheck.setVisibility(View.VISIBLE);//CHECKED
+                                walletBoxLayout.setVisibility(View.VISIBLE);
+                                walletBalance.setText("Wallet balance: " + round(walletAmount, 2));
+                            }
                         }
                     }
-                } else if (fromPayUBizzApp && !SdkSession.getInstance(getApplicationContext()).isLoggedIn()) {
+                } else if (fromPayUBizzApp && !sdkSession.isLoggedIn()) {
 
                     /*make the call*/
                 }
@@ -1093,7 +1400,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
         if (count % 2 == 0) {
             count = 0;
             close();
-            SdkSession.getInstance(this).notifyUserCancelledTransaction(paymentId, "1");
+            sdkSession.notifyUserCancelledTransaction(paymentId, "1");
 
         } else {
             Toast.makeText(getApplicationContext(), "Press Back again to cancel transaction", Toast.LENGTH_SHORT).show();
@@ -1109,6 +1416,19 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
         finish();
     }
 
+
+    public void close(int resultCode) {
+
+        Intent intent = new Intent();
+        if (resultCode == PAYMNET_LOGOUT) {
+            intent.putExtra(SdkConstants.IS_LOGOUT_CALL, true);
+            setResult(RESULT_CANCELED, intent);
+        } else if (resultCode == PAYMNET_CANCELLED) {
+            setResult(RESULT_CANCELED, intent);
+        }
+        finish();
+    }
+
     @Override
     public void onDestroy() {
         coupan_amt = 0.0;
@@ -1117,6 +1437,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
             mProgressDialog.dismiss();
             mProgressDialog = null;
         }
+        //sdkSession.cancelPendingRequests();
 
     }
 
@@ -1262,7 +1583,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                         mAmount.setText("0.0");
                         savings.setText("Sufficient PayUPoints");
                         walletBoxLayout.setVisibility(View.GONE);
-                        mAmoutDetails.setVisibility(View.GONE);
+                        mOrderSummary.setVisibility(View.GONE);
                         payByWalletButton.setVisibility(View.GONE);
                         /*mViewPager.setVisibility(View.GONE);
                         pagerContainerLayout.setVisibility(View.VISIBLE);*/
@@ -1326,6 +1647,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
     }
 
     public ProgressDialog showProgress(Context context) {
+
         mProgress = true;
         LayoutInflater mInflater = LayoutInflater.from(context);
         final Drawable[] drawables = {getResources().getDrawable(R.drawable.nopoint_green),
@@ -1413,5 +1735,47 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
 
             walletBalance.setText("Wallet balance: " + round(walletBal, 2));
         }
+    }
+
+
+    private void showAlertDialog() {
+
+        dismissProgress();
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SdkConstants.SP_SP_NAME, Context.MODE_PRIVATE);
+        sharedPreferences.edit().remove(SdkConstants.STORED_DATE).commit();
+
+        if (splashDialog == null) {
+            alertDialogBuilder = new AlertDialog.Builder(SdkHomeActivityNew.this, AlertDialog.THEME_HOLO_LIGHT);
+            alertDialogBuilder.setTitle("Great News!")
+                    .setMessage("We have brand new app waiting for you. Your current version of app is not supported.")
+                    .setNeutralButton("Update", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //Update
+                            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                            try {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                            } catch (android.content.ActivityNotFoundException anfe) {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                            }
+                        }
+                    });
+
+            splashDialog = alertDialogBuilder.create();
+            splashDialog.setCanceledOnTouchOutside(false);
+            splashDialog.setCancelable(false);
+            splashDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    splashDialog = null;
+                }
+            });
+            splashDialog.show();
+        }
+
+        if (splashDialog != null && !splashDialog.isShowing() && !isFinishing()) {
+            splashDialog.show();
+        }
+
     }
 }

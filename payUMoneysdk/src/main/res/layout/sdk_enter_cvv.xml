@@ -67,4 +67,16 @@
             android:textSize="@dimen/dialog_layout_text_size" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/sdk_tnc"
+        android:layout_marginBottom="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textSize="9sp"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:text="@string/sdk_tnc_pp_text"
+        android:textColorLink="@color/primary_green"/>
+
 </LinearLayout>

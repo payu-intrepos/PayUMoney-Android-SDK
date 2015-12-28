@@ -27,6 +27,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.telephony.gsm.SmsMessage;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -112,12 +114,11 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
     private View otpProgress = null;
     private Pattern otpPattern = Pattern.compile("(|^)\\d{6}");
     private EditText mOtpEditText = null;
+    private BroadcastReceiver receiver = null;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.sdk_activity_login, container, false);
-
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         c = getActivity();
@@ -132,6 +133,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
         mPassword = (EditText) view.findViewById(R.id.password);
         mOtpEditText = (EditText) view.findViewById(R.id.otpEditText);
         mLogin = (Button) view.findViewById(R.id.login);
+        mLogin.setEnabled(false);
         Account[] accounts = AccountManager.get(getActivity()).getAccounts();
         Set<String> emailSet = new HashSet<String>();
         for (Account account : accounts) {
@@ -147,14 +149,14 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
         radioGroup = (RadioGroup) view.findViewById(R.id.loginOptions);
         RadioButton passwordLogin = (RadioButton) view.findViewById(R.id.passwordLogin);
         RadioButton guestLogin = (RadioButton) view.findViewById(R.id.guest_login);
-        RadioButton otpLogin = (RadioButton) view.findViewById(R.id.loginotp);
+        final RadioButton otpLogin = (RadioButton) view.findViewById(R.id.loginotp);
 
         //TextView signUp = (TextView) view.findViewById(R.id.sign_up);
 
         String allowGuestCheckoutValue = c.getIntent().getStringExtra(SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_VALUE);
         String otpLoginValue = c.getIntent().getStringExtra(SdkConstants.OTP_LOGIN);
 
-        if ((allowGuestCheckoutValue != null && !allowGuestCheckoutValue.equals("") && !allowGuestCheckoutValue.equals("0")) || (otpLoginValue != null && !otpLoginValue.equals("") && !otpLoginValue.equals("0") )){
+        if ((allowGuestCheckoutValue != null && !allowGuestCheckoutValue.equals("") && !allowGuestCheckoutValue.equals("0") && !allowGuestCheckoutValue.equals("null")) || (otpLoginValue != null && !otpLoginValue.equals("") && !otpLoginValue.equals("0") && !otpLoginValue.equals("null") )){
 
             if (allowGuestCheckoutValue.equals(SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT)) {
 
@@ -163,10 +165,12 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                 guestLogin.setVisibility(VISIBLE);
                 view.findViewById(R.id.forgot_password).setVisibility(View.VISIBLE);
 
+
             } else if (allowGuestCheckoutValue.equals(SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_ONLY)) {
 
                 //guestLogin.setVisibility(VISIBLE);
                 loginMode = "guestLogin";
+                mLogin.setEnabled(true);
 
             }/*quickGuestCheckout Not Used in the app yet*/
            /* else if (allowGuestCheckoutValue.equals("quickGuestCheckout")) {
@@ -196,6 +200,12 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
             @Override
             public void onClick(View v) {
                 SdkSession.getInstance(c.getApplicationContext()).generateAndSendOtp(mEmail.getText().toString());
+                hideKeyboardIfShown();
+                otpProgress.setVisibility(VISIBLE);
+                SdkOtpProgressDialog.showDialog(c.getApplicationContext(), otpProgress);
+                ((EditText) view.findViewById(R.id.otpEditText)).setText("");
+                ((Button) view.findViewById(R.id.sendOtpBtn)).setText("Resend");
+                ((Button) view.findViewById(R.id.sendOtpBtn)).setGravity(Gravity.CENTER);
             }
         });
         radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -241,7 +251,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
 
 
                     SdkSession.getInstance(c.getApplicationContext()).generateAndSendOtp(mEmail.getText().toString());
-
+                    hideKeyboardIfShown();
                     otpProgress.setVisibility(VISIBLE);
                     SdkOtpProgressDialog.showDialog(c.getApplicationContext(), otpProgress);
                     ((EditText) view.findViewById(R.id.otpEditText)).setHint("");
@@ -317,6 +327,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
  * Login is clicked
  *
  */
+
         mLogin.setOnClickListener(new View.OnClickListener() {
 
 
@@ -374,11 +385,64 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
             }
         });*/
 
+        mPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (s.toString().trim().length() > 0) {
+
+                    mLogin.setEnabled(true);
+
+                } else {
+                    mLogin.setEnabled(false);
+                }
+
+            }
+        });
+
+        mOtpEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.toString().trim().length() == 6) {
+
+                    otpProgress.setVisibility(View.GONE);
+                    hideKeyboardIfShown();
+                    //info.setText("Verify OTP");
+                    mLogin.setEnabled(true);
+
+                } else {
+                    mLogin.setEnabled(false);
+                    otpProgress.setVisibility(View.VISIBLE);
+                    //info.setText(getString(R.string.waiting_for_otp));
+                }
+
+            }
+        });
+
 /****Account Manager Functions, for storing new account on device
  * or selecting existing
  * Begin
  */
-        startAccountFetchTask();
+        //startAccountFetchTask();
 
         return view;
     }
@@ -388,25 +452,25 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
     * fetch from device******************/
 
 
-    public void startAccountFetchTask(){
-        /****Account Manager Functions, for storing new account on device
+    /*public void startAccountFetchTask(){
+        *//****Account Manager Functions, for storing new account on device
          * or selecting existing
          * Begin
-         */
+         *//*
         if (c.getIntent() != null && c.getIntent().getStringExtra("logout") != null) {
             if (c.getIntent().getStringExtra("logout").equals("logout") && (acc.length == 1 || acc.length == 0))
             {
-                /*User clicked logout button*/
+                *//*User clicked logout button*//*
             }
         } else if (c.getIntent() != null && c.getIntent().getStringExtra("force") != null) //check for force logout
         {
-            /*Force Logout, token has expired*/
+            *//*Force Logout, token has expired*//*
             if (c.getIntent().getStringExtra("force").equals("force")) {
                 mAccountManager.invalidateAuthToken(SdkConstants.ARG_ACCOUNT_TYPE, SdkSession.getInstance(c.getApplicationContext()).getToken());
                 Toast.makeText(c.getApplicationContext(), "You have been logged out from device, please add account", Toast.LENGTH_LONG).show();
             }
         } else {
-            /*User lands here when no token is saved . Check if any account is on device*/
+            *//*User lands here when no token is saved . Check if any account is on device*//*
             if (acc.length >= 1) {
                 searchAddAcc();
             }
@@ -432,9 +496,9 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
         }
     }
 
-    /**
+    *//**
      * Adding new account completed
-     */
+     *//*
     private class OnAccountAddComplete implements AccountManagerCallback<Bundle> {
         @Override
         public void run(AccountManagerFuture<Bundle> result) {
@@ -455,15 +519,15 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
 
     private void startAuthTokenFetch() {
         Bundle options = new Bundle();
-        /*
+        *//*
         Calling getAuthToken of Service
-         */
+         *//*
         mAccountManager.getAuthToken( mAccount, "bearer",options, getActivity(), new OnAccountManagerComplete(), new Handler(new OnError()));
     }
 
-    /**
+    *//**
      * When completed fetching
-     */
+     *//*
     private class OnAccountManagerComplete implements AccountManagerCallback<Bundle> {
         @Override
         public void run(AccountManagerFuture<Bundle> result) {
@@ -474,9 +538,9 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                 e.printStackTrace();
                 return;
             }
-            /**
+            *//**
              * Store token in variable and call settoken of Session --> settoken,setuser of msessiondata
-             */
+             *//*
             String mAuthToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
             if(mAuthToken !=null) {
                 //Stored token Step 1
@@ -490,7 +554,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                 Toast.makeText(c.getApplicationContext(),"Please login again with remember me",Toast.LENGTH_LONG).show();
             }
         }
-    }
+    }*/
 
 
     /*End Auth Token fetch*******************/
@@ -554,6 +618,10 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        if(receiver != null){
+            c.unregisterReceiver(receiver);
+        }
+
     }
 
     private void login(String username, String password) //Begin Login
@@ -564,6 +632,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
 //Now we need to handle login through OTP and guest checkout through this
         if (loginMode.equals("guestLogin")) {
             SdkSession.getInstance(c.getApplicationContext()).setLoginMode(loginMode);
+            SdkSession.getInstance(c.getApplicationContext()).setGuestEmail(username);
             Intent intent = new Intent();
             intent.putExtra(SdkConstants.AMOUNT, c.getIntent().getStringExtra(SdkConstants.AMOUNT));
             intent.putExtra(SdkConstants.MERCHANTID, c.getIntent().getStringExtra(SdkConstants.MERCHANTID));
@@ -604,8 +673,8 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                     //Store your app Creds??
 
                     /**** Remember me option would not work with SDK
-                     * As Account Manager doesn't allow other than the Native app
-                     * to add acounts to device *****/
+                    * As Account Manager doesn't allow other than the Native app
+                    * to add acounts to device *****/
 
                      /*if(rememberMe.isChecked())
                     {
@@ -637,10 +706,6 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                         Toast.makeText(c,"Error while Login",Toast.LENGTH_LONG).show();
                     }
                     else {
-                        SharedPreferences.Editor editor = c.getSharedPreferences(SdkConstants.SP_SP_NAME, Context.MODE_PRIVATE).edit();
-                        editor.putString(SdkConstants.TOKEN, SdkSession.getInstance(c.getApplicationContext()).getToken());
-                        editor.putString(SdkConstants.EMAIL, SdkSession.getInstance(c.getApplicationContext()).getUser().getEmail());
-                        editor.commit();
                         ((SdkLoginSignUpActivity)getActivity()).close();
                     }
 
@@ -690,7 +755,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.provider.Telephony.SMS_RECEIVED");
 
-        BroadcastReceiver receiver = new BroadcastReceiver() {
+        receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 // TODO Auto-generated method stub
@@ -715,15 +780,19 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                                 if (m.find()) {
                                     mOtpEditText.setText(m.group(0));
                                     otpProgress.setVisibility(View.INVISIBLE);
+                                    SdkSession.getInstance(c.getApplicationContext()).create(mEmail.getText().toString(), m.group(0));
                                 } else {
                                     Toast.makeText(c, "Couldn't read sms, please enter OTP manually", Toast.LENGTH_LONG).show();
+                                    mOtpEditText.requestFocus();
                                 }
                             }
                         } catch (Exception e) {
                             Toast.makeText(c, "Couldn't read sms, please enter OTP manually", Toast.LENGTH_LONG).show();
+                            mOtpEditText.requestFocus();
                         }
                     } else {
                         Toast.makeText(c, "Couldn't read sms, please enter OTP manually", Toast.LENGTH_LONG).show();
+                        mOtpEditText.requestFocus();
                     }
                 }
             }
@@ -782,7 +851,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
         }
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    /*public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == SIGN_UP) {
             if (resultCode == Activity.RESULT_OK) {
@@ -816,13 +885,13 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                     bundle.getString(AccountManager.KEY_ACCOUNT_TYPE)
             );
             SdkLogger.d(SdkConstants.TAG + " : main", "Selected account " + mAccount.name + ", fetching");
-            startAuthTokenFetch();
+            //startAuthTokenFetch();
         }else if (resultCode == Activity.RESULT_CANCELED) {
 
         } else {
             //nothing
         }
-    }
+    }*/
 
     public static boolean isEmailValid(String email) {
         boolean isValid = false;
@@ -835,6 +904,17 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
             isValid = true;
         }
         return isValid;
+    }
+    public void hideKeyboardIfShown() {
+
+        InputMethodManager inputMethodManager = (InputMethodManager) c.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = c.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(c);
+        }
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 

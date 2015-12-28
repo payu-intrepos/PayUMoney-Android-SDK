@@ -2,14 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.payUMoney.sdk" >
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!--
+
+
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"accounts />
+    <uses-permission android:name="android.permission.READ_PROFILE"contacts />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" phone/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"contacts />
+
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" accounts/>-->
     <!--<uses-permission android:name="android.permission.VIBRATE" />-->
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
+
 
     <!-- Create and manage accounts on device -->
     <!--<uses-permission android:name="android.permission.USE_CREDENTIALS" />
@@ -27,16 +36,15 @@
     <!--<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />-->
     <!-- Keeps the processor from sleeping when a message is received. -->
     <!-- Extract device IEMI number -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <!-- Access Wifi State -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
 
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
     <application
         android:label="@string/app_name"
         android:windowSoftInputMode="adjustPan" >
@@ -74,6 +82,16 @@
             android:name=".SdkHomeActivityNew"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".walledSdk.WalletSdkLoginSignUpActivity"
+            android:configChanges="orientation|screenSize"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
+            android:name=".walledSdk.SdkHistoryActivity"
+            android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 

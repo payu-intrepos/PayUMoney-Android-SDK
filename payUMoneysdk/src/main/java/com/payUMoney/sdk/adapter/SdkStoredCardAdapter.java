@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -136,6 +138,10 @@ public class SdkStoredCardAdapter extends BaseAdapter
                 }
             }
         });*/
+        SharedPreferences mPref = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE);
+        if (mPref.getBoolean(SdkConstants.ONE_CLICK_PAYMENT, false)){
+            cvvDialog.findViewById(R.id.sdk_tnc).setVisibility(View.VISIBLE);
+        }
         cvv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -181,7 +187,7 @@ public class SdkStoredCardAdapter extends BaseAdapter
         // set text heren
 
             int img;
-            switch (SdkStoredCardFragment.getIssuer(jsonObject.getString("ccnum"), jsonObject.getString("cardType"))) {
+            switch (SdkStoredCardFragment.getIssuer(jsonObject.getString("ccnum"), jsonObject.getString("pg"))) {
                 case LASER:
                     img = R.drawable.card_laser;
                     break;
@@ -202,6 +208,9 @@ public class SdkStoredCardAdapter extends BaseAdapter
                     break;
                 case AMEX:
                     img = R.drawable.card_amex;
+                    break;
+                case RUPAY:
+                    img = R.drawable.card_rupay;
                     break;
                 default:
                     img = R.drawable.card;
@@ -275,8 +284,10 @@ public class SdkStoredCardAdapter extends BaseAdapter
                             try {
                                 if (SdkSetupCardDetails.findIssuer(jsonObject.getString("ccnum"), mode).equals("AMEX") && editable.toString().length() >= 4) {
                                     positiveResponse.setEnabled(true);
+                                    hideKeyboardIfShown(cvv);
                                 } else if (!SdkSetupCardDetails.findIssuer(jsonObject.getString("ccnum"), mode).equals("AMEX") && editable.toString().length() >= 3) {
                                     positiveResponse.setEnabled(true);
+                                    hideKeyboardIfShown(cvv);
                                 } else {
                                     positiveResponse.setEnabled(false);
                                 }
@@ -333,10 +344,12 @@ public class SdkStoredCardAdapter extends BaseAdapter
                         public void afterTextChanged(Editable editable) {
                             if (editable.toString().length() == 0) {
                                 positiveResponse.setEnabled(true);
+                                hideKeyboardIfShown(cvv);
                             } else if (editable.toString().length() > 0 && editable.toString().length() < 3) {
                                 positiveResponse.setEnabled(false);
                             } else if (editable.toString().length() > 0 && editable.toString().length() >= 3) {
                                 positiveResponse.setEnabled(true);
+                                hideKeyboardIfShown(cvv);
                             }
                         }
                     });
@@ -344,6 +357,7 @@ public class SdkStoredCardAdapter extends BaseAdapter
                     positiveResponse.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            ((SdkHomeActivityNew)mContext).hideKeyboardIfShown();
                             if (!SdkHelper.checkNetwork(mContext)) {
                                 Toast.makeText(mContext, R.string.disconnected_from_internet, Toast.LENGTH_SHORT).show();
                             } else {
@@ -385,6 +399,12 @@ public class SdkStoredCardAdapter extends BaseAdapter
 
         return view;
 
+    }
+
+    public void hideKeyboardIfShown(EditText cvv) {
+
+        InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(cvv.getWindowToken(), 0);
     }
 
     public int getSelectedCard() {

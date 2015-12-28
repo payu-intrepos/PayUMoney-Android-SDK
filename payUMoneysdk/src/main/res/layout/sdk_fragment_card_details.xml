@@ -64,16 +64,26 @@
     <CheckBox
         android:id="@+id/store_card"
         android:layout_below="@+id/details_cardview"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="2dp"
         android:layout_marginBottom="0dp"
         android:button="@drawable/checkbox_green"
         android:checked="true"
-        android:text="Save this card"
+        android:text=""
         android:textSize="12sp" />
+    <TextView
+        android:layout_toRightOf="@+id/store_card"
+        android:layout_alignTop="@+id/store_card"
+        android:id="@+id/sdk_tnc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="9sp"
+        android:singleLine="true"
+        android:text="@string/sdk_card_tnc_pp_text"
+        android:textColorLink="@color/primary_green"/>
 
     <EditText
         android:id="@+id/label"
