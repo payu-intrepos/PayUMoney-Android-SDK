@@ -47,10 +47,6 @@ public class WalletSdkLoginSignUpActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         //overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
 
-        /*ActionBar actionBar = getActionBar();
-        if (actionBar != null)
-            actionBar.hide();*/
-
         setContentView(R.layout.walletsdk_activity_login_sign_up);
         setTitle("dsfjsdflsfljsdjf");
         titleTextView = (TextView) findViewById(R.id.pages_tabs);

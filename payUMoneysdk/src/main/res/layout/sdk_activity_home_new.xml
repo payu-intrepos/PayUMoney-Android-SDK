@@ -183,6 +183,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="2dp"
                 android:layout_toRightOf="@+id/user_profile_is_cvv_less_checkbox"
+                android:textColorLink="@color/primary_green"
                 android:text="@string/cvv_tnc_text"
                 android:textSize="9sp" />
         </RelativeLayout>

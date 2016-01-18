@@ -173,9 +173,6 @@ public class SdkConstants {
     public static final String STORED_DATE = "PREVIOUS_UPDATED_DATE";
     public static final String INVALID_APP_VERSION = "Invalid app version";
     public static final String LOAD_WALLET = "loadWallet";
-    public static final String AUTHORIZATION_SALT_TEST = "payumoney12";
-    public static final String AUTHORIZATION_SALT_PROD = "paiumkney183";
-    public static final String AUTHORIZATION_SALT = "authorizationSalt";
     public static final String AVAILABLE_BALANCE = "availableBalance";
     public static final String TOTAL_AMOUNT = "totalAmount";
     public static final String DESCRIPTION = "description";
@@ -219,6 +216,13 @@ public class SdkConstants {
     public static final Boolean WALLET_SDK = false;
     public static final String GRANT_TYPE = "grant_type";
     public static final String USER_ID = "userId";
+    public static final String AUTHORIZATION_SALT_TEST = "payumoney12";
+    public static final String AUTHORIZATION_SALT_PROD = "paiumkney183";
+    public static final String AUTHORIZATION_SALT = "authorizationSalt";
+    public static final String KVAULT_PROD_URL = "https://www.payumoney.com/oneclick/getToken";
+    public static final String KVAULT_TEST_URL = "http://tvapaymon.payubiz.in/vault/getToken";
+    public static final String KVAULT_DELETE_TOKEN_URL_TEST = "http://tvapaymon.payubiz.in/vault/deleteToken";
+    public static final String KVAULT_DELETE_TOKEN_URL_PROD = "https://www.payumoney.com/oneclick/deleteToken";
 
 
     public static int getVersionCode(Context context) {

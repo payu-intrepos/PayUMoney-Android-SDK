@@ -2,19 +2,12 @@ package com.payUMoney.sdk.fragment;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -24,8 +17,6 @@ import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.telephony.gsm.SmsMessage;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,11 +31,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobsandgeeks.saripaar.Rule;
@@ -52,10 +41,10 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Required;
-import com.payUMoney.sdk.SdkLoginSignUpActivity;
 import com.payUMoney.sdk.R;
 import com.payUMoney.sdk.SdkCobbocEvent;
 import com.payUMoney.sdk.SdkConstants;
+import com.payUMoney.sdk.SdkLoginSignUpActivity;
 import com.payUMoney.sdk.SdkSession;
 import com.payUMoney.sdk.dialog.SdkOtpProgressDialog;
 import com.payUMoney.sdk.utils.SdkHelper;
@@ -64,7 +53,6 @@ import com.payUMoney.sdk.utils.SdkLogger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -80,22 +68,11 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 /**
- * Created by piyush on 4/11/14.
+ *
  */
-public class SdkLoginFragment extends Fragment implements Validator.ValidationListener, LoaderManager.LoaderCallbacks<Cursor> {
-
-    boolean mMessageShown = false;
-    public static final int RESULT_QUIT = 5;
-    static final int SIGN_UP = 6;
-    public static final int FORGET_PASSWORD = 9;
-    public static final int ACCOUNT_CHOOSER_ACTIVITY = 10;
-    public static final int LOGIN = 1;
+public class SdkLoginFragment extends Fragment implements Validator.ValidationListener/*, LoaderManager.LoaderCallbacks<Cursor>*/ {
 
     AccountManager mAccountManager = null;
-    private AlertDialog mAlertDialog = null;
-    private boolean mInvalidate = false;
-    private Account mAccount = null;
-    private Account[] acc = null;
     Validator mValidator = null;
     Crouton mCrouton = null;
     @Required(order = 1, message = "Your email is required")
@@ -103,18 +80,15 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
     private AutoCompleteTextView mEmail = null;
     @Password(order = 3, message = "Please enter your password")
     private EditText mPassword = null;
-    public final static String PARAM_USER_PASS = "USER_PASS";
-    public static final String KEY_ERROR_MESSAGE = "ERR_MSG";
-    public final static String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT";
     private Button mLogin = null;
     private FragmentActivity c = null;
-    private ImageView showPassword = null;
     private RadioGroup radioGroup = null;
     private String loginMode = "";
     private View otpProgress = null;
     private Pattern otpPattern = Pattern.compile("(|^)\\d{6}");
     private EditText mOtpEditText = null;
     private BroadcastReceiver receiver = null;
+    private Account[] acc;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -125,7 +99,6 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
 
         mAccountManager = AccountManager.get(getActivity().getApplicationContext());
         acc = mAccountManager.getAccountsByType(SdkConstants.ARG_ACCOUNT_TYPE);
-
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
 
@@ -150,8 +123,6 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
         RadioButton passwordLogin = (RadioButton) view.findViewById(R.id.passwordLogin);
         RadioButton guestLogin = (RadioButton) view.findViewById(R.id.guest_login);
         final RadioButton otpLogin = (RadioButton) view.findViewById(R.id.loginotp);
-
-        //TextView signUp = (TextView) view.findViewById(R.id.sign_up);
 
         String allowGuestCheckoutValue = c.getIntent().getStringExtra(SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_VALUE);
         String otpLoginValue = c.getIntent().getStringExtra(SdkConstants.OTP_LOGIN);
@@ -218,11 +189,16 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                     mCrouton = Crouton.makeText(c, R.string.enter_email_id, Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_SHORT);
                     mCrouton.show();
                     radioGroup.clearCheck();
-                } else if (!isEmailValid(mEmail.getText().toString()) && checkedId != -1) {
+                } else if (isEmailValid(mEmail.getText().toString()) && checkedId != -1) {
                     mCrouton = Crouton.makeText(c, R.string.invalid_email_id, Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_SHORT);
                     mCrouton.show();
                     radioGroup.clearCheck();
                 } else if (checkedId == R.id.passwordLogin) {
+
+                    if(mCrouton != null){
+                        mCrouton.cancel();
+                        mCrouton = null;
+                    }
 
                     loginMode = "passwordLogin";
                     if (view.findViewById(R.id.password).getVisibility() == GONE)
@@ -238,6 +214,10 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                         otpProgress.setVisibility(View.INVISIBLE);
                 } else if (checkedId == R.id.loginotp) {
 
+                    if(mCrouton != null){
+                        mCrouton.cancel();
+                        mCrouton = null;
+                    }
                     loginMode = "otpLogin";
                     if (view.findViewById(R.id.password).getVisibility() == VISIBLE)
                         view.findViewById(R.id.password).setVisibility(View.GONE);
@@ -250,7 +230,9 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                         view.findViewById(R.id.loginOTP).setVisibility(View.VISIBLE);
 
 
-                    SdkSession.getInstance(c.getApplicationContext()).generateAndSendOtp(mEmail.getText().toString());
+                    if(otpLogin.isChecked())
+                        SdkSession.getInstance(c.getApplicationContext()).generateAndSendOtp(mEmail.getText().toString());
+
                     hideKeyboardIfShown();
                     otpProgress.setVisibility(VISIBLE);
                     SdkOtpProgressDialog.showDialog(c.getApplicationContext(), otpProgress);
@@ -261,6 +243,10 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
 
                 } else if (checkedId == R.id.guest_login) {
 
+                    if(mCrouton != null){
+                        mCrouton.cancel();
+                        mCrouton = null;
+                    }
                     loginMode = "guestLogin";
                     if (view.findViewById(R.id.password).getVisibility() == VISIBLE)
                         view.findViewById(R.id.password).setVisibility(View.GONE);
@@ -270,6 +256,8 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                         view.findViewById(R.id.forgot_password).setVisibility(View.GONE);
                     if(otpProgress != null && otpProgress.getVisibility() == View.VISIBLE)
                         otpProgress.setVisibility(View.INVISIBLE);
+
+                    mLogin.setEnabled(true);
                 }
             }
 
@@ -284,12 +272,12 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     mEmail.showDropDown();
                 }
-                if(otpProgress != null && otpProgress.getVisibility() == View.VISIBLE)
+                if (otpProgress != null && otpProgress.getVisibility() == View.VISIBLE)
                     otpProgress.setVisibility(View.INVISIBLE);
                 radioGroup.clearCheck();
-                if ( view.findViewById(R.id.loginOTP).getVisibility() == VISIBLE)
+                if (view.findViewById(R.id.loginOTP).getVisibility() == VISIBLE)
                     view.findViewById(R.id.loginOTP).setVisibility(View.GONE);
-                if(!loginMode.equals("default")) {
+                if (!loginMode.equals("default")) {
                     if (view.findViewById(R.id.password).getVisibility() == VISIBLE)
                         view.findViewById(R.id.password).setVisibility(View.GONE);
                     if (view.findViewById(R.id.passwordLayout).getVisibility() == VISIBLE)
@@ -319,6 +307,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                     mCrouton.cancel();
                     mCrouton = null;
                 }
+                SdkSession.getInstance(getActivity()).cancelPendingRequests(SdkSession.TAG);
                 ((SdkLoginSignUpActivity)getActivity()).loadForgotPasswordFragment(true);
             }
         });
@@ -347,8 +336,19 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                     /**
                      * Front end validations
                      */
-                    if (loginMode == "guestLogin")
-                        onValidationSucceeded();
+                    if (loginMode == "guestLogin") {
+                        if (mEmail.getText().toString().equals("")) {
+                            mCrouton = Crouton.makeText(c, R.string.enter_email_id, Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_SHORT);
+                            mCrouton.show();
+                            radioGroup.clearCheck();
+                        } else if (isEmailValid(mEmail.getText().toString())) {
+                            mCrouton = Crouton.makeText(c, R.string.invalid_email_id, Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_SHORT);
+                            mCrouton.show();
+                            radioGroup.clearCheck();
+                        }else {
+                            onValidationSucceeded();
+                        }
+                    }
                     else if (loginMode == "otpLogin") {
 
                         if (((EditText) view.findViewById(R.id.otpEditText)).getText().toString().isEmpty()) {
@@ -564,7 +564,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
         //No call for super(). Bug on API Level > 11.
     }
 
-    @Override
+    /*@Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return null;
     }
@@ -577,7 +577,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
-    }
+    }*/
 
     public class OnError implements Handler.Callback {
 
@@ -618,6 +618,10 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        if (mCrouton != null) {
+            mCrouton.cancel();
+            mCrouton = null;
+        }
         if(receiver != null){
             c.unregisterReceiver(receiver);
         }
@@ -646,21 +650,28 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
     }
 
     public void onEventMainThread(SdkCobbocEvent event) {
-        switch (event.getType()) {
+        switch (event.getType() ) {
             case SdkCobbocEvent.GENERATE_AND_SEND_OTP:
-                if (event.getStatus()) {
-                    JSONObject obj = (JSONObject) event.getValue();
+                JSONObject result = null;
+                result = (JSONObject) event.getValue();
+                if (event.getStatus() && result != null) {
+
                     try {
-                        mCrouton = Crouton.makeText(c, obj.getString("message"), Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_LONG);
+                        mCrouton = Crouton.makeText(c, result.getString(SdkConstants.MESSAGE), Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_SHORT);
                         mCrouton.show();
                         registerOTP();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else {
+                    if(result != null &&  result.optString(SdkConstants.MESSAGE) != null){
+                        mCrouton = Crouton.makeText(c, result.optString(SdkConstants.MESSAGE), Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_SHORT);
+                    }
+                    else{
+                        mCrouton = Crouton.makeText(c, "Unable to send OTP now,try resending or use password login...", Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_SHORT);
+                        mOtpEditText.setHint("Try resending OTP...");
+                    }
                     otpProgress.setVisibility(View.INVISIBLE);
-                    mOtpEditText.setHint("Try resending OTP...");
-                    mCrouton = Crouton.makeText(c, "Unable to send OTP now,try resending or use password login...", Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_LONG);
                     mCrouton.show();
                 }
                 break;
@@ -711,7 +722,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
 
                 } else {
 
-                    mCrouton = Crouton.makeText(c, R.string.invalid_email_or_password, Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_LONG);
+                    mCrouton = Crouton.makeText(c,loginMode == "otpLogin" ? R.string.invalid_otp : R.string.invalid_email_or_password, Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_SHORT);
                     mCrouton.show();
                     mLogin.setEnabled(true);
                     mLogin.setText(R.string.login);
@@ -822,7 +833,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
 
     @Override
     public void onValidationFailed(View view, Rule<?> rule) {
-        mCrouton = Crouton.makeText(c, rule.getFailureMessage(), Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_LONG);
+        mCrouton = Crouton.makeText(c, rule.getFailureMessage(), Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_SHORT);
         mCrouton.show();
         view.requestFocus();
     }
@@ -903,7 +914,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
         if (matcher.matches()) {
             isValid = true;
         }
-        return isValid;
+        return !isValid;
     }
     public void hideKeyboardIfShown() {
 

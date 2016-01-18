@@ -61,9 +61,9 @@ public class SdkLoadWalletFragment extends SdkBaseFragment {
         neededAmountTextView = (EditText) view.findViewById(R.id.wal_use);
         finalWalletBalanceTextView = (TextView) view.findViewById(R.id.rem_wal);
 
-        amountToPayTextView.setText("₹ " + round(Double.parseDouble(userParams.get(SdkConstants.AMOUNT)), 2));
-        WalletBalanceTextView.setText("₹ " + round(Double.parseDouble(SharedPrefsUtils.getStringPreference(mSdkLoginSignUpActivity, SharedPrefsUtils.Keys.WALLET_BALANCE)), 2));
-        neededAmountTextView.setText("₹ " + round(getNeededBalance(), 2));
+        amountToPayTextView.setText("₹ " + round(Double.parseDouble(userParams.get(SdkConstants.AMOUNT))));
+        WalletBalanceTextView.setText("₹ " + round(Double.parseDouble(SharedPrefsUtils.getStringPreference(mSdkLoginSignUpActivity, SharedPrefsUtils.Keys.WALLET_BALANCE))));
+        neededAmountTextView.setText("₹ " + round(getNeededBalance()));
         finalWalletBalanceTextView.setText("₹ " + getFinalWalletBalance());
 
         neededAmountTextView.addTextChangedListener(new SimpleTextWatcher(neededAmountTextView));
@@ -209,10 +209,10 @@ public class SdkLoadWalletFragment extends SdkBaseFragment {
         cancelButton.setEnabled(visibility);
     }
 
-    public static BigDecimal round(double d, int decimalPlace) {
+    public static BigDecimal round(double d) {
 
         BigDecimal bd = new BigDecimal(Double.toString(d));
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
         return bd;
     }
 
@@ -248,10 +248,10 @@ public class SdkLoadWalletFragment extends SdkBaseFragment {
 
             double currentInputAmount = Double.parseDouble(inputAmount.substring(2, inputAmount.length()));
             if (currentInputAmount < initialNeededAmount) {
-                return round(0.00, 2);
+                return round(0.00);
             }
-            return round(currentInputAmount - initialNeededAmount, 2);
+            return round(currentInputAmount - initialNeededAmount);
         }
-        return round(0.00, 2);
+        return round(0.00);
     }
 }

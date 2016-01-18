@@ -4,41 +4,26 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ImageView;
 
-import com.loopj.android.http.RequestParams;
-import com.payUMoney.sdk.adapter.SdkStoredCardAdapter;
-import com.payUMoney.sdk.utils.SdkLogger;
 import com.payu.custombrowser.Bank;
 import com.payu.custombrowser.PayUWebChromeClient;
 import com.payu.custombrowser.PayUWebViewClient;
 import com.payu.magicretry.Helpers.Util;
 import com.payu.magicretry.MagicRetryFragment;
-
-/*import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.google.analytics.tracking.android.MapBuilder;*/
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,8 +31,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 
 public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetryFragment.ActivityCallback {
@@ -61,7 +45,8 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
     private WebView mWebView = null;
     private ProgressDialog progressDialog = null;
     MagicRetryFragment magicRetryFragment;
-    private RequestParams p;
+    private HashMap<String,String> p;
+    public final int RESULT_FAILED = 90;
 
 
     @Override
@@ -82,7 +67,7 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
             mWebView = (WebView) findViewById(R.id.webview);
             SharedPreferences mPref = getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE);
             String paymentMode = getIntent().getExtras().getString(SdkConstants.PAYMENT_MODE);
-            if (mPref.contains(SdkConstants.CONFIG_DTO))
+            if (mPref.contains(SdkConstants.CONFIG_DTO) && mPref.contains(SdkConstants.ONE_TAP_FEATURE) && mPref.getBoolean(SdkConstants.ONE_TAP_FEATURE,false))
                 userConfigDto = new JSONObject(mPref.getString(SdkConstants.CONFIG_DTO, "XYZ"));
 
             if (userConfigDto != null) {
@@ -194,7 +179,7 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
 */
 
             });
-            p = new RequestParams();
+            p = new HashMap<>();
 
             object = new JSONObject(getIntent().getStringExtra(SdkConstants.RESULT));
             Iterator keys = object.keys();
@@ -226,13 +211,30 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
             magicRetryFragment.initMRSettingsFromSharedPreference(this);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.getSettings().setDomStorageEnabled(true);
-            mWebView.postUrl("https://" + (SdkConstants.DEBUG.booleanValue() ? "mobiletest" : "secure") + ".payu.in/_seamless_payment", p.toString().getBytes());
+            mWebView.postUrl("https://" + (SdkConstants.DEBUG.booleanValue() ? "mobiletest" : "secure") + ".payu.in/_seamless_payment", getParameters(p).toString().getBytes());
 
 
         } catch (ClassNotFoundException e) {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getParameters(Map<String, String> params) {
+        String parameters = "?";
+        Iterator it = params.entrySet().iterator();
+        boolean isFirst = true;
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            if (isFirst) {
+                parameters = parameters.concat(pair.getKey() + "=" + pair.getValue());
+            } else {
+                parameters = parameters.concat("&" + pair.getKey() + "=" + pair.getValue());
+            }
+            isFirst = false;
+            it.remove();
+        }
+        return parameters;
     }
 
     private void initMagicRetry(String txnId) {
@@ -299,16 +301,21 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
         }
 
         @JavascriptInterface
-        public void failure(final String id, String error) {
+        public void failure(final String id, final String paymentId) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    failPayment();
+                    Intent intent = new Intent();
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra(SdkConstants.RESULT, "failure");
+                    intent.putExtra(SdkConstants.PAYMENT_ID, paymentId);
+                    setResult(RESULT_FAILED, intent);
+                    finish();
                 }
             });
         }
 
-        @JavascriptInterface
+        /*@JavascriptInterface
         public void failure() {
             failure("");
         }
@@ -320,23 +327,16 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
                 public void run() {
 
                     Intent intent = new Intent();
-                    intent.putExtra(SdkConstants.RESULT, params);
-                    setResult(RESULT_CANCELED, intent);
+                    intent.putExtra(SdkConstants.RESULT, "");
+                    setResult(RESULT_FAILED, intent);
                     finish();
                 }
             });
-        }
+        }*/
 
     }
 
-    private void failPayment() {
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra(SdkConstants.RESULT, "failure");
-//        mWebView.destroy();
-        setResult(RESULT_CANCELED, intent);
-        finish();
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -392,7 +392,7 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
         alertDialog.show();
     }
 
-    public void progressBarVisibility(int visibility) {
+    /*public void progressBarVisibility(int visibility) {
         if (visibility == View.GONE || visibility == View.INVISIBLE) {
             if (progressDialog != null && progressDialog.isShowing())
                 progressDialog.dismiss();
@@ -450,7 +450,7 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
         progDialog.setCancelable(true);
         progDialog.setCanceledOnTouchOutside(false);
         return progDialog;
-    }
+    }*/
 
     @Override
     protected void onDestroy() {

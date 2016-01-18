@@ -3,16 +3,8 @@ package com.payUMoney.sdk.fragment;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -49,7 +41,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 /**
  * Allows the user to get a new password
  */
-public class SdkForgotPasswordFragment extends Fragment implements Validator.ValidationListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class SdkForgotPasswordFragment extends Fragment implements Validator.ValidationListener /* LoaderManager.LoaderCallbacks<Cursor> */{
 
     @Required(order = 1, message = "Email_is_required")
     @Email(order = 2, message = "email_is_invalid")
@@ -57,7 +49,6 @@ public class SdkForgotPasswordFragment extends Fragment implements Validator.Val
     private Button done = null;
     private Validator mValidator = null;
     private Crouton mCrouton = null;
-    private boolean mMessageShown = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -100,13 +91,6 @@ public class SdkForgotPasswordFragment extends Fragment implements Validator.Val
                 return false;
             }
         });
-        /*view.findViewById(R.id.login).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().setResult(Activity.RESULT_CANCELED);
-                getActivity().finish();
-            }
-        });*/
         done.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -136,6 +120,10 @@ public class SdkForgotPasswordFragment extends Fragment implements Validator.Val
     @Override
     public void onStop() {
         super.onStop();
+        if(mCrouton != null){
+            mCrouton.cancel();
+            mCrouton = null;
+        }
         EventBus.getDefault().unregister(this);
     }
 
@@ -183,19 +171,13 @@ public class SdkForgotPasswordFragment extends Fragment implements Validator.Val
                         mCrouton.hide();
                         mCrouton = null;
                     }
-                    mCrouton = Crouton.makeText(getActivity(), R.string.something_went_wrong, Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_LONG);
+                    mCrouton = Crouton.makeText(getActivity(), R.string.something_went_wrong, Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_SHORT);
                     mCrouton.show();
                     done.setText(R.string.recover_password);
                     done.setEnabled(true);
                 }
                 break;
-//			case CobbocEvent.UNKNOWN_ERROR:
-//				Crouton.makeText(this, Tools.makeError(this, (String) event.getValue()), Style.ALERT).show();
-//				done.setText(R.string.recover_password);
-//				done.setEnabled(true);
-//				break;
             default:
-                // we don't do anything else here
         }
     }
 
@@ -213,27 +195,40 @@ public class SdkForgotPasswordFragment extends Fragment implements Validator.Val
 
     @Override
     public void onValidationFailed(View view, Rule<?> rule) {
-        mCrouton = Crouton.makeText(getActivity(), rule.getFailureMessage(), Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_LONG);
+        mCrouton = Crouton.makeText(getActivity(), rule.getFailureMessage(), Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_SHORT);
         mCrouton.show();
         view.requestFocus();
     }
 
-    @Override
+    /*@Override
+    public void onPause() {
+        if(mCrouton != null){
+            mCrouton.cancel();
+            mCrouton = null;
+        }
+        super.onPause();
+    }*/
+
+    /*@Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(getActivity(),
-                // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            return new CursorLoader(getActivity(),
+                    // Retrieve data rows for the device user's 'profile' contact.
+                    Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
+                            ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
 
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
+                    // Select only email addresses.
+                    ContactsContract.Contacts.Data.MIMETYPE +
+                            " = ?", new String[]{ContactsContract.CommonDataKinds.Email
+                    .CONTENT_ITEM_TYPE},
 
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
+                    // Show primary email addresses first. Note that there won't be
+                    // a primary email address if the user hasn't specified one.
+                    ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
+        }
+        return null;
     }
+
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
@@ -250,7 +245,7 @@ public class SdkForgotPasswordFragment extends Fragment implements Validator.Val
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
-    }
+    }*/
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
@@ -260,7 +255,7 @@ public class SdkForgotPasswordFragment extends Fragment implements Validator.Val
         mEmail.setAdapter(adapter);
     }
 
-    private interface ProfileQuery {
+    /*private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
                 ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
@@ -268,13 +263,13 @@ public class SdkForgotPasswordFragment extends Fragment implements Validator.Val
 
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
-    }
+    }*/
 
     /**
      * Use an AsyncTask to fetch the user's email addresses on a background thread, and update
      * the email text field with results on the main UI thread.
      */
-    private class SetupEmailAutoCompleteTask extends AsyncTask<Void, Void, List<String>> {
+    /*private class SetupEmailAutoCompleteTask extends AsyncTask<Void, Void, List<String>> {
 
         @Override
         protected List<String> doInBackground(Void... voids) {
@@ -298,5 +293,5 @@ public class SdkForgotPasswordFragment extends Fragment implements Validator.Val
         protected void onPostExecute(List<String> emailAddressCollection) {
             addEmailsToAutoComplete(emailAddressCollection);
         }
-    }
+    }*/
 }

@@ -10,7 +10,7 @@ public class SdkCobbocEvent {
     public static final int PAYMENT = 8;
     public static final int SIGN_UP = 16;
     public static final int FORGOT_PASSWORD = 19;
-    public static final int CONTACT_INFO_UPDATE = 27;
+    public static final int ONE_TAP_OPTION_ALTERED = 27;
     public static final int USER_POINTS = 35;
     public static final int GENERATE_AND_SEND_OTP = 38;
     public static final int FETCH_MERCHANT_PARAMS = 39;

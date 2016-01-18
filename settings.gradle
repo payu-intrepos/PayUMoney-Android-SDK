@@ -1,1 +1,1 @@
-include ':app', ':payUMoneysdk', ':CustomBrowser-release'
+include ':app', ':payUMoneysdk'

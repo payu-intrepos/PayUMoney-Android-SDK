@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -22,9 +23,11 @@ import com.payUMoney.sdk.utils.SdkHelper;
 import com.payUMoney.sdk.utils.SdkLogger;
 import com.payUMoney.sdk.walledSdk.SharedPrefsUtils;
 import com.payUMoney.sdk.walledSdk.WalletSdkLoginSignUpActivity;
+
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.math.BigDecimal;
 import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
@@ -36,7 +39,9 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import javax.crypto.Cipher;
+
 import de.greenrobot.event.EventBus;
 
 
@@ -47,26 +52,27 @@ import de.greenrobot.event.EventBus;
  * an access is made after an expired sdkSession. Also it exposes the server API to
  * the client with asynchronous {@link EventBus} events on server responses.
  */
-public class SdkSession extends Activity {
-
-
+public class SdkSession {
 
     public static Activity merchantContext = null;
     private boolean mIsLogOutCall = false;
     public double wallet_points = 0.0;
     public static final int PAYMENT_SUCCESS = 3;
-    public static enum PaymentMode {
+
+    public enum PaymentMode {
         CC, DC, NB, EMI, PAYU_MONEY, STORED_CARDS, CASH
     }
+
     public enum Method {
         POST, GET, DELETE
     }
+
     public interface Task {
-         void onSuccess(JSONObject object);
+        void onSuccess(JSONObject object);
 
-         void onSuccess(String response);
+        void onSuccess(String response);
 
-         void onError(Throwable throwable);
+        void onError(Throwable throwable);
 
         void onProgress(int percent);
     }
@@ -150,13 +156,15 @@ public class SdkSession extends Activity {
         return loginMode;
     }
 
-    public String getGuestEmail(){
+    public String getGuestEmail() {
         return guestEmail;
     }
+
     public void setLoginMode(String loginMode) {
         this.loginMode = loginMode;
     }
-    public void setGuestEmail(String guestEmail){
+
+    public void setGuestEmail(String guestEmail) {
         this.guestEmail = guestEmail;
     }
 
@@ -173,14 +181,15 @@ public class SdkSession extends Activity {
         clientId = null;
         mIsLogOutCall = false;
 
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Context.MODE_PRIVATE);
-        if (sharedPreferences.getString(SdkConstants.TOKEN, null) != null) {
-            mSessionData.setToken(sharedPreferences.getString(SdkConstants.TOKEN, null));
+        // SharedPreferences sharedPreferences = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Context.MODE_PRIVATE);
+        String mToken = SharedPrefsUtils.getStringPreference(mContext, SdkConstants.ACCESS_TOKEN);
+        if (mToken != null) {
+            mSessionData.setToken(mToken);
         }
-
-        if (sharedPreferences.getString(SdkConstants.EMAIL, null) != null) {
+        String mEmail = SharedPrefsUtils.getStringPreference(mContext, SdkConstants.EMAIL);
+        if (mEmail != null) {
             SdkUser sdkUser = new SdkUser();
-            sdkUser.setEmail(sharedPreferences.getString(SdkConstants.EMAIL, null));
+            sdkUser.setEmail(mEmail);
             mSessionData.setSdkUser(sdkUser);
         }
     }
@@ -206,8 +215,8 @@ public class SdkSession extends Activity {
         return mRequestQueue;
     }
 
-    public <T> void addToRequestQueue(Request<T> req, String tag) {
-        req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
+    public <T> void addToRequestQueue(Request<T> req) {
+        req.setTag(TextUtils.isEmpty(SdkSession.TAG) ? TAG : SdkSession.TAG);
         getRequestQueue(mContext).add(req);
     }
 
@@ -234,7 +243,8 @@ public class SdkSession extends Activity {
      */
     public static void startPaymentProcess(Activity mActivity, HashMap<String, String> userParams)  //HashMap has all required params
     {
-        if(SdkConstants.WALLET_SDK){
+        merchantContext = mActivity;
+        if (SdkConstants.WALLET_SDK) {
             merchantKey = userParams.get(SdkConstants.KEY);
             merchantSalt = userParams.get(SdkConstants.SALT);
             merchantTxnId = userParams.get(SdkConstants.MERCHANT_TXNID);
@@ -243,82 +253,81 @@ public class SdkSession extends Activity {
             Intent intent = new Intent(mActivity, WalletSdkLoginSignUpActivity.class);
             intent.putExtra(SdkConstants.PARAMS, userParams);
             mActivity.startActivityForResult(intent, PAYMENT_SUCCESS);
-        }
-        else {
-                merchantContext = mActivity;
+        } else {
         /*SDK specific,Handling logout from SDK in case of Merchant's App with SDK*/
-        /*
+        /*if(merchantContext == null)
+        merchantContext = mActivity;
         Intent intent = new Intent(merchantContext, SdkHomeActivityNew.class);*/
 
-        Intent intent = new Intent(mActivity, SdkHomeActivityNew.class);
-        if (!userParams.containsKey(SdkConstants.PAYUMONEY_APP) && !userParams.containsKey(SdkConstants.PAYUBIZZ_APP)) {
-            //check for all compulsory params
-            if (userParams.get(SdkConstants.KEY) == null || userParams.get(SdkConstants.KEY).equals(""))
-                throw new RuntimeException("Merchant Key missing");
-            else
-                intent.putExtra(SdkConstants.KEY, userParams.get(SdkConstants.KEY));
-
-            if (userParams.get(SdkConstants.HASH) == null || userParams.get(SdkConstants.HASH).equals(""))
-                throw new RuntimeException("Hash is  missing");
-            else
-                intent.putExtra(SdkConstants.HASH, userParams.get(SdkConstants.HASH));
-
-            if(SdkConstants.WALLET_SDK){
-                if (userParams.get(SdkConstants.MERCHANT_TXNID) == null || userParams.get(SdkConstants.MERCHANT_TXNID).equals(""))
-                    throw new RuntimeException("TxnId Id missing");
+            Intent intent = new Intent(mActivity, SdkHomeActivityNew.class);
+            if (!userParams.containsKey(SdkConstants.PAYUMONEY_APP) && !userParams.containsKey(SdkConstants.PAYUBIZZ_APP)) {
+                //check for all compulsory params
+                if (userParams.get(SdkConstants.KEY) == null || userParams.get(SdkConstants.KEY).equals(""))
+                    throw new RuntimeException("Merchant Key missing");
                 else
-                    intent.putExtra(SdkConstants.MERCHANT_TXNID, userParams.get(SdkConstants.MERCHANT_TXNID));
-            } else {
-                if (userParams.get(SdkConstants.TXNID) == null || userParams.get(SdkConstants.TXNID).equals(""))
-                    throw new RuntimeException("TxnId Id missing");
+                    intent.putExtra(SdkConstants.KEY, userParams.get(SdkConstants.KEY));
+
+                if (userParams.get(SdkConstants.HASH) == null || userParams.get(SdkConstants.HASH).equals(""))
+                    throw new RuntimeException("Hash is  missing");
                 else
-                    intent.putExtra(SdkConstants.TXNID, userParams.get(SdkConstants.TXNID));
+                    intent.putExtra(SdkConstants.HASH, userParams.get(SdkConstants.HASH));
+
+                if (SdkConstants.WALLET_SDK) {
+                    if (userParams.get(SdkConstants.MERCHANT_TXNID) == null || userParams.get(SdkConstants.MERCHANT_TXNID).equals(""))
+                        throw new RuntimeException("TxnId Id missing");
+                    else
+                        intent.putExtra(SdkConstants.MERCHANT_TXNID, userParams.get(SdkConstants.MERCHANT_TXNID));
+                } else {
+                    if (userParams.get(SdkConstants.TXNID) == null || userParams.get(SdkConstants.TXNID).equals(""))
+                        throw new RuntimeException("TxnId Id missing");
+                    else
+                        intent.putExtra(SdkConstants.TXNID, userParams.get(SdkConstants.TXNID));
+                }
+
+                if (userParams.get(SdkConstants.AMOUNT) == null || userParams.get(SdkConstants.AMOUNT).equals(""))
+                    throw new RuntimeException("Amount is missing");
+                else
+                    intent.putExtra(SdkConstants.AMOUNT, userParams.get(SdkConstants.AMOUNT));
+
+                if (userParams.get(SdkConstants.SURL) == null || userParams.get(SdkConstants.SURL).equals(""))
+                    throw new RuntimeException("Surl is missing");
+                else
+                    intent.putExtra(SdkConstants.SURL, userParams.get(SdkConstants.SURL));
+
+                if (userParams.get(SdkConstants.FURL) == null || userParams.get(SdkConstants.FURL).equals(""))
+                    throw new RuntimeException("Furl is missing");
+                else
+                    intent.putExtra(SdkConstants.FURL, userParams.get(SdkConstants.FURL));
+
+                if (userParams.get(SdkConstants.PRODUCT_INFO) == null || userParams.get(SdkConstants.PRODUCT_INFO).equals(""))
+                    throw new RuntimeException("Product info is missing");
+                else
+                    intent.putExtra(SdkConstants.PRODUCT_INFO, userParams.get(SdkConstants.PRODUCT_INFO));
+
+                if (userParams.get(SdkConstants.FIRSTNAME) == null || userParams.get(SdkConstants.FIRSTNAME).equals(""))
+                    throw new RuntimeException("Firstname is missing");
+                else
+                    intent.putExtra(SdkConstants.FIRSTNAME, userParams.get(SdkConstants.FIRSTNAME));
+
+                if (userParams.get(SdkConstants.EMAIL) == null || userParams.get(SdkConstants.EMAIL).equals(""))
+                    throw new RuntimeException("Email is missing");
+                else
+                    intent.putExtra(SdkConstants.EMAIL, userParams.get(SdkConstants.EMAIL));
+
+                if (userParams.get(SdkConstants.PHONE).equals("") || userParams.get(SdkConstants.PHONE) == null)
+                    throw new RuntimeException("Phone is missing");
+                else
+                    intent.putExtra(SdkConstants.PHONE, userParams.get(SdkConstants.PHONE));
             }
 
-            if (userParams.get(SdkConstants.AMOUNT) == null || userParams.get(SdkConstants.AMOUNT).equals(""))
-                throw new RuntimeException("Amount is missing");
-            else
-                intent.putExtra(SdkConstants.AMOUNT, userParams.get(SdkConstants.AMOUNT));
+            intent.putExtra(SdkConstants.PARAMS, userParams);
 
-            if (userParams.get(SdkConstants.SURL) == null || userParams.get(SdkConstants.SURL).equals(""))
-                throw new RuntimeException("Surl is missing");
-            else
-                intent.putExtra(SdkConstants.SURL, userParams.get(SdkConstants.SURL));
+            //Step 2
+            //merchantContext.startActivityForResult(intent, PAYMENT_SUCCESS);
+            mActivity.startActivityForResult(intent, PAYMENT_SUCCESS);//Start the Home Activity
 
-            if (userParams.get(SdkConstants.FURL) == null || userParams.get(SdkConstants.FURL).equals(""))
-                throw new RuntimeException("Furl is missing");
-            else
-                intent.putExtra(SdkConstants.FURL, userParams.get(SdkConstants.FURL));
 
-            if (userParams.get(SdkConstants.PRODUCT_INFO) == null || userParams.get(SdkConstants.PRODUCT_INFO).equals(""))
-                throw new RuntimeException("Product info is missing");
-            else
-                intent.putExtra(SdkConstants.PRODUCT_INFO, userParams.get(SdkConstants.PRODUCT_INFO));
-
-            if (userParams.get(SdkConstants.FIRSTNAME) == null || userParams.get(SdkConstants.FIRSTNAME).equals(""))
-                throw new RuntimeException("Firstname is missing");
-            else
-                intent.putExtra(SdkConstants.FIRSTNAME, userParams.get(SdkConstants.FIRSTNAME));
-
-            if (userParams.get(SdkConstants.EMAIL) == null || userParams.get(SdkConstants.EMAIL).equals(""))
-                throw new RuntimeException("Email is missing");
-            else
-                intent.putExtra(SdkConstants.EMAIL, userParams.get(SdkConstants.EMAIL));
-
-            if (userParams.get(SdkConstants.PHONE).equals("") || userParams.get(SdkConstants.PHONE) == null)
-                throw new RuntimeException("Phone is missing");
-            else
-                intent.putExtra(SdkConstants.PHONE, userParams.get(SdkConstants.PHONE));
         }
-
-        intent.putExtra(SdkConstants.PARAMS, userParams);
-
-        //Step 2
-        //merchantContext.startActivityForResult(intent, PAYMENT_SUCCESS);
-        mActivity.startActivityForResult(intent, PAYMENT_SUCCESS);//Start the Home Activity
-
-
-    }
     }
 
 
@@ -326,9 +335,9 @@ public class SdkSession extends Activity {
 
         /*allowGuestCheckout can have three values: guestcheckout, guestcheckoutonly, quickGuestCheckout
         quickLogin will have 0 or 1*/
-        final Map<String,String> p = new HashMap<>();
+        final Map<String, String> p = new HashMap<>();
         p.put(SdkConstants.MERCHANT_ID, merchantId);
-        String uri = String.format("/auth/app/op/merchant/LoginParams"+getParameters(p),
+        String uri = String.format("/auth/app/op/merchant/LoginParams" + getParameters(p),
                 merchantId);
         postFetch(uri, null, new Task() {
             @Override
@@ -390,6 +399,7 @@ public class SdkSession extends Activity {
         }, Request.Method.POST);
 
     }
+
     public static PublicKey getPublicKey(String key) throws Exception {
         key = key.replaceAll("(-+BEGIN PUBLIC KEY-+\\r?\\n|-+END PUBLIC KEY-+\\r?\\n?)", "").trim();
         // generate public key
@@ -407,7 +417,7 @@ public class SdkSession extends Activity {
         mSessionData.reset();
     }
 
-    public void postFetch(final String url, final Map<String,String> params, final Task task, final int method) {
+    public void postFetch(final String url, final Map<String, String> params, final Task task, final int method) {
         if (SdkConstants.DEBUG.booleanValue()) {
             SdkLogger.d(SdkConstants.TAG, "SdkSession.postFetch: " + url + " " + params + " " + method);
         }
@@ -443,15 +453,15 @@ public class SdkSession extends Activity {
                 }
                 if (msg.contains("401")) {
                     /*not required in app*/
-                    if(SdkConstants.WALLET_SDK) {
+                    if (SdkConstants.WALLET_SDK) {
                         if (!mIsLogOutCall) {
                             logout();
                         } else {
                             mIsLogOutCall = false;
                         }
-                    }
-                    else {
+                    } else {
                         logout("force");
+                        cancelPendingRequests(TAG);
                     }
                 }
                 runErrorOnHandlerThread(task, e);
@@ -465,14 +475,13 @@ public class SdkSession extends Activity {
                 }
                 if (error != null && error.networkResponse != null && error.networkResponse.statusCode == 401) {
                    /*not required in app*/
-                    if(SdkConstants.WALLET_SDK) {
+                    if (SdkConstants.WALLET_SDK) {
                         if (!mIsLogOutCall) {
                             logout();
                         } else {
                             mIsLogOutCall = false;
                         }
-                    }
-                    else {
+                    } else {
                         logout("force");
                     }
                 }
@@ -481,7 +490,7 @@ public class SdkSession extends Activity {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                if(SdkConstants.WALLET_SDK) {
+                if (SdkConstants.WALLET_SDK) {
                     params.put(SdkConstants.CLIENT_ID, clientId);
                     params.put(SdkConstants.IS_MOBILE, "1");
                 }
@@ -511,22 +520,22 @@ public class SdkSession extends Activity {
         };
         myRequest.setShouldCache(false);
         myRequest.setRetryPolicy(new DefaultRetryPolicy(
-                8000,
+                30000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        addToRequestQueue(myRequest, TAG);
+        addToRequestQueue(myRequest);
         start = Long.valueOf(System.currentTimeMillis());
 
     }
 
-    private String getParameters(Map<String,String> params) {
+    private String getParameters(Map<String, String> params) {
         String parameters = "?";
         Iterator it = params.entrySet().iterator();
         boolean isFirst = true;
         while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            if(isFirst) {
-                parameters = parameters.concat(pair.getKey()+"="+pair.getValue());
+            Map.Entry pair = (Map.Entry) it.next();
+            if (isFirst) {
+                parameters = parameters.concat(pair.getKey() + "=" + pair.getValue());
             } else {
                 parameters = parameters.concat("&" + pair.getKey() + "=" + pair.getValue());
             }
@@ -588,7 +597,7 @@ public class SdkSession extends Activity {
         mSessionData.setToken(token);
     }
 
-    private void handleOneClickAndOneTapFeature(JSONObject userDto){
+    /*private void handleOneClickAndOneTapFeature(JSONObject userDto) {
         SharedPreferences.Editor editor = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE).edit();
         try {
 
@@ -610,7 +619,7 @@ public class SdkSession extends Activity {
             }
             editor.commit();
             editor.apply();
-        }catch (JSONException e){
+        } catch (JSONException e) {
 
             editor.putBoolean(SdkConstants.ONE_TAP_FEATURE, false);
             editor.putBoolean(SdkConstants.ONE_CLICK_PAYMENT, false);
@@ -619,7 +628,7 @@ public class SdkSession extends Activity {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     /**
      * log in on the server
@@ -632,8 +641,8 @@ public class SdkSession extends Activity {
     // This function is called when we don't know the appId
     public void create(final String username, String password) {
 
-        final Map<String,String> p = new HashMap<>();
-        p.put(SdkConstants.GRANT_TYPE, SdkConstants.PASSWORD);
+        final Map<String, String> p = new HashMap<>();
+        p.put("grant_type", "password");
         //p.put("client_id", "180551"); // Always Merchant KEY
         p.put(SdkConstants.CLIENT_ID, "10182");
         p.put(SdkConstants.USER_NAME, username);
@@ -645,10 +654,12 @@ public class SdkSession extends Activity {
                 try {
 //                    mSessionData = new SessionData();
                     if (jsonObject.has(SdkConstants.ACCESS_TOKEN) && !jsonObject.isNull(SdkConstants.ACCESS_TOKEN)) {
-                        mSessionData.setToken(jsonObject.getString(SdkConstants.ACCESS_TOKEN));
-                        SharedPreferences.Editor editor = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE).edit();
-                        editor.putString(SdkConstants.TOKEN, SdkSession.getInstance(mContext.getApplicationContext()).getToken());//Set the token received
-                        editor.commit();
+
+                        String token = jsonObject.getString(SdkConstants.ACCESS_TOKEN);
+                        SharedPrefsUtils.setStringPreference(mContext, SharedPrefsUtils.Keys.ACCESS_TOKEN, token);
+                        SdkSession.getInstance(mContext).setToken(token);
+
+/*
                         postFetch("/auth/app/user", null, new Task() {
                             @Override
                             public void onSuccess(JSONObject object) {
@@ -693,7 +704,8 @@ public class SdkSession extends Activity {
 
                             }
                         }, Request.Method.GET);
-                        //eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.LOGIN, true, jsonObject));
+*/
+                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.LOGIN, true, jsonObject));
                     } else {
 
                         SdkLogger.d(SdkConstants.TAG, "Token Not Found");
@@ -727,7 +739,7 @@ public class SdkSession extends Activity {
 
     public void generateAndSendOtp(String userEmail) {
 
-        final Map<String,String> p = new HashMap<>();
+        final Map<String, String> p = new HashMap<>();
         p.put("requestType", "login");
         p.put("userName", userEmail);
         postFetch("/auth/app/op/generateAndSendOTP", p, new Task() {
@@ -737,7 +749,14 @@ public class SdkSession extends Activity {
                 // JSONObject jsonObject = new JSONObject(object);
                 // Toast.makeText(SdkSession.getInstance(getApplicationContext()), object.getString("message"), Toast.LENGTH_LONG).show();
                 //return result=object.getString("message");
-                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.GENERATE_AND_SEND_OTP, true, object));
+                if(object.has(SdkConstants.STATUS)) {
+                    String status = object.optString(SdkConstants.STATUS);
+                    if(status == null ||  status.equals("-1"))
+                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.GENERATE_AND_SEND_OTP, false, object));
+                    else
+                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.GENERATE_AND_SEND_OTP, true, object));
+
+                }
 
             }
 
@@ -794,7 +813,7 @@ public class SdkSession extends Activity {
         // p.put("txnDetails", "{\"surl\":\"https://www.payumoney.com/mobileapp/payumoney/success.php\", \"furl\": \"https://www.payumoney.com/mobileapp/payumoney/failure.php\"}");
         p.put("paymentParts", "[]");
         p.put("deviceId", params.get("deviceId"));
-       // p.put("appVersion", params.get("appVersion"));
+        // p.put("appVersion", params.get("appVersion"));
         p.put("isMobile", "1");
         if (loginMode.equals("guestLogin"))
             p.put("guestCheckout", "true");
@@ -803,13 +822,12 @@ public class SdkSession extends Activity {
             public void onSuccess(JSONObject object) {
                 try {
 
-                    if(object.has(SdkConstants.RESULT) && !object.isNull(SdkConstants.RESULT)) {
+                    if (object.has(SdkConstants.RESULT) && !object.isNull(SdkConstants.RESULT)) {
 
                         JSONObject result = object.getJSONObject(SdkConstants.RESULT);
 
                         eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.CREATE_PAYMENT, true, result /*object.getJSONObject(Constants.RESULT).getString(Constants.PAYMENT_ID)*/));
-                    }
-                    else{
+                    } else {
                         eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.CREATE_PAYMENT, false));
                     }
                 } catch (JSONException e) {
@@ -837,10 +855,10 @@ public class SdkSession extends Activity {
         postFetch("/payment/app/payment/addSdkPayment", p, task, Request.Method.POST);
     }
 
-    public void updateTransactionDetails(String paymentId,String guestEmail) {
+    public void updateTransactionDetails(String paymentId, String guestEmail) {
 
         final Map p = new HashMap<>();
-        p.put(SdkConstants.PAYMENT_ID,paymentId);
+        p.put(SdkConstants.PAYMENT_ID, paymentId);
         JSONObject tmp = new JSONObject();
         try {
 
@@ -856,11 +874,10 @@ public class SdkSession extends Activity {
             tmp.put("city", "null");
             tmp.put("city", "null");
             tmp.put("city", "null");
-        }
-        catch (JSONException e){
+        } catch (JSONException e) {
 
         }
-        p.put("txnDetails",tmp.toString());
+        p.put("txnDetails", tmp.toString());
         Task task1 = new Task() {
             @Override
             public void onSuccess(JSONObject object) {
@@ -889,7 +906,7 @@ public class SdkSession extends Activity {
     }
 
     public void forgotPassword(String email) {
-        final Map<String,String> p = new HashMap<>();
+        final Map<String, String> p = new HashMap<>();
         p.put("userName", email);
         postFetch("/auth/app/forgot/password", p, new Task() {
             @Override
@@ -938,7 +955,7 @@ public class SdkSession extends Activity {
      * @param password This is the password of the user
      */
     public void sign_up(String email, String phone, String password) {
-        final Map<String,String> p = new HashMap<>();
+        final Map<String, String> p = new HashMap<>();
         p.put("userType", "customer");
         p.put("username", email);
         p.put("phone", phone);
@@ -984,17 +1001,15 @@ public class SdkSession extends Activity {
 
     public void logout(String message) {
 
-        Map<String,String> p = new HashMap<String,String>();
-        p.put("_method", "delete");
         eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.LOGOUT, false, message));
         if (message != null && !message.equals("force"))
             mSessionData.reset();
     }
 
     public void logout() {
-        if(SdkConstants.WALLET_SDK){
+        if (SdkConstants.WALLET_SDK) {
             logoutWalletSdk();
-        }else {
+        } else {
             logout(null);
         }
     }
@@ -1002,7 +1017,7 @@ public class SdkSession extends Activity {
     private void logoutWalletSdk() {
 
         mIsLogOutCall = true;
-        final Map<String,String> p = new HashMap<>();
+        final Map<String, String> p = new HashMap<>();
         p.put(SdkConstants.TOKEN, SharedPrefsUtils.getStringPreference(mContext, SharedPrefsUtils.Keys.ACCESS_TOKEN));
         p.put(SdkConstants.EMAIL, SharedPrefsUtils.getStringPreference(mContext, SharedPrefsUtils.Keys.EMAIL));
         p.put(SdkConstants.MOBILE, SharedPrefsUtils.getStringPreference(mContext, SharedPrefsUtils.Keys.PHONE));
@@ -1056,9 +1071,9 @@ public class SdkSession extends Activity {
         }, Request.Method.POST);
     }
 
-    public void notifyUserCancelledTransaction(String paymentId , String userCancelled) {
+    public void notifyUserCancelledTransaction(String paymentId, String userCancelled) {
 
-        final Map<String,String> p = new HashMap<>();
+        final Map<String, String> p = new HashMap<>();
         p.put(SdkConstants.PAYMENT_ID, paymentId);
         p.put(SdkConstants.USER_CANCELLED_TRANSACTION, userCancelled);
 
@@ -1098,7 +1113,7 @@ public class SdkSession extends Activity {
     params: cashback -> points/wallet depending on the call
     params: vault -> points/wallet depending on the call
      */
-    public void sendToPayUWithWallet(JSONObject details, final String mode, final HashMap<String, Object> data, Double cashback, Double vault,Double discount) throws JSONException {
+    public void sendToPayUWithWallet(JSONObject details, final String mode, final HashMap<String, Object> data, Double cashback, Double vault, Double discount) throws JSONException {
         wallet_points = vault.doubleValue(); //Set points or wallet depending on the call
         sendToPayU(details, mode, data, cashback, discount); //cashback is point/wallet to be payed depending on the call
 
@@ -1111,11 +1126,13 @@ public class SdkSession extends Activity {
        params: Hashmap data - bankobject key etc.
        params: cashback is wallet or points
         */
-    public void sendToPayU(JSONObject details, final String mode, final HashMap<String, Object> data, Double cashback1,Double discount) throws JSONException {
-        Float cashback = Float.valueOf(round(cashback1.doubleValue(), 2));
+    public void sendToPayU(JSONObject details, final String mode, final HashMap<String, Object> data, Double cashback1, Double discount) throws JSONException {
+        Float cashback = Float.valueOf(round(cashback1.doubleValue()));
         // first get the transaction keys
-        final Map<String,String> p = new HashMap<>();
+        final Map<String, String> p = new HashMap<>();
         Double Dis_amt;
+
+        final String paymentID = details.optString(SdkConstants.PAYMENT_ID);
 
         if (SdkHomeActivityNew.coupan_amt != 0) {
             p.put("couponUsed", SdkHomeActivityNew.choosedCoupan);
@@ -1180,24 +1197,27 @@ public class SdkSession extends Activity {
 
         SdkLogger.d(SdkConstants.TAG + ":Params -->", p.toString());
 
-        postFetch("/payment/app/customer/getPaymentMerchant/" + details.getJSONObject(SdkConstants.PAYMENT).getString(SdkConstants.PAYMENT_ID)+getParameters(p), null, new Task() {
+        postFetch("/payment/app/customer/getPaymentMerchant/" + paymentID + getParameters(p), null, new Task() {
             @Override
             public void onSuccess(JSONObject object) {
                 try {
-
-                    if(object.has("message") && object.optString("message","XYZ").contains(SdkConstants.INVALID_APP_VERSION)){
+                    if (object.has("message") && object.optString("message", "XYZ").contains(SdkConstants.INVALID_APP_VERSION)) {
                         if (!mode.equals("points") && !mode.equals("wallet"))
-                            eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT, false,SdkConstants.INVALID_APP_VERSION));
+                            eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT, false, SdkConstants.INVALID_APP_VERSION));
                         else
-                            eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, false,SdkConstants.INVALID_APP_VERSION));
+                            eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, false, SdkConstants.INVALID_APP_VERSION));
 
                         return;
                     }
-                    SdkLogger.d(SdkConstants.TAG +":Success-->", object.toString());
+                    SdkLogger.d(SdkConstants.TAG + ":Success-->", object.toString());
                     object = object.getJSONObject(SdkConstants.RESULT);
                     JSONObject p = new JSONObject();
 
-                    if (!mode.equals("points") && !mode.equals("wallet")) //For NB CC AND DC
+                    if (mode.equals("points") || mode.equals("wallet")) {
+
+                        fetchPaymentStatus(paymentID);
+
+                    } else//For NB CC AND DC
                     {
                         String key = (String) data.get("key");
                         data.remove("key");
@@ -1235,12 +1255,7 @@ public class SdkSession extends Activity {
                             }
                         }
                         eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT, true, p));
-                    } else //For wallet and PayuPoints
-                    {
-                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, true, object));
                     }
-
-
                 } catch (Exception e) {
                     onError(e);
                 }
@@ -1265,55 +1280,83 @@ public class SdkSession extends Activity {
         }, Request.Method.GET);
     }
 
+    private void fetchPaymentStatus(String paymentID) {
+
+        final Map<String, String> p = new HashMap<>();
+        p.put(SdkConstants.PAYMENT_ID,paymentID);
+        postFetch("/payment/app/postPayment", p, new Task() {
+            @Override
+            public void onSuccess(JSONObject object) {
+                String status = object.optString(SdkConstants.STATUS);
+                if(status == null || status.equals("-1"))
+                    eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, false, object));
+                else
+                    eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, true, object));
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, true, response));
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, false, throwable.getMessage()));
+
+            }
+
+            @Override
+            public void onProgress(int percent) {
+
+            }
+        },Request.Method.POST);
+
+    }
+
     /**
      * set One click transactions
      */
     public void enableOneClickTransaction(String enable) {
 
         final Map<String, String> p = new HashMap<>();
+
         SharedPreferences mPref = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE);
-        if(mPref != null) {
-            String username = mPref.getString(SdkConstants.USER_NAME,"XYZ");
-            String name = mPref.getString(SdkConstants.NAME,"XYZ");
-            String phone = mPref.getString(SdkConstants.PHONE,"XYZ");
-            if (!username.equals("XYZ") && !name.equals("XYZ") && !phone.equals("XYZ")) {
-                p.put(SdkConstants.USER_NAME, username);
-                p.put("oneClickTxn", enable);
-                p.put(SdkConstants.NAME,name );
-                p.put(SdkConstants.PHONE,phone );
-                postFetch("/auth/app/user/update", p, new Task() {
 
-                    @Override
-                    public void onSuccess(JSONObject object) {
-                        try{
-                            JSONObject result = object.getJSONObject(SdkConstants.RESULT);
-                            if(result != null)
-                                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.CONTACT_INFO_UPDATE, true,result));
-                            else
-                                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.CONTACT_INFO_UPDATE, false));
+        if (mPref != null) {
+            p.put("oneClickTxn", enable);
+            postFetch("/auth/app/setUserPaymentOption", p, new Task() {
+                @Override
+                public void onSuccess(JSONObject object) {
+                    try {
+                        JSONObject result = object.getJSONObject("result");
+                        if (result != null)
+                            eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.ONE_TAP_OPTION_ALTERED, true, result));
+                        else
+                            eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.ONE_TAP_OPTION_ALTERED, false));
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.CONTACT_INFO_UPDATE, false));
-                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                            eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.ONE_TAP_OPTION_ALTERED, false));
                     }
+                }
 
-                    @Override
-                    public void onSuccess(String response) {
+                @Override
+                public void onSuccess(String response) {
 
-                    }
+                }
 
-                    @Override
-                    public void onError(Throwable throwable) {
+                @Override
+                public void onError(Throwable throwable) {
+                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.ONE_TAP_OPTION_ALTERED, false));
+                }
 
-                    }
+                @Override
+                public void onProgress(int percent) {
 
-                    @Override
-                    public void onProgress(int percent) {
+                }
+            }, Request.Method.POST);
 
-                    }
-                }, Request.Method.POST);
-            }
         }
 
     }
@@ -1322,8 +1365,8 @@ public class SdkSession extends Activity {
 
         final Map<String, String> p = new HashMap<>();
         p.put("userCouponString", manualCoupon);
-        p.put("visitId",paymentId);
-        p.put("reqId",device_id);
+        p.put("visitId", paymentId);
+        p.put("reqId", device_id);
         p.put("mobileStatus", mobileStatus);
         postFetch("/payment/app/validateUserCouponString", p, new Task() {
 
@@ -1418,11 +1461,11 @@ public class SdkSession extends Activity {
 
     }
 
-    public static String hashCal(String type, String str) {
+    public static String hashCal(String str) {
         byte[] hashseq = str.getBytes();
         StringBuffer hexString = new StringBuffer();
         try {
-            MessageDigest algorithm = MessageDigest.getInstance(type);
+            MessageDigest algorithm = MessageDigest.getInstance("SHA-512");
             algorithm.reset();
             algorithm.update(hashseq);
             byte messageDigest[] = algorithm.digest();
@@ -1459,7 +1502,7 @@ public class SdkSession extends Activity {
 
         hashSequence += "|" + merchantSalt;
 
-        return hashCal("SHA-512", hashSequence);
+        return hashCal(hashSequence);
     }
 
     public void getTransactionHistory(int offset) {
@@ -1470,9 +1513,9 @@ public class SdkSession extends Activity {
         p.put(SdkConstants.WALLET_HISTORY_PARAM_OFFSET, offset);
         p.put(SdkConstants.WALLET_HISTORY_PARAM_LIMIT, walletLimit);
         p.put(SdkConstants.KEY, merchantKey);
-        p.put(SdkConstants.HASH, getHashForThisCall(offset+"", walletLimit+"", null, null, null));
+        p.put(SdkConstants.HASH, getHashForThisCall(offset + "", walletLimit + "", null, null, null));
 
-        postFetch("/vault/ext/getVaultTransactionDetails"+getParameters(p),null, new Task() {
+        postFetch("/vault/ext/getVaultTransactionDetails" + getParameters(p), null, new Task() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
                 try {
@@ -1560,7 +1603,7 @@ public class SdkSession extends Activity {
         SharedPrefsUtils.setStringPreference(mContext, SharedPrefsUtils.Keys.EMAIL, email);
         SharedPrefsUtils.setStringPreference(mContext, SharedPrefsUtils.Keys.PHONE, mobileNo);
 
-        postFetch("/auth/ext/wallet/register",p, new Task() {
+        postFetch("/auth/ext/wallet/register", p, new Task() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
                 try {
@@ -1594,7 +1637,7 @@ public class SdkSession extends Activity {
 
     public void loadWallet(HashMap<String, String> params, String amt_net) {
 
-        Map p = new HashMap<> ();
+        Map p = new HashMap<>();
         p.put(SdkConstants.KEY, params.get(SdkConstants.KEY));
         p.put(SdkConstants.TRANSACTION_DETAILS, params.get(SdkConstants.TRANSACTION_DETAILS));
         p.put(SdkConstants.TOTAL_AMOUNT, amt_net);
@@ -1642,7 +1685,7 @@ public class SdkSession extends Activity {
 
     public void debitFromWallet(HashMap<String, String> params) {
 
-        Map p = new HashMap<> ();
+        Map p = new HashMap<>();
         p.put(SdkConstants.KEY, params.get(SdkConstants.KEY));
         p.put(SdkConstants.TOTAL_AMOUNT, params.get(SdkConstants.AMOUNT));
         p.put(SdkConstants.MERCHANT_TXNID, params.get(SdkConstants.MERCHANT_TXNID));
@@ -1688,7 +1731,7 @@ public class SdkSession extends Activity {
 
     public String getToken() {
 
-        if(SdkConstants.WALLET_SDK){
+        if (SdkConstants.WALLET_SDK) {
             return SharedPrefsUtils.getStringPreference(mContext, SharedPrefsUtils.Keys.ACCESS_TOKEN);
         }
         return mSessionData.getToken();
@@ -1702,9 +1745,9 @@ public class SdkSession extends Activity {
         return mSessionData.revisedCashbackReceivedStatus;
     }
 
-    public static float round(double d, int decimalPlace) {
+    public static float round(double d) {
         BigDecimal bd = new BigDecimal(Double.toString(d));
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();
     }
 

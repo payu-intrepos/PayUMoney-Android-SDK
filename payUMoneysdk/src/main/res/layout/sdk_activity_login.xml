@@ -148,6 +148,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:inputType="phone"
+                                android:maxLength="6"
                                 android:hint="Please Enter OTP"/>
 
                             <include layout="@layout/sdk_progressdialog_sendingotp"

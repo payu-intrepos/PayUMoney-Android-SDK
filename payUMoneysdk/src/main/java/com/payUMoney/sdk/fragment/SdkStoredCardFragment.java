@@ -4,18 +4,15 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,7 +24,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.payUMoney.sdk.SdkCobbocEvent;
 import com.payUMoney.sdk.SdkConstants;
 import com.payUMoney.sdk.R;
 import com.payUMoney.sdk.SdkHomeActivityNew;
@@ -38,20 +34,15 @@ import com.payUMoney.sdk.entity.SdkIssuer;
 import com.payUMoney.sdk.utils.SdkHelper;
 import com.payUMoney.sdk.utils.SdkLogger;
 
-import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.SocketTimeoutException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -144,7 +135,7 @@ public class SdkStoredCardFragment extends View {
                 selectedCardPosition = i;
                 try {
                     SharedPreferences mPref = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE);
-                    if (mPref.contains(SdkConstants.CONFIG_DTO))
+                    if (mPref.contains(SdkConstants.ONE_TAP_FEATURE) && mPref.getBoolean(SdkConstants.ONE_TAP_FEATURE,false) && mPref.contains(SdkConstants.CONFIG_DTO))
                         userConfigDto = new JSONObject(mPref.getString(SdkConstants.CONFIG_DTO, "XYZ"));
 
                     mode = selectedCard.getString("pg");
@@ -193,7 +184,7 @@ public class SdkStoredCardFragment extends View {
         }
         String userId = ((SdkHomeActivityNew) mContext).getUserId();
         String hashSequence = userToken + "|" + userId + "|" + cardToken + "|" + authorizationSalt;
-        String hash = hashCal("SHA-256", hashSequence);
+        String hash = hashCal(hashSequence);
         String paymentId = ((SdkHomeActivityNew) mContext).getPaymentId();
         String deviceId = getAndroidID(mContext);
         if (!(hash.isEmpty() || paymentId.isEmpty() || deviceId.isEmpty())) {
@@ -203,7 +194,7 @@ public class SdkStoredCardFragment extends View {
             p.put("pid", paymentId);
             p.put("did", deviceId);
 
-            postFetch("https://tvapaymon.payubiz.in/vault/getToken" /*+ getParameters(p)*/, p, Request.Method.POST);
+            postFetch(SdkConstants.DEBUG ? SdkConstants.KVAULT_TEST_URL : SdkConstants.KVAULT_PROD_URL, p, Request.Method.POST);
         }
 
     }
@@ -217,11 +208,11 @@ public class SdkStoredCardFragment extends View {
         return device_id;
     }
 
-    public static String hashCal(String type, String str) {
+    public static String hashCal(String str) {
         byte[] hashseq = str.getBytes();
         StringBuffer hexString = new StringBuffer();
         try {
-            MessageDigest algorithm = MessageDigest.getInstance(type);
+            MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
             algorithm.reset();
             algorithm.update(hashseq);
             byte messageDigest[] = algorithm.digest();
@@ -411,7 +402,7 @@ public class SdkStoredCardFragment extends View {
         };
         myRequest.setShouldCache(false);
         myRequest.setRetryPolicy(new DefaultRetryPolicy(
-                8000,
+                30000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         addToRequestQueue(myRequest);

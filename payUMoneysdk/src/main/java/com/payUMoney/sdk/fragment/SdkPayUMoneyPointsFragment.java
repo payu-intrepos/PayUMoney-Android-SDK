@@ -10,25 +10,18 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.payUMoney.sdk.SdkCobbocEvent;
-import com.payUMoney.sdk.SdkConstants;
 import com.payUMoney.sdk.R;
+import com.payUMoney.sdk.SdkConstants;
 import com.payUMoney.sdk.SdkHomeActivityNew;
 import com.payUMoney.sdk.SdkSession;
-import com.payUMoney.sdk.SdkWebViewActivityPoints;
 import com.payUMoney.sdk.utils.SdkHelper;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-import de.greenrobot.event.EventBus;
-
 /**
- * Created by karan on 17/2/15.
+ * Created on 17/2/15.
  */
 public class SdkPayUMoneyPointsFragment extends Fragment {
     private TextView tv = null;
@@ -37,7 +30,6 @@ public class SdkPayUMoneyPointsFragment extends Fragment {
     final HashMap<String, Object> data = new HashMap<>();
     ProgressBar pb = null;
     Button checkout = null;
-    //public static String choosedCoupan = null;
     JSONObject details = null;
     private double discount = 0.0, cashback = 0.0, couponAmt = 0.0;
 
@@ -86,18 +78,6 @@ public class SdkPayUMoneyPointsFragment extends Fragment {
 
         return view;
     }
-    /*Not required as onEventMainThread() of SdkHomeActivityNew would be called*/
-    /*public void onEventMainThread(final SdkCobbocEvent event) {  //If payment goes through
-        if (event.getType() == SdkCobbocEvent.PAYMENT_POINTS) {
-            if (event.getStatus()) {
-                pb.setVisibility(View.INVISIBLE);
-                Intent intent = new Intent(getActivity(), SdkWebViewActivityPoints.class);
-                intent.putExtra(SdkConstants.RESULT, event.getValue().toString());
-                getActivity().startActivityForResult(intent, ((SdkHomeActivityNew) getActivity()).WEB_VIEW);
-
-            }
-        }
-    }*/
 
     public void initiate() throws JSONException {
         if (couponAmt > 0.0)

@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
@@ -46,6 +47,7 @@ import com.payUMoney.sdk.fragment.SdkPayUMoneyPointsFragment;
 import com.payUMoney.sdk.fragment.SdkStoredCardFragment;
 import com.payUMoney.sdk.utils.SdkHelper;
 import com.payUMoney.sdk.utils.SdkLogger;
+import com.payUMoney.sdk.walledSdk.SharedPrefsUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,6 +71,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
     public final int RESULT_BACK = 8;
     private final int PAYMNET_CANCELLED = 21;
     private final int PAYMNET_LOGOUT = 22;
+    public final int RESULT_FAILED = 90;
     public TextView mAmount = null, savings = null, mOrderSummary = null, mCvvTnCLink;
     SdkSession sdkSession = null;
     int count = 0;
@@ -78,6 +81,10 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
             amt_convenience = 0.0,
             amt_net = 0.0,
             amount = 0.0,
+            cashback = 0.0,
+            discount = 0.0,
+            amt_discount = 0.0,
+            amt_convenience_wallet = 0.0,
             walletBal = 0.0;
     public static double coupan_amt = 0.0/*,choosedItem = 0.0*/;//Undo
     private JSONObject walletJason = null;
@@ -87,19 +94,16 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
     private LinearLayout couponLayout = null;
     private TextView walletBalance = null, applyCoupon = null;
     private Button payByWalletButton = null;
-    private double amt_discount = 0.0;
     private boolean walletFlag = false;
     private HashMap<String, Object> data = new HashMap<>();
     private ArrayList<String> availableModes, availableDebitCards, availableCreditCards = null;
     String mode = "WALLET";
-    private double cashback = 0.0, discount = 0.0;
     private SdkCouponListAdapter coupanAdapter = null;
     private ListView couponList = null;
     private JSONObject couponListItem = null;
     public static String choosedCoupan = null;
     public JSONArray storedCardList = null, mCouponsArray = null;
     private boolean mProgress = false;
-    private double amt_convenience_wallet = 0.0;
     private boolean chooseOtherMode = false;
     private boolean guestCheckOut = false;
     private String quickLogin = "", allowGuestCheckout = "";
@@ -126,6 +130,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
     private boolean pointsActive = true;
     private String manualCouopnNameString;
     private CheckBox mOneTap;
+    private boolean firstTimeFetchingOneClickFlag = false;
 
     public String getUserId() {
         return userId;
@@ -219,6 +224,15 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
 
             @Override
             public void onGroupExpand(int groupPosition) {
+                if (mOneTap.getVisibility() == View.GONE) {
+                    mOneTap.setVisibility(View.VISIBLE);
+                    mCvvTnCLink.setVisibility(View.VISIBLE);
+
+                    if(payByWalletButton.getVisibility() == View.VISIBLE){
+                        mOneTap.setVisibility(View.GONE);
+                        mCvvTnCLink.setVisibility(View.GONE);
+                    }
+                }
                 // Collapse previous parent if expanded.
                 if ((previousGroup != -1) && (groupPosition != previousGroup)) {
                     isAnotherGroupExpanding = true;
@@ -243,8 +257,11 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                     sdkFragmentLifecycleNew.onResumeFragment(SdkHomeActivityNew.this);*/
 
                 }
-                if (currentGroup.equals("NB"))
+                if (currentGroup.equals("NB") || guestCheckOut) {
                     mode = "NB";
+                    mOneTap.setVisibility(View.GONE);
+                    mCvvTnCLink.setVisibility(View.GONE);
+                }
                 updateDetails(mode);
             }
         });
@@ -265,36 +282,33 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                     }
                 }).
                 show();
-        StringBuffer message = new StringBuffer("Order Amount : Rs." + round((float) (amount / 100) * 100, 2));
+        StringBuffer message = new StringBuffer("Order Amount : Rs." + round((float) (amount / 100) * 100));
 
         if (amt_convenience > 0.0) {
-            message.append("\nConvenience Fee : Rs.").append(round((float) (amt_convenience / 100) * 100, 2)).append("\nTotal : Rs.").append(round((float) ((amt_convenience + amount) / 100) * 100, 2));
+            message.append("\nConvenience Fee : Rs.").append(round((float) (amt_convenience / 100) * 100)).append("\nTotal : Rs.").append(round((float) ((amt_convenience + amount) / 100) * 100));
         } else
-            message.append("\nTotal : Rs.").append(round((float) ((amount) / 100) * 100, 2));
+            message.append("\nTotal : Rs.").append(round((float) ((amount) / 100) * 100));
 
 
         if (amt_discount > 0.0) {
             if (coupan_amt > 0.0) {
-                message.append("\nCoupon Discount : Rs.").append(round((float) (amt_discount / 100) * 100, 2));
+                message.append("\nCoupon Discount : Rs.").append(round((float) (amt_discount / 100) * 100));
             } else {
-                message.append("\nDiscount : Rs.").append(round((float) (amt_discount / 100) * 100, 2));
+                message.append("\nDiscount : Rs.").append(round((float) (amt_discount / 100) * 100));
             }
         } else if (cashback > 0.0 && !(coupan_amt > 0.0)) {
-            message.append("\nCashback : Rs.").append(round((float) (cashback / 100) * 100, 2));
+            message.append("\nCashback : Rs.").append(round((float) (cashback / 100) * 100));
         }
         if (userPoints > 0.0) {
-            message.append("\nAvailable PayUMoney points : Rs.").append(round((float) (userPoints / 100) * 100, 2));
+            message.append("\nAvailable PayUMoney points : Rs.").append(round((float) (userPoints / 100) * 100));
         }
 
-        message.append("\nNet Amount : Rs.").append(round((float) (amt_net * 100) / 100, 2));
+        message.append("\nNet Amount : Rs.").append(round((float) (amt_net * 100) / 100));
 
         if (walletUsage > 0.0) {
-            message.append("\nWallet Usage: Rs.").append(round(walletUsage, 2));
+            message.append("\nWallet Usage: Rs.").append(round(walletUsage));
         }
-
         qb.setMessage(message);
-
-
     }
 
     @Override
@@ -369,37 +383,25 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
         mOneTap = (CheckBox) findViewById(R.id.user_profile_is_cvv_less_checkbox);
         mCvvTnCLink = (TextView) findViewById(R.id.cvv_tnc_link);
         mCvvTnCLink.setMovementMethod(LinkMovementMethod.getInstance());
-        mCvvTnCLink.setVisibility(View.GONE);
-        mOneTap.setVisibility(View.GONE);
-        mOneTap.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        mOneTap.setOnClickListener((new CompoundButton.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
+                onCheckedChanged(mOneTap.isChecked());
+            }
+
+            public void onCheckedChanged(boolean isChecked) {
                 if (isChecked) {
                     sdkSession.enableOneClickTransaction("1");
+
                     //item.setTitle("Disable One Tap Payment");
                 } else {
                     sdkSession.enableOneClickTransaction("0");
                     // item.setTitle("Enable One Tap Payment");
                 }
             }
-        });
-        SharedPreferences mPref = getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE);
-        try {
-            if (mPref.contains(SdkConstants.CONFIG_DTO)) {
-                JSONObject userConfigDto = new JSONObject(mPref.getString(SdkConstants.CONFIG_DTO, "XYZ"));
-                if (userConfigDto != null) {
-                    if (userConfigDto.has(SdkConstants.ONE_TAP_FEATURE) && !userConfigDto.isNull(SdkConstants.ONE_TAP_FEATURE) && userConfigDto.optBoolean(SdkConstants.ONE_TAP_FEATURE)) {
-                        mOneTap.setVisibility(View.VISIBLE);
-                        mCvvTnCLink.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        /*pagerContainerLayout = (RelativeLayout) findViewById(R.id.pagerContainer);
-        mViewPager = (ViewPager) pagerContainerLayout.findViewById(R.id.pager);
-        tabs = (SdkPagerSlidingTabStripCustomised) pagerContainerLayout.findViewById(R.id.tabs);*/
+        }));
+
         paymentModesList = (ExpandableListView) findViewById(R.id.lvExp);
         payByWalletButton = (Button) findViewById(R.id.PayByWallet);
         payByWalletButton.setOnClickListener(new View.OnClickListener() {
@@ -417,14 +419,17 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                     {
                         amt_convenience = amt_convenience_wallet;
                         walletBal = (walletAmount - (amt_convenience + amount - amt_discount - userPoints));
-                        walletBalance.setText("Wallet balance: " + round(walletBal, 2));
+                        walletBalance.setText("Wallet balance: " + round(walletBal));
                         walletUsage = walletAmount - walletBal;
                         updateDetails("WALLET");
                         //wallet is fatter hence pay by wallet
                         walletFlag = true;
                         paymentModesList.setVisibility(View.GONE);
                         payByWalletButton.setVisibility(View.VISIBLE);
-
+                        if (mOneTap != null && mOneTap.getVisibility() == View.VISIBLE) {
+                            mOneTap.setVisibility(View.GONE);
+                            mCvvTnCLink.setVisibility(View.GONE);
+                        }
                     } else //Wallet is smaller, remove wallet amount from net discounted amount
                     {
                         walletFlag = false;
@@ -436,17 +441,30 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
 
                 } else //NOT TICKED
                 {
+                        if (mOneTap != null && mOneTap.getVisibility() != View.VISIBLE && !mode.equals("NB")) {
+                            mOneTap.setVisibility(View.VISIBLE);
+                            mCvvTnCLink.setVisibility(View.VISIBLE);
+                        }
                     unchecked();
+
 
                 }
             }
         });
-
         mOrderSummary.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 handleViewDetails();
             }
         });
+        if (sdkSession.isLoggedIn()) {
+            sdkSession.enableOneClickTransaction("-1");
+            firstTimeFetchingOneClickFlag = true;
+        }
+
+    }
+
+    public double getAmount() {
+        return amount;
     }
 
     public void startPayment(JSONObject params)  //Intiate payment
@@ -571,9 +589,12 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                     amt_net = 0.0;
                 }
 
-                mAmount.setText(" " + round((amt_net), 2));
+                if (fromPayUBizzApp) {
+                    amount = getIntent().getDoubleExtra(SdkConstants.AMOUNT, 0.0);
+                }
+                mAmount.setText(" " + round((amt_net)));
                 if (amt_discount > 0.0 || userPoints > 0.0) {
-                    savings.setText("Savings : Rs." + (round((float) ((amt_discount + userPoints) / 100) * 100, 2)));
+                    savings.setText("Savings : Rs." + (round((float) ((amt_discount + userPoints) / 100) * 100)));
                     savings.setVisibility(View.VISIBLE);
                 } else {
                     savings.setVisibility(View.INVISIBLE);
@@ -592,10 +613,16 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                     }
                 }
                 // }
+                if (guestCheckOut) {
+                    if(mOneTap != null)
+                    mCvvTnCLink.setVisibility(View.GONE);
+                    mOneTap.setVisibility(View.GONE);
+                }
                 dismissProgress();
             }
         } catch (JSONException ignored) {
         }
+
     }
 
     public JSONArray getStoredCardList() {
@@ -627,7 +654,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                     ((TextView) findViewById(R.id.selectCoupon)).setText(R.string.view_coupon);
                     (findViewById(R.id.selectCoupon1)).setVisibility(View.INVISIBLE);
                     if (amt_discount > 0.0 || userPoints > 0.0) {
-                        savings.setText("Savings : Rs." + (round((float) ((amt_discount + userPoints) / 100) * 100, 2)));
+                        savings.setText("Savings : Rs." + (round((float) ((amt_discount + userPoints) / 100) * 100)));
                         savings.setVisibility(View.VISIBLE);
                     } else
                         savings.setVisibility(View.INVISIBLE);
@@ -652,7 +679,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                                 manualCoupon = mannualCouponEditText.getText().toString();
                             }
                             if (!manualCoupon.isEmpty()) {
-                                sdkSession.verifyManualCoupon(manualCoupon, paymentId, device_id, "0");
+                                SdkSession.getInstance(getApplicationContext()).verifyManualCoupon(manualCoupon, paymentId, device_id, "0");
                                 for (int j = 0; j < couponList.getCount(); j++) {
                                     if (((RadioButton) couponList.getChildAt(j).findViewById(R.id.coupanSelect)).isChecked()) {
                                         ((RadioButton) couponList.getChildAt(j).findViewById(R.id.coupanSelect)).setChecked(false);
@@ -693,16 +720,18 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                             // coupan_amt = 0.0;
                             //choosedItem = -1;
                             if (!manualCouponEntered) {
-                                int j;
-                                for (j = 0; j < couponList.getCount(); j++) {
+                                Boolean couponSelectedFromList = false;
+                                for (int j = 0; j < couponList.getCount(); j++) {
 
                                     if (((RadioButton) couponList.getChildAt(j).findViewById(R.id.coupanSelect)).isChecked()) {
+
                                         /*****Apply the coupons ********/
                                         try {
                                             couponListItem = (JSONObject) coupanAdapter.getItem(j);
                                             choosedCoupan = couponListItem.getString("couponString");
                                             //choosedItem = j;
                                             coupan_amt = couponListItem.getDouble("couponAmount");
+                                            couponSelectedFromList = true;
                                             SdkLogger.i("Choosed coupan", choosedCoupan);
                                         } catch (JSONException e) {
                                             e.printStackTrace();
@@ -714,8 +743,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                                 if (mannualCouponEditText != null && !mannualCouponEditText.getText().toString().isEmpty()) {
 
                                     Toast.makeText(SdkHomeActivityNew.this, "Invalid Coupon entered", Toast.LENGTH_SHORT).show();
-                                }
-                                else if (j == couponList.getCount()) {
+                                } else if (!couponSelectedFromList) {
                                     Toast.makeText(SdkHomeActivityNew.this, "No Coupon Selected", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
@@ -733,10 +761,10 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                             if (amount - amt_discount == 0.0) //100% Coupon discount
                             {
                                 if (payByWalletButton.isShown()) {
-                                    mAmount.setText(" " + round((amt_convenience), 2));
+                                    mAmount.setText(" " + round((amt_convenience)));
                                     walletUsage = (walletAmount - amt_net);
                                     walletBal = walletAmount - walletUsage;
-                                    walletBalance.setText("Wallet balance: " + round((float) (walletBal / 100) * 100, 2));
+                                    walletBalance.setText("Wallet balance: " + round((float) (walletBal / 100) * 100));
                                 } else {
                                     mAmount.setText(" " + 0.0);
                                 }
@@ -760,7 +788,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
 
                             }
                             if (amt_discount > 0.0 || userPoints > 0.0) {
-                                savings.setText("Savings : Rs." + (round((float) ((amt_discount + userPoints) / 100) * 100, 2)));
+                                savings.setText("Savings : Rs." + (round((float) ((amt_discount + userPoints) / 100) * 100)));
                                 savings.setVisibility(View.VISIBLE);
                             } else
                                 savings.setVisibility(View.INVISIBLE);
@@ -854,8 +882,8 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
             amt_net = amount + amt_convenience - amt_discount - walletUsage - userPoints;
             if (amt_net < 0.0)
                 amt_net = 0.0;//bugfix
-            mAmount.setText(" " + round((amt_net), 2));
-            walletBalance.setText("Wallet balance: " + round((walletBal), 2));
+            mAmount.setText(" " + round((amt_net)));
+            walletBalance.setText("Wallet balance: " + round((walletBal)));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -881,18 +909,9 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 if (sdkSession.getLoginMode().equals("guestLogin")) {
                     guestCheckOut = true;
                 }
-                /*if (fromPayUBizzApp) {
-                    setResult(RESULT_OK, data);
-                    fromPayUBizzApp = false;
-                } else*/
                 check_login();
-            } else if (resultCode == SdkLoginSignUpActivity.RESULT_QUIT) {
-                // check_login();
+            } else  {
                 close();
-            } else if (resultCode == RESULT_CANCELED) {
-                //check_login(); //commented by Viswash
-                close();
-                //Write your code if there's no result
             }
         } else if (requestCode == WEB_VIEW) //Coming back from making a payment
         {
@@ -903,12 +922,16 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 finish();
             } else if (resultCode == RESULT_CANCELED) //Fail
             {
-                SdkLogger.i("payment_status", "failure");
+                SdkLogger.i("payment_status", "cancelled");
                 setResult(RESULT_CANCELED, data);
                 finish();
                 //Write your code if there's no result
-            } else if (resultCode == RESULT_BACK) {
-                //Write your code if there's no result
+            } else if (resultCode == RESULT_FAILED) {
+
+                SdkLogger.i("payment_status", "failure");
+                setResult(RESULT_FAILED, data);
+                finish();
+
             } else {
                 Toast.makeText(getApplicationContext(), "Something went wrong. please retry", Toast.LENGTH_LONG).show();
             }
@@ -933,17 +956,19 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
             } else {
                 logout();
             }
-
         }
-        if (item.getTitle().equals("Enable One Tap Payment")) {
-            sdkSession.enableOneClickTransaction("1");
+        return true;
+    }
+
+        /*if(item.getTitle().equals("Enable One Tap Payment")){
+            SdkSession.getInstance(getApplicationContext()).enableOneClickTransaction("1");
             //item.setTitle("Disable One Tap Payment");
         } else if (item.getTitle().equals("Disable One Tap Payment")) {
             sdkSession.enableOneClickTransaction("0");
             // item.setTitle("Enable One Tap Payment");
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     public void logout() {
 
@@ -951,12 +976,34 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
         SharedPreferences.Editor edit = getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE).edit();
         edit.clear();
         edit.commit();
-        /*SdkCards.getInstance(getApplicationContext()).deleteAll();
-        SdkUsers.getInstance(getApplicationContext()).deleteAll();*/
         /*reset login mode as well*/
         sdkSession.setLoginMode("");
-        sdkSession.startPaymentProcess(sdkSession.merchantContext, map);//LoginLogoutFlowIssue
-        this.finish();
+        resetValuesOnLogout();
+        //SdkSession.startPaymentProcess(SdkSession.merchantContext, map);//LoginLogoutFlowIssue
+        sdkSession.fetchMechantParams(map.get(SdkConstants.MERCHANT_ID));
+
+
+    }
+
+    public void resetValuesOnLogout() {
+
+        walletUsage = 0.0;
+        walletAmount = 0.0;
+        userPoints = 0.0;
+        amt_convenience = 0.0;
+        amt_net = 0.0;
+        amount = 0.0;
+        cashback = 0.0;
+        discount = 0.0;
+        amt_discount = 0.0;
+        amt_convenience_wallet = 0.0;
+        walletBal = 0.0;
+        coupan_amt = 0.0;
+        choosedCoupan = null;
+        /*set it to false if it ws set to true earlier*/
+        guestCheckOut = false;
+
+
     }
 
     @Override
@@ -1038,94 +1085,61 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
 
         SharedPreferences mPref = this.getSharedPreferences(SdkConstants.SP_SP_NAME, Context.MODE_PRIVATE);
         /*Not required in case of SDK in the app*/
-        //menu.add(Menu.NONE, R.id.logout, menu.size(), R.string.logout).setIcon(R.drawable.logout).setShowAsAction(MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-        getMenuInflater().inflate(R.menu.sdk_menu, menu);
-        /*if (menu.size() >= 1 && mPref != null) {
-            if (mPref != null && mPref.contains(SdkConstants.CONFIG_DTO)) {
-                try {
-                    JSONObject mTempConfigDto = new JSONObject(mPref.getString(SdkConstants.CONFIG_DTO, "XYZ"));
-                    if (mTempConfigDto.has(SdkConstants.AUTHORIZATION_SALT) && !mTempConfigDto.isNull(SdkConstants.AUTHORIZATION_SALT) && mTempConfigDto.getString(SdkConstants.AUTHORIZATION_SALT).equals(SdkConstants.AUTHORIZATION_SALT_TEST)) {
-                        if (mPref.contains(SdkConstants.ONE_TAP_FEATURE)) {
-                            if (mPref.getBoolean(SdkConstants.ONE_TAP_FEATURE, false)) {
-                                menu.getItem(1).setTitle("Disable One Tap Payment");
-                            } else {
-                                menu.getItem(1).setTitle("Enable One Tap Payment");
-                            }
-                        } else {
-                            menu.getItem(1).setTitle("Enable One Tap Payment");
-                        }
-                    } else {
-                        menu.getItem(1).setVisible(false);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        //if(!guestCheckOut)
+            getMenuInflater().inflate(R.menu.sdk_menu, menu);
 
-            }else {
-                menu.getItem(1).setVisible(false);
-            }
-        }*/
         return super.onCreateOptionsMenu(menu);
     }
 
-    /*@Override
-    public boolean onPrepareOptionsMenu(Menu menu){
-        menu.clear();
-        onCreateOptionsMenu(menu);
-        return super.onPrepareOptionsMenu(menu);
-    }*/
-
-    private void handleOneClickAndOneTapFeature(JSONObject userDto) {
-        SharedPreferences.Editor editor = this.getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE).edit();
-        try {
-            if (userDto.has(SdkConstants.CONFIG_DTO) && !userDto.isNull(SdkConstants.CONFIG_DTO)) {
-                JSONObject userConfigDtoTmp = userDto.getJSONObject(SdkConstants.CONFIG_DTO);
-                String salt = SdkConstants.DEBUG ? SdkConstants.AUTHORIZATION_SALT_TEST : SdkConstants.AUTHORIZATION_SALT_PROD;
-                if (userConfigDtoTmp.has(SdkConstants.AUTHORIZATION_SALT) && !userConfigDtoTmp.isNull(SdkConstants.AUTHORIZATION_SALT)) {
-                    if (salt.equals(userConfigDtoTmp.optString(SdkConstants.AUTHORIZATION_SALT, "XYZ"))) {
-                        editor.putBoolean(SdkConstants.ONE_CLICK_PAYMENT, false);
-                    } else {
-                        editor.putBoolean(SdkConstants.ONE_CLICK_PAYMENT, userConfigDtoTmp.optBoolean(SdkConstants.ONE_CLICK_PAYMENT, false));
-                        editor.putString(SdkConstants.CONFIG_DTO, userConfigDtoTmp.toString());
-                        if (userConfigDtoTmp.has(SdkConstants.ONE_TAP_FEATURE) && !userConfigDtoTmp.isNull(SdkConstants.ONE_TAP_FEATURE)) {
-                            boolean temp = userConfigDtoTmp.optBoolean(SdkConstants.ONE_TAP_FEATURE, false);
-                            editor.putBoolean(SdkConstants.ONE_TAP_FEATURE, temp);
-                            if (temp) {
-                                mOneTap.setVisibility(View.VISIBLE);
-                                mCvvTnCLink.setVisibility(View.VISIBLE);
-                            }
-
-                        }
-                    }
-                }
-
-            }
-            editor.commit();
-            editor.apply();
-        } catch (Exception e) {
-
-            editor.putBoolean(SdkConstants.ONE_TAP_FEATURE, false);
-            editor.putBoolean(SdkConstants.ONE_CLICK_PAYMENT, false);
-            mOneTap.setVisibility(View.GONE);
-            mCvvTnCLink.setVisibility(View.GONE);
-
-            editor.commit();
-            editor.apply();
-            e.printStackTrace();
-        }
-
-    }
 
     public void onEventMainThread(final SdkCobbocEvent event) //Bus Function
     {
         if (event != null) {
-            if (event.getType() == SdkCobbocEvent.CONTACT_INFO_UPDATE) {
-                JSONObject result = (JSONObject) event.getValue();
-                handleOneClickAndOneTapFeature(result);
-                // invalidateOptionsMenu();
-            }
 
-            if (event.getType() == SdkCobbocEvent.VERIFY_MANUAL_COUPON) {
+            if (event.getType() == SdkCobbocEvent.ONE_TAP_OPTION_ALTERED) {
+                if (event.getStatus()) {
+                    JSONObject result = (JSONObject) event.getValue();
+                    handleOneClickAndOneTapFeature(result);
+                    /*SdkDebit.mCardStore.setText("");
+                    SdkDebit.sdkTnc.setVisibility(View.VISIBLE);*/
+                    //SdkHelper.showToastMessage(this,"Can't opt for this feature now",true);// STOPSHIP: 12/21/15  ;
+                    // invalidateOptionsMenu();
+                } else {
+                    /*call failed stick with the older choice*/
+                    SharedPreferences mPref = getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE);
+                    Boolean oneClickPayment = false, oneTapFeature = false;
+                    if (mPref.contains(SdkConstants.CONFIG_DTO))
+                        try {
+                            JSONObject userConfigDto = new JSONObject(mPref.getString(SdkConstants.CONFIG_DTO, "XYZ"));
+                            if (userConfigDto != null) {
+                                if (userConfigDto.has(SdkConstants.ONE_CLICK_PAYMENT) && !userConfigDto.isNull(SdkConstants.ONE_CLICK_PAYMENT)) {
+                                    oneClickPayment = userConfigDto.optBoolean(SdkConstants.ONE_CLICK_PAYMENT);
+                                    /*if (oneClickPayment && userConfigDto.has(SdkConstants.ONE_TAP_FEATURE) && !userConfigDto.isNull(SdkConstants.ONE_TAP_FEATURE)) {
+                                        oneTapFeature = userConfigDto.optBoolean(SdkConstants.ONE_TAP_FEATURE);
+                                    }*/
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    if (!oneClickPayment) {
+                        /*SdkDebit.mCardStore.setText("Save this card");
+                        SdkDebit.sdkTnc.setVisibility(View.GONE);*/
+                        mOneTap.setChecked(false);
+                    } else {
+                        /*SdkDebit.mCardStore.setText("");
+                        SdkDebit.sdkTnc.setVisibility(View.VISIBLE);*/
+                        mOneTap.setChecked(true);
+                    }
+                    if (!firstTimeFetchingOneClickFlag)
+                        SdkHelper.showToastMessage(this, this.getString(R.string.something_went_wrong), true);
+
+                    firstTimeFetchingOneClickFlag = false;
+
+                }
+            } else if (event.getType() == SdkCobbocEvent.VERIFY_MANUAL_COUPON) {
                 verifyCouponProgress.setVisibility(View.INVISIBLE);
                 if (event.getStatus()) {
                     try {
@@ -1199,20 +1213,15 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 dismissProgress();
                 check_login();
 
-            } else if (event.getType() == SdkCobbocEvent.LOGOUT) {
+            }
+            else if (event.getType() == SdkCobbocEvent.LOGOUT) {
                 if (event.getValue() != null) {
                     if (event.getValue().equals(SdkConstants.LOGOUT_FORCE)) {
                         Toast.makeText(this, R.string.inactivity, Toast.LENGTH_LONG).show();
                         SharedPreferences.Editor edit = getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE).edit();
                         edit.clear();
                         edit.commit();
-                        Intent intent = new Intent(SdkHomeActivityNew.this, SdkLoginSignUpActivity.class);
-                        intent.putExtra(SdkConstants.AMOUNT, getIntent().getStringExtra(SdkConstants.AMOUNT));
-                        intent.putExtra(SdkConstants.PARAMS, getIntent().getSerializableExtra(SdkConstants.PARAMS));
-                        intent.putExtra(SdkConstants.EMAIL, getIntent().getStringExtra(SdkConstants.EMAIL));
-                        intent.putExtra(SdkConstants.PHONE, getIntent().getStringExtra(SdkConstants.PHONE));
-                        intent.putExtra(SdkConstants.LOGOUT_FORCE, SdkConstants.LOGOUT_FORCE);
-                        startActivityForResult(intent, LOGIN);
+                        sdkSession.fetchMechantParams(map.get(SdkConstants.MERCHANT_ID));
                     } else if (SdkConstants.WALLET_SDK) {
 
                         SdkHelper.dismissProgressDialog();
@@ -1277,7 +1286,6 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                         dismissProgress();
                         e.printStackTrace();
                     }
-                    //   sdkSession.getPaymentDetails((String)event.getValue());
                     SdkLogger.d(SdkConstants.TAG, "exited from Create Payment");
                 } else {
                     dismissProgress();
@@ -1285,15 +1293,23 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 }
             } else if (event.getType() == SdkCobbocEvent.PAYMENT_POINTS) {
                 if (event.getStatus()) {
-
-                    Intent intent = new Intent(this, SdkWebViewActivityPoints.class);
+                    Intent intent = new Intent();
                     intent.putExtra(SdkConstants.RESULT, event.getValue().toString());
-                    intent.putExtra(SdkConstants.PAYMENT_ID, paymentId);
-                    this.startActivityForResult(intent, this.WEB_VIEW);
+                    setResult(RESULT_OK, intent);
+                    finish();
 
                 } else if (event.getValue().toString().equals(SdkConstants.INVALID_APP_VERSION)) {
-                    showAlertDialog();
+                    //showAlertDialog();
+                } else {
+
+                    Intent intent = new Intent();
+                    intent.putExtra(SdkConstants.RESULT, event.getValue().toString());
+                    setResult(RESULT_FAILED, intent);
+                    finish();
+                    //onActivityResult(PAYMENT_SUCCESS, RESULT_FAILED, intent);
                 }
+
+
             } else if (event.getType() == SdkCobbocEvent.PAYMENT) {
                 dismissProgress();
                 if (event.getStatus()) {
@@ -1370,7 +1386,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                             if (walletAmount > 0.0) {
                                 walletCheck.setVisibility(View.VISIBLE);//CHECKED
                                 walletBoxLayout.setVisibility(View.VISIBLE);
-                                walletBalance.setText("Wallet balance: " + round(walletAmount, 2));
+                                walletBalance.setText("Wallet balance: " + round(walletAmount));
                             }
                         }
                     }
@@ -1399,7 +1415,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
         count++;
         if (count % 2 == 0) {
             count = 0;
-            close();
+            close(PAYMNET_CANCELLED);
             sdkSession.notifyUserCancelledTransaction(paymentId, "1");
 
         } else {
@@ -1410,9 +1426,10 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
 
 
     public void close() {
+         /*do nothing user cancelled without loggin*/
         Intent intent = new Intent();
         intent.putExtra(SdkConstants.RESULT, "cancel");
-        setResult(RESULT_CANCELED, intent);
+        setResult(RESULT_BACK, intent);
         finish();
     }
 
@@ -1496,7 +1513,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 .setTitle("Payment using Wallet")
                 .setMessage("Yoo-hoo!\n" +
                         "\n" +
-                        "You have enough money in PayUMoney Wallet for this transaction. All you need to do is confirm the payment by clicking on the OK button below and that's it." + "\n\nWallet Money Used : Rs." + round(net, 2) + "\nRemaining Money in Wallet : Rs." + round(walletBal, 2))
+                        "You have enough money in PayUMoney Wallet for this transaction. All you need to do is confirm the payment by clicking on the OK button below and that's it." + "\n\nWallet Money Used : Rs." + round(net) + "\nRemaining Money in Wallet : Rs." + round(walletBal))
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 if (!SdkHelper.checkNetwork(SdkHomeActivityNew.this)) {
@@ -1524,7 +1541,7 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 .setTitle("Payment using Wallet")
                 .setMessage("Yoo-hoo!\n" +
                         "\n" +
-                        "You have enough money in PayUMoney Wallet for this transaction. All you need to do is confirm the payment by clicking on the OK button below and that's it." + "\n\nWallet Money Used : Rs." + round(net, 2) + "\nRemaining Money in Wallet : Rs." + round(walletBal, 2))
+                        "You have enough money in PayUMoney Wallet for this transaction. All you need to do is confirm the payment by clicking on the OK button below and that's it." + "\n\nWallet Money Used : Rs." + round(net) + "\nRemaining Money in Wallet : Rs." + round(walletBal))
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (!SdkHelper.checkNetwork(SdkHomeActivityNew.this)) {
@@ -1566,8 +1583,9 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                         chooseOtherMode = true;
                         userPoints = 0.0;
                         updateWalletDetails();
-                        if (!payByWalletButton.isShown())
+                        if (!payByWalletButton.isShown()) {
                             paymentModesList.setVisibility(View.VISIBLE);
+                        }
                         if (fromPayUMoneyApp || fromPayUBizzApp)
                             startPayment(appResponse);
                         /*else if(coupan_amt > 0.0)
@@ -1590,6 +1608,11 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                         couponLayout.setVisibility(View.GONE);
                         //tabs.setVisibility(View.GONE);
                         // Your code
+                        /*hiding checkbox for one tap feature*/
+                        mOneTap.setVisibility(View.GONE);
+                        mCvvTnCLink.setVisibility(View.GONE);
+
+
                         SdkPayUMoneyPointsFragment fragment = new SdkPayUMoneyPointsFragment();
                         Bundle bundle = new Bundle();
                         bundle.putString("details", details.toString());
@@ -1632,17 +1655,17 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
 
     }
 
-    public static BigDecimal round(float d, int decimalPlace) {
+    public static BigDecimal round(float d) {
 
         BigDecimal bd = new BigDecimal(Float.toString(d));
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
         return bd;
     }
 
-    public static BigDecimal round(double d, int decimalPlace) {
+    public static BigDecimal round(double d) {
 
         BigDecimal bd = new BigDecimal(Double.toString(d));
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
         return bd;
     }
 
@@ -1706,6 +1729,8 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 walletBal = walletAmount - walletUsage;
                 updateDetails("WALLET");
                 payByWalletButton.setVisibility(View.VISIBLE);//bugfix
+                mOneTap.setVisibility(View.GONE);
+                mCvvTnCLink.setVisibility(View.GONE);
                 paymentModesList.setVisibility(View.GONE);
                 walletFlag = true;
 
@@ -1716,6 +1741,10 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 updateDetails(mode);
                 walletFlag = false;
                 payByWalletButton.setVisibility(View.GONE);//bugfix
+                if (mOneTap != null && mOneTap.getVisibility() != View.VISIBLE && !mode.equals("NB")) {
+                    mOneTap.setVisibility(View.VISIBLE);
+                    mCvvTnCLink.setVisibility(View.VISIBLE);
+                }
                 paymentModesList.setVisibility(View.VISIBLE);
             } else if ((amount + amt_convenience_wallet - userPoints - amt_discount) > 0) {//wallet is fat enough to pay
 
@@ -1724,6 +1753,8 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 walletBal = walletAmount - walletUsage;
                 updateDetails("WALLET");
                 payByWalletButton.setVisibility(View.VISIBLE);//bugfix
+                mOneTap.setVisibility(View.GONE);
+                mCvvTnCLink.setVisibility(View.GONE);
                 paymentModesList.setVisibility(View.GONE);
                 walletFlag = true;
             } else if ((amount + amt_convenience_wallet - userPoints - amt_discount) <= 0) {
@@ -1733,10 +1764,77 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                 walletFlag = false;
             }
 
-            walletBalance.setText("Wallet balance: " + round(walletBal, 2));
+            walletBalance.setText("Wallet balance: " + round(walletBal));
         }
     }
 
+    private void handleOneClickAndOneTapFeature(JSONObject userDto) {
+        SharedPreferences.Editor editor = this.getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE).edit();
+        try {
+            if (userDto.has(SdkConstants.CONFIG_DTO) && !userDto.isNull(SdkConstants.CONFIG_DTO)) {
+                JSONObject userConfigDtoTmp = userDto.getJSONObject(SdkConstants.CONFIG_DTO);
+                String salt = SdkConstants.DEBUG ? SdkConstants.AUTHORIZATION_SALT_TEST : SdkConstants.AUTHORIZATION_SALT_PROD;
+                if (userConfigDtoTmp.has(SdkConstants.AUTHORIZATION_SALT) && !userConfigDtoTmp.isNull(SdkConstants.AUTHORIZATION_SALT)) {
+                    if (salt.equals(userConfigDtoTmp.optString(SdkConstants.AUTHORIZATION_SALT, "XYZ"))) {
+                        editor.putBoolean(SdkConstants.ONE_CLICK_PAYMENT, false);
+                        editor.putBoolean(SdkConstants.ONE_TAP_FEATURE, false);
+                    } else {
+                        editor.putBoolean(SdkConstants.ONE_CLICK_PAYMENT, userConfigDtoTmp.optBoolean(SdkConstants.ONE_CLICK_PAYMENT, false));
+                        editor.putString(SdkConstants.CONFIG_DTO, userConfigDtoTmp.toString());
+                        if (userConfigDtoTmp.has(SdkConstants.ONE_TAP_FEATURE) && !userConfigDtoTmp.isNull(SdkConstants.ONE_TAP_FEATURE)) {
+                            boolean temp = userConfigDtoTmp.optBoolean(SdkConstants.ONE_TAP_FEATURE, false);
+                            editor.putBoolean(SdkConstants.ONE_TAP_FEATURE, temp);
+
+                            changeDebitCardCheckBoxLable(temp);
+
+                            if (temp) {
+                                mOneTap.setChecked(true);
+
+                            } else {
+                                mOneTap.setChecked(false);
+                            }
+
+                            if (firstTimeFetchingOneClickFlag)
+                                firstTimeFetchingOneClickFlag = false;
+
+                        }
+                    }
+                }
+
+            }
+            editor.commit();
+            editor.apply();
+        } catch (Exception e) {
+
+            editor.putBoolean(SdkConstants.ONE_TAP_FEATURE, false);
+            editor.putBoolean(SdkConstants.ONE_CLICK_PAYMENT, false);
+            mOneTap.setChecked(false);
+
+            editor.commit();
+            editor.apply();
+            e.printStackTrace();
+        }
+
+    }
+
+    private void changeDebitCardCheckBoxLable(Boolean oneTap) {
+
+        View v = findViewById(R.id.pagerContainer);
+        if (v != null) {
+            CheckBox c = (CheckBox) v.findViewById(R.id.store_card);
+            TextView t = (TextView) v.findViewById(R.id.sdk_tnc);
+            if (c != null && t != null) {
+                if (oneTap) {
+                    c.setText("");
+                    t.setVisibility(View.VISIBLE);
+                } else {
+                    c.setText("Save this card");
+                    t.setVisibility(View.GONE);
+                }
+            }
+        }
+
+    }
 
     private void showAlertDialog() {
 

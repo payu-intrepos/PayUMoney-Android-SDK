@@ -14,27 +14,33 @@ import com.payUMoney.sdk.fragment.SdkSignUpFragment;
 
 public class SdkLoginSignUpActivity extends FragmentActivity {
 
-    public static final int RESULT_QUIT = 5;
+    public final int RESULT_BACK = 8;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        String allowGuestCheckoutValue = getIntent().getStringExtra(SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_VALUE);
         setContentView(R.layout.sdk_activity_login_sign_up);
         setTitle(R.string.app_name);
         ((TextView)findViewById(R.id.login_tab)).setAllCaps(true);
         ((TextView)findViewById(R.id.sign_up_tab)).setAllCaps(true);
-
+        if(allowGuestCheckoutValue != null && allowGuestCheckoutValue.equals(SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_ONLY)){
+            findViewById(R.id.sign_up_tab).setVisibility(View.GONE);
+            findViewById(R.id.titleDivider).setVisibility(View.GONE);
+        }
         findViewById(R.id.login_tab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SdkSession.getInstance(SdkLoginSignUpActivity.this).cancelPendingRequests(SdkSession.TAG);
                 loadLoginFragment(true);
 
             }
         });
-
         findViewById(R.id.sign_up_tab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SdkSession.getInstance(SdkLoginSignUpActivity.this).cancelPendingRequests(SdkSession.TAG);
 
                 findViewById(R.id.sign_up_tab).setAlpha(1);
                 findViewById(R.id.login_tab).setAlpha(0.2f);
@@ -84,12 +90,6 @@ public class SdkLoginSignUpActivity extends FragmentActivity {
         fragmentTransaction.commitAllowingStateLoss();
         ((TextView)findViewById(R.id.login_tab)).setTextColor(getResources().getColor(android.R.color.black));
         ((TextView)findViewById(R.id.sign_up_tab)).setTextColor(getResources().getColor(android.R.color.black));
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        setResult(Activity.RESULT_CANCELED, null);
     }
 
     public void close() {

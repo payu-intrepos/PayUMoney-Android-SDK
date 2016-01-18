@@ -36,7 +36,7 @@ public class SdkNetBankingFragment extends View {
 
     // Container Activity must implement this interface
     public interface MakePaymentListener {
-        public void goToPayment(String mode, HashMap<String, Object> data) throws JSONException;
+        void goToPayment(String mode, HashMap<String, Object> data) throws JSONException;
     }
 
 

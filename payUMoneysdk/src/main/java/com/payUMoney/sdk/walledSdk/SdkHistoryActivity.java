@@ -31,7 +31,6 @@ import de.greenrobot.event.EventBus;
 
 public class SdkHistoryActivity extends FragmentActivity {
 
-    private ListView mListView;
     private boolean getMoreHistory;
     public static int save_count;
     public static int offset_count;
@@ -46,14 +45,13 @@ public class SdkHistoryActivity extends FragmentActivity {
 
     private final int HISTORY_CANCELLED = 21;
     private final int HISTORY_LOGOUT = 22;
-    private HashMap<String, String> userParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sdk_history_activity);
 
-        userParams = (HashMap<String, String>) getIntent().getSerializableExtra(SdkConstants.PARAMS);
+        /*userParams = (HashMap<String, String>) getIntent().getSerializableExtra(SdkConstants.PARAMS);*/
 
         getMoreHistory = true;
         resetListAndMetaData = false;
@@ -63,7 +61,7 @@ public class SdkHistoryActivity extends FragmentActivity {
         findViewById(R.id.no_trans).setVisibility(View.GONE);
         findViewById(R.id.load_more).setVisibility(View.GONE);
 
-        mListView = (ListView) findViewById(R.id.trans_list);
+        ListView mListView = (ListView) findViewById(R.id.trans_list);
 
         walletHistoryBeanList = new ArrayList<>();
         walletHistoryAdapter = new SdkWalletHistoryAdapter(this, walletHistoryBeanList);

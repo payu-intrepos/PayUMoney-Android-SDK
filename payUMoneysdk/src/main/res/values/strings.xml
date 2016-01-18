@@ -51,7 +51,7 @@
     <string name="enter_phone_number">Please enter your phone number</string>
     <string name="valid_phone_number">Please enter a valid phone number</string>
     <string name="enter_your_password">Please enter your password</string>
-    <string name="slogan">A better way to pay</string>
+    <string name="slogan">The best way to pay online</string>
     <string name="email_is_required">Your email is required</string>
     <string name="cc">Credit Card</string>
     <string name="dc">Debit Card</string>
@@ -148,9 +148,10 @@
     <string name="invalid_email_id">This email appears to be invalid</string>
     <string name="invalid_phone_number">This phone number appears to be invalid</string>
     <string name="invalid_password">Password must be at least 7 characters and must have 1 alphabet and 1 number</string>
-    <string name="password_pattern">^(?=.{7,}$)((.*[A-Za-z]+.*[0-9]+|.*[0-9]+.*[A-Za-z]+).*$)</string>
+    <string name="password_pattern">^(?=.{7,}$)((.*[A–Za-z]+.*[0-9]+|.*[0-9]+.*[A-Za-z]+).*$)</string>
     <string name="phone_pattern">([\\d]{10})</string>
     <string name="invalid_email_or_password">This does not seem to be a valid username and/or password.</string>
+    <string name="invalid_otp">Incorrect verification code.</string>
     <string name="show_password">Show Password</string>
     <string name="title_activity_otp_progress_dialog">OtpProgressDialog</string>
     <string name="title_activity_sdk_home_activity_new">SdkHomeActivityNew</string>
@@ -175,8 +176,8 @@
     <string name="activate">Activate</string>
     <string name="waiting_for_otp">Waiting for OTP..</string>
     <string name="please_verify_number">Please verify below phone number</string>
-    <string name="activating">ACTIVATING ...</string>
-    <string name="processing">Processing ...</string>
+    <string name="activating">ACTIVATING …</string>
+    <string name="processing">Processing …</string>
     <string name="user_type_new_user">NEW USER</string>
     <string name="user_type_old_user">OLD USER</string>
     <string name="retry_otp">Resend OTP</string>

@@ -26,6 +26,8 @@ public class MyActivity extends Activity {
     Button pay = null;
 
     HashMap<String, String> params = new HashMap<>();
+    public final int RESULT_FAILED = 90;
+    public final int RESULT_BACK = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,143 +43,121 @@ public class MyActivity extends Activity {
         surl = (EditText) findViewById(R.id.surl);
         furl = (EditText) findViewById(R.id.furl);
         pay = (Button) findViewById(R.id.pay);
+        if (SdkConstants.WALLET_SDK) {
+            findViewById(R.id.history).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.history).setVisibility(View.GONE);
+        }
     }
+
+    /*public void getTransactionHistory(View view) {
+
+        if (params == null) {
+            params = new HashMap<String, String>();
+        } else {
+            params.clear();
+        }
+
+        params.put(SdkConstants.KEY, "1LCS8b");
+        params.put(SdkConstants.SALT, "4z5sUWFC");
+        params.put(SdkConstants.MERCHANT_ID, "4827862");
+        params.put(SdkConstants.CLIENT_ID, "180553");
+
+        params.put(SdkConstants.MERCHANT_TXNID, "0nf7");
+
+        params.put(SdkConstants.SURL, "https://mobiletest.payumoney.com/mobileapp/payumoney/success.php");
+        params.put(SdkConstants.FURL, "https://mobiletest.payumoney.com/mobileapp/payumoney/failure.php");
+        params.put(SdkConstants.PRODUCT_INFO, "productInfo");
+        params.put(SdkConstants.FIRSTNAME, "mobile");
+        params.put(SdkConstants.EMAIL, "govind.bajpai@yopmail.com");
+        params.put(SdkConstants.PHONE, "9873179584");
+        params.put(SdkConstants.AMOUNT, amt.getText().toString());
+
+        params.put("udf1", "");
+        params.put("udf2", "");
+        params.put("udf3", "");
+        params.put("udf4", "");
+        params.put("udf5", "");
+        params.put(SdkConstants.IS_HISTORY_CALL, "");
+
+        if (SdkSession.getInstance(this) == null) {
+            SdkSession.startPaymentProcess(this, params);
+        } else {
+            SdkSession.createNewInstance(this);
+        }
+
+        SdkSession.startPaymentProcess(this, params);
+
+    }*/
 
     public void makePayment(View view) {
         if (amt.getText().toString().equals("") || (Double.parseDouble(amt.getText().toString()) == 0.0)) {
             Toast.makeText(getApplicationContext(), "no amount specified", Toast.LENGTH_LONG).show();
-        }
-        else if (Double.parseDouble(amt.getText().toString()) > 1000000.00) {
+        } else if (Double.parseDouble(amt.getText().toString()) > 1000000.00) {
             Toast.makeText(getApplicationContext(), "Amount exceeding the limit : 1000000.00 ", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             if (SdkSession.getInstance(this) == null) {
                 SdkSession.startPaymentProcess(this, params);
             } else {
                 SdkSession.createNewInstance(this);
             }
-            //Mukesh PP5
-            /*String hashSequence = "O50ARA" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
-                    + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "ftUjjzPp";
-            params.put("key", "O50ARA");
-            params.put("MerchantId", "4825489");*/
-            //MGL mobiletest
-            /*String hashSequence = "pkVknR" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
-                    + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "wOQkPTPA";
-            params.put("key", "pkVknR");
-            params.put("MerchantId", "7454");*/
-            //govind_mobiletest
-            String hashSequence = "1LCS8b" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
-                    + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "4z5sUWFC";
-            params.put("key", "1LCS8b");
-            params.put("MerchantId", "4827862");
-            //mukesh_test
             /*String hashSequence = "Vw997n" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
                     + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "4womTBoq";
             params.put("key", "Vw997n");
             params.put("MerchantId", "4825269");*/
-            //mukesh_mobiletest
-            /*String hashSequence = "h044J7" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
-                    + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "UMkRRTtZ";
-            params.put("key", "h044J7");
-            params.put("merchantId", "4959136")*/
-            /*LIVE MUKESH*/
-            /*String hashSequence = "h044J7" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
-                    + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "UMkRRTtZ";
-            params.put("key", "h044J7");
-            params.put("MerchantId", "4959136");*/
-            //Eva Live
-            /*String hashSequence = "UZkVYg" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
-                    + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "IB659gi9";
-            params.put("key", "UZkVYg");
-            params.put("MerchantId", "5072952");*/
-            //ApPower
-           // params.put("MerchantId", "4824738");
-            //ApPower
-            // params.put("key","ngCXUJ");
-            //ApPower
-          // String hashSequence = "ngCXUJ" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
-            //      + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "O7ZBSgci";
-            //live parameters
-            //   String hashSequence = "h044J7" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
-            // + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "UMkRRTtZ";
-            //debug
-           //String hashSequence = "dTaf8u" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
-             //      + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "yov4hU3x";
-            //debug karan
-            //   String hashSequence = "twknxo" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
-            //   + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "5EbrpgnJ";
-            //debug
-            //   String hashSequence = "ZSi1em" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
-            // + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "TxtKl6BQ";
-
+            String hashSequence = "mdyCKV" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
+                    + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "Je7q3652";
+            params.put(SdkConstants.KEY, "mdyCKV");
+            params.put(SdkConstants.MERCHANT_ID, "4914106");
             String hash = hashCal(hashSequence);
             Log.i("hash", hash);
-            //  params.put("TxnId", "0nf7" + System.currentTimeMillis());
-            params.put("TxnId", "0nf7");// debug
-            //Test
-           // params.put("MerchantId","4825052");
-            //Test Karan MID
-            // params.put("MerchantId","4927751");
-            //PP4
-           //  params.put("MerchantId","4825489");
-            //PP5
-            //params.put("MerchantId","4827143");
-            //live merchant key //
-            //  params.put("MerchantId","4959136");
-            //  params.put("MerchantId","4959136");//live merchant
+            params.put(SdkConstants.TXNID, "0nf7");// debug
             params.put("SURL", "https://mobiletest.payumoney.com/mobileapp/payumoney/success.php");
             params.put("FURL", "https://mobiletest.payumoney.com/mobileapp/payumoney/failure.php");
-            params.put("ProductInfo", "product_name");
-            params.put("firstName", "piyush");
-            params.put("Email", "piyush.jain@payu.in");
-            params.put("Phone", "8882434664");
-            params.put("Amount", amt.getText().toString());
+            params.put(SdkConstants.PRODUCT_INFO, "product_name");
+            params.put(SdkConstants.FIRSTNAME, "piyush");
+            params.put(SdkConstants.EMAIL, "piyush.jain@payu.in");
+            params.put(SdkConstants.PHONE, "8882434664");
+            params.put(SdkConstants.AMOUNT, amt.getText().toString());
             params.put("hash", hash);
-            // params.put("PayUMoneyApp","Recharge");
-            //test key
-            // params.put("key", "dTaf8u");
-            //Karantestkey
-            // params.put("key", "twknxo");
-            //pp4 key
-            //  params.put("key", "r7aQlH");
-            //live key
-            // params.put("key","h044J7");
             params.put("udf1", "");
             params.put("udf2", "");
             params.put("udf3", "");
             params.put("udf4", "");
             params.put("udf5", "");
-            //params.put("TxnId", txnid.getText().toString());
-            // params.put("MerchantId",mid.getText().toString());
-            //params.put("surl",surl.getText().toString());
-            //params.put("furl",furl.getText().toString());
-            //params.put("productinfo",pinfo.getText().toString());
-            // params.put("firstName",fname.getText().toString());
-            //params.put("Email", email.getText().toString());
-            //params.put("Phone",phone.getText().toString());
-            //params.put("amt",amt.getText().toString());
             SdkSession.startPaymentProcess(this, params);
-            //System.out.print(s);
-            //Log.i("mess1", params);
         }
     }
-////
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //if(data!=null) {
         if (requestCode == SdkSession.PAYMENT_SUCCESS) {
             if (resultCode == RESULT_OK) {
                 Log.i("app_activity", "success");
-                Log.i("paymentID", data.getStringExtra("paymentId"));
-                Intent intent = new Intent(this, paymentSuccess.class);
-                intent.putExtra(SdkConstants.RESULT, "success");
-                intent.putExtra(SdkConstants.PAYMENT_ID, data.getStringExtra("paymentId"));
-                startActivity(intent);
+
+                if (data != null && data.hasExtra(SdkConstants.IS_HISTORY_CALL)) {
+                    return;
+                } else {
+                    //Log.i(SdkConstants.PAYMENT_ID, data.getStringExtra(SdkConstants.PAYMENT_ID));
+                    Intent intent = new Intent(this, paymentSuccess.class);
+                    intent.putExtra(SdkConstants.RESULT, "success");
+                    intent.putExtra(SdkConstants.PAYMENT_ID, data.getStringExtra(SdkConstants.PAYMENT_ID));
+                    startActivity(intent);
+                }
                 // finish();
             }
 
             if (resultCode == RESULT_CANCELED) {
+                Log.i("app_activity", "failure");
+
+                Intent intent = new Intent(this, paymentSuccess.class);
+                intent.putExtra(SdkConstants.RESULT, "cancelled");
+                startActivity(intent);
+
+                //Write your code if there's no result
+            }
+
+            if (resultCode == RESULT_FAILED) {
                 Log.i("app_activity", "failure");
 
                 if (data != null) {
@@ -189,6 +169,18 @@ public class MyActivity extends Activity {
                         startActivity(intent);
                     }
                 }
+                //Write your code if there's no result
+            }
+
+            if (resultCode == RESULT_BACK) {
+                Log.i("app_activity", "User returned without login");
+
+
+                Toast.makeText(getApplicationContext(), "User returned without login", Toast.LENGTH_LONG).show();
+                /*Intent intent = new Intent(this, paymentSuccess.class);
+                intent.putExtra(SdkConstants.RESULT, "cancelled");
+                startActivity(intent);*/
+
                 //Write your code if there's no result
             }
         }
@@ -207,8 +199,12 @@ public class MyActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
-        return  super.onOptionsItemSelected(item);
+        /*int id = item.getItemId();
+        if (id == R.id.enable)
+            SdkSession.getInstance(getApplicationContext()).enableOneClickTransaction("1");
+        else if (id == R.id.disable)
+            SdkSession.getInstance(getApplicationContext()).enableOneClickTransaction("0");*/
+        return super.onOptionsItemSelected(item);
 
     }
 

@@ -16,4 +16,23 @@
 #   public *;
 #}
 
+#-dontwarn com.mixpanel.**
+#-dontwarn com.payu.custombrowser.*
+#-dontwarn org.apache.http.**
+#-keepattributes JavascriptInterface
+#-keepclassmembers class ** {
+ #   public void onEvent*(**);
+  #  public void success*(**);
+#}
+
+#-keep public class com.payUMoney.sdk.WebViewActivity$PayUJavaScriptInterface
+#-keep public class * implements com.payUMoney.sdk.WebViewActivity$PayUJavaScriptInterface
+#-keepclassmembers class com.payUMoney.sdk.WebViewActivity$PayUJavaScriptInterface {
+ #   public *;
+#}
+#-keepclassmembers class com.payUMoney.sdk.WebViewActivityPoints$PayUJavaScriptInterface {
+#    public *;
+#}
 -dontwarn com.mixpanel.**
+-dontwarn org.apache.http.**
+-dontwarn com.android.volley.toolbox.**

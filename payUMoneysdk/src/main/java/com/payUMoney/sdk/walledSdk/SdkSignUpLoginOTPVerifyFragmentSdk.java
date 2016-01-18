@@ -302,7 +302,6 @@ public class SdkSignUpLoginOTPVerifyFragmentSdk extends SdkBaseFragment {
             public void onReceive(Context context, Intent intent) {
                 // TODO Auto-generated method stub
 
-                SharedPreferences preferences;
                 String msgBody = null;
 
                 if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) {

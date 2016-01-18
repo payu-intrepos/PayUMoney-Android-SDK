@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -141,6 +142,7 @@ public class SdkStoredCardAdapter extends BaseAdapter
         SharedPreferences mPref = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE);
         if (mPref.getBoolean(SdkConstants.ONE_CLICK_PAYMENT, false)){
             cvvDialog.findViewById(R.id.sdk_tnc).setVisibility(View.VISIBLE);
+            ((TextView)cvvDialog.findViewById(R.id.sdk_tnc)).setMovementMethod(LinkMovementMethod.getInstance());
         }
         cvv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
