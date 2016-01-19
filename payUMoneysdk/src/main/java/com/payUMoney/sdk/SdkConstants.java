@@ -33,7 +33,7 @@ public class SdkConstants {
 
     public static final String CRITTERCISM_ID = "53ba89d41787840d8e000003";
 
-    public static final Boolean DEBUG = false;
+    public static final Boolean DEBUG = true;
     /**
      * Name of the {@link SharedPreferences} that
      * are to be used
@@ -90,7 +90,7 @@ public class SdkConstants {
 
     //URL FOR TEST ENVIRONMENT
 
-    private static final String BASE_URL_DEBUG = "https://test.payumoney.com";
+    private static final String BASE_URL_DEBUG = "https://mobiletest.payumoney.com";
     private static final String BASE_URL_IMAGE_DEBUG = "https://testfile.payumoney.com";
 
 

@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.payUMoney.sdk.utils.SdkLogger;
 import com.payu.custombrowser.Bank;
 import com.payu.custombrowser.PayUWebChromeClient;
 import com.payu.custombrowser.PayUWebViewClient;
@@ -211,7 +213,7 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
             magicRetryFragment.initMRSettingsFromSharedPreference(this);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.getSettings().setDomStorageEnabled(true);
-            mWebView.postUrl("https://" + (SdkConstants.DEBUG.booleanValue() ? "test" : "secure") + ".payu.in/_seamless_payment", getParameters(p).toString().getBytes());
+            mWebView.postUrl("https://" + (SdkConstants.DEBUG.booleanValue() ? "mobiletest" : "secure") + ".payu.in/_seamless_payment", getParameters(p).toString().getBytes());
 
 
         } catch (ClassNotFoundException e) {
@@ -456,10 +458,10 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
     protected void onDestroy() {
         super.onDestroy();
         try {
-            if (mReceiver != null) {
-                unregisterReceiver(mReceiver);
-                mReceiver = null;
-            }
+                if (mReceiver != null) {
+                    unregisterReceiver(mReceiver);
+                    mReceiver = null;
+                }
             if (mWebView != null) {
                 mWebView.clearCache(true);
                 mWebView.removeAllViews();
@@ -471,6 +473,10 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
+        }
+        /*Error handling:No solution to check if the reciever is registered or not by android*/
+        catch (IllegalArgumentException e){
+            SdkLogger.d("Error during unregistering reciever");
         }
 
     }

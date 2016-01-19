@@ -101,14 +101,14 @@ public class MyActivity extends Activity {
             } else {
                 SdkSession.createNewInstance(this);
             }
-            /*String hashSequence = "Vw997n" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
-                    + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "4womTBoq";
-            params.put("key", "Vw997n");
-            params.put("MerchantId", "4825269");*/
-            String hashSequence = "mdyCKV" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
+            String hashSequence = "F4Vvyz" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
+                    + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "Z6cEj6SP";
+            params.put("key", "F4Vvyz");
+            params.put("MerchantId", "4828127");
+            /*String hashSequence = "mdyCKV" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
                     + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "Je7q3652";
             params.put(SdkConstants.KEY, "mdyCKV");
-            params.put(SdkConstants.MERCHANT_ID, "4914106");
+            params.put(SdkConstants.MERCHANT_ID, "4914106");*/
             String hash = hashCal(hashSequence);
             Log.i("hash", hash);
             params.put(SdkConstants.TXNID, "0nf7");// debug

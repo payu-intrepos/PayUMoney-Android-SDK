@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="magicretry-1.0.3">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.payu.magicretry/magicretry/1.0.3/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.payu.magicretry/magicretry/1.0.3/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.payu.magicretry/magicretry/1.0.3/774bc038a60e07a59f0c3e83aac27aaa26f9bda2/magicretry-1.0.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
