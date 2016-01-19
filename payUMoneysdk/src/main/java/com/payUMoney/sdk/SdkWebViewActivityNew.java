@@ -211,7 +211,7 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
             magicRetryFragment.initMRSettingsFromSharedPreference(this);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.getSettings().setDomStorageEnabled(true);
-            mWebView.postUrl("https://" + (SdkConstants.DEBUG.booleanValue() ? "mobiletest" : "secure") + ".payu.in/_seamless_payment", getParameters(p).toString().getBytes());
+            mWebView.postUrl("https://" + (SdkConstants.DEBUG.booleanValue() ? "test" : "secure") + ".payu.in/_seamless_payment", getParameters(p).toString().getBytes());
 
 
         } catch (ClassNotFoundException e) {
