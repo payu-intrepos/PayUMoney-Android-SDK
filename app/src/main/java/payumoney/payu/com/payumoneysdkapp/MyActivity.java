@@ -103,8 +103,8 @@ public class MyActivity extends Activity {
             }
             String hashSequence = "F4Vvyz" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
                     + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "Z6cEj6SP";
-            params.put("key", "F4Vvyz");
-            params.put("MerchantId", "4828127");
+            params.put(SdkConstants.KEY, "F4Vvyz");
+            params.put(SdkConstants.MERCHANT_ID, "4828127");
             /*String hashSequence = "mdyCKV" + "|" + "0nf7" + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
                     + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "Je7q3652";
             params.put(SdkConstants.KEY, "mdyCKV");
