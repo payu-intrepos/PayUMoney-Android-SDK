@@ -37,7 +37,7 @@ public class SdkHelper {
     public static boolean checkNetwork(Context c) {
         ConnectivityManager conMgr = (ConnectivityManager)c.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if ( conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTED
+        if ( conMgr != null && conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTED
                 || conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTING
                 || conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTED
                 || conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTING ) {
@@ -46,7 +46,7 @@ public class SdkHelper {
             // notify user you are online
 
         }
-        else if ( conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.DISCONNECTED
+        else if ( conMgr != null && conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.DISCONNECTED
                 && conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.DISCONNECTED) {
 
 
