@@ -53,39 +53,17 @@
         <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/utils/SdkHelper.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="58" selection-end-column="5" />
-              <folding>
-                <element signature="method#checkNetwork#0;class#SdkHelper#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+              <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
+      <file leaf-file-name="ConnectivityManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/net/ConnectivityManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="gradle-wrapper.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.0909091">
+              <caret line="968" column="25" selection-start-line="968" selection-start-column="25" selection-end-line="968" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -101,45 +79,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MyActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/payumoney/payu/com/payumoneysdkapp/MyActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="110" column="47" selection-start-line="110" selection-start-column="23" selection-end-line="110" selection-end-column="47" />
+            <state vertical-scroll-proportion="0.57831323">
+              <caret line="109" column="51" selection-start-line="109" selection-start-column="51" selection-end-line="109" selection-end-column="51" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SdkWebViewActivityNew.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkWebViewActivityNew.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="209" column="44" selection-start-line="209" selection-start-column="44" selection-end-line="209" selection-end-column="44" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#10935#10951#0" expanded="false" />
-                <element signature="e#12071#12072#0" expanded="false" />
-                <element signature="e#12131#12132#0" expanded="false" />
-                <element signature="e#12181#12182#0" expanded="false" />
-                <element signature="e#12241#12242#0" expanded="false" />
-                <element signature="e#12459#12816#0" expanded="false" />
-                <element signature="e#12815#12816#0" expanded="false" />
-                <element signature="e#12956#13447#0" expanded="false" />
-                <element signature="e#13446#13447#0" expanded="false" />
-                <element signature="e#15537#15800#0" expanded="false" />
-                <element signature="e#15799#15800#0" expanded="false" />
-                <element signature="e#15851#16039#0" expanded="false" />
-                <element signature="e#16038#16039#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SdkConstants.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SdkConstants.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkConstants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33333334">
+            <state vertical-scroll-proportion="-2.1818182">
               <caret line="157" column="56" selection-start-line="157" selection-start-column="46" selection-end-line="157" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -2317,8 +2270,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkWebViewActivityNew.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/payumoney/payu/com/payumoneysdkapp/MyActivity.java" />
         <option value="$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkConstants.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/payumoney/payu/com/payumoneysdkapp/MyActivity.java" />
         <option value="$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/utils/SdkHelper.java" />
       </list>
     </option>
@@ -2765,29 +2718,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkWebViewActivityNew.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="209" column="44" selection-start-line="209" selection-start-column="44" selection-end-line="209" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#10935#10951#0" expanded="false" />
-            <element signature="e#12071#12072#0" expanded="false" />
-            <element signature="e#12131#12132#0" expanded="false" />
-            <element signature="e#12181#12182#0" expanded="false" />
-            <element signature="e#12241#12242#0" expanded="false" />
-            <element signature="e#12459#12816#0" expanded="false" />
-            <element signature="e#12815#12816#0" expanded="false" />
-            <element signature="e#12956#13447#0" expanded="false" />
-            <element signature="e#13446#13447#0" expanded="false" />
-            <element signature="e#15537#15800#0" expanded="false" />
-            <element signature="e#15799#15800#0" expanded="false" />
-            <element signature="e#15851#16039#0" expanded="false" />
-            <element signature="e#16038#16039#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkConstants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3228,31 +3158,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.1818182">
+          <caret line="157" column="56" selection-start-line="157" selection-start-column="46" selection-end-line="157" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/net/ConnectivityManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0909091">
+          <caret line="968" column="25" selection-start-line="968" selection-start-column="25" selection-end-line="968" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/utils/SdkHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="58" selection-end-column="5" />
-          <folding>
-            <element signature="method#checkNetwork#0;class#SdkHelper#0" expanded="false" />
-          </folding>
+          <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/payumoney/payu/com/payumoneysdkapp/MyActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="110" column="47" selection-start-line="110" selection-start-column="23" selection-end-line="110" selection-end-column="47" />
+        <state vertical-scroll-proportion="0.57831323">
+          <caret line="109" column="51" selection-start-line="109" selection-start-column="51" selection-end-line="109" selection-end-column="51" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="157" column="56" selection-start-line="157" selection-start-column="46" selection-end-line="157" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
