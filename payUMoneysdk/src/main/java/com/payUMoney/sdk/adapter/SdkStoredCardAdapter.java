@@ -41,9 +41,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 
-public class SdkStoredCardAdapter extends BaseAdapter
+public class SdkStoredCardAdapter extends BaseAdapter {
 
-{
     MakePaymentListener mCallback;
     private boolean cvvDialogIsShowing = false;
 
@@ -171,9 +170,8 @@ public class SdkStoredCardAdapter extends BaseAdapter
 
 
     @Override
-    public View getView(final int position, View view, ViewGroup viewGroup)
+    public View getView(final int position, View view, ViewGroup viewGroup) {
 
-    {
         SdkLogger.d(SdkConstants.TAG, ": Position" + position);
         if (view == null) {
             LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -243,16 +241,16 @@ public class SdkStoredCardAdapter extends BaseAdapter
 
                 data.put("storeCardId", jsonObject.getString("cardId"));
 
-                data.put("store_card_token", jsonObject.getString("cardToken"));
+                data.put("store_card_token", jsonObject.getString(SdkConstants.CARD_TOKEN));
 
                 data.put(SdkConstants.LABEL, jsonObject.getString("cardName"));
 
                 data.put(SdkConstants.NUMBER, "");
 
-                if (jsonObject.getString("cardType").equals("CC"))
-                    mode = "CC";
+                if (jsonObject.getString("pg").equals(SdkConstants.PAYMENT_MODE_CC))
+                    mode = SdkConstants.PAYMENT_MODE_CC;
                 else
-                    mode = "DC";
+                    mode = SdkConstants.PAYMENT_MODE_DC;
 
                 data.put("key", ((SdkHomeActivityNew) mContext).getPublicKey());
 
@@ -262,10 +260,10 @@ public class SdkStoredCardAdapter extends BaseAdapter
                     cvv.setHint("CVV");
 
                     if (SdkSetupCardDetails.findIssuer(jsonObject.getString("ccnum"), mode).equals("AMEX")) {
-                        data.put("bankcode", SdkConstants.AMEX);
+                        data.put(SdkConstants.BANK_CODE, SdkConstants.AMEX);
                         cvv.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
                     } else {
-                        data.put("bankcode", SdkSetupCardDetails.findIssuer(jsonObject.getString("ccnum"), mode));
+                        data.put(SdkConstants.BANK_CODE, SdkSetupCardDetails.findIssuer(jsonObject.getString("ccnum"), mode));
 
                         cvv.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
                     }
@@ -327,7 +325,7 @@ public class SdkStoredCardAdapter extends BaseAdapter
 
                     cvv.setHint("CVV(Optional)");
 
-                    data.put("bankcode", SdkSetupCardDetails.findIssuer(jsonObject.getString("ccnum"), mode));
+                    data.put(SdkConstants.BANK_CODE, SdkSetupCardDetails.findIssuer(jsonObject.getString("ccnum"), mode));
 
                     cvv.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
 

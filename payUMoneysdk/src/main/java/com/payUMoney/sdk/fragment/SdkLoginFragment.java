@@ -201,8 +201,10 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
                     }
 
                     loginMode = "passwordLogin";
-                    if (view.findViewById(R.id.password).getVisibility() == GONE)
+                    if (view.findViewById(R.id.password).getVisibility() == GONE) {
                         view.findViewById(R.id.password).setVisibility(View.VISIBLE);
+                        view.findViewById(R.id.password).requestFocus();
+                    }
                     if (view.findViewById(R.id.passwordLayout).getVisibility() == GONE)
                         view.findViewById(R.id.passwordLayout).setVisibility(View.VISIBLE);
                     if (view.findViewById(R.id.forgot_password).getVisibility() == GONE)
@@ -678,50 +680,13 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
 
             case SdkCobbocEvent.LOGIN:
                 if (event.getStatus()) { //Login successful so set some parameters for next time and finish()
-                    // This is for success
-
-                    // This is for success
-                    //Store your app Creds??
-
-                    /**** Remember me option would not work with SDK
-                    * As Account Manager doesn't allow other than the Native app
-                    * to add acounts to device *****/
-
-                     /*if(rememberMe.isChecked())
-                    {
-                        //Store Account + Token to device
-                        JSONObject temp = (JSONObject) event.getValue();
-                        Bundle data = new Bundle();
-                        try {
-                            String authoken = temp.getString("access_token");
-                            String authoken_label = temp.getString("token_type");
-                            data.putString(AccountManager.KEY_ACCOUNT_NAME, mEmail.getText().toString());
-                            data.putString(AccountManager.KEY_ACCOUNT_TYPE, Constants.ARG_ACCOUNT_TYPE);
-                            data.putString(AccountManager.KEY_AUTHTOKEN, authoken);
-                            data.putString(AccountManager.KEY_AUTH_TOKEN_LABEL, authoken_label);
-                            data.putString(Constants.PARAM_USER_PASS, mPassword.getText().toString());
-                            //Check here is this account exists already or not!!
-                            data.putBoolean(Constants.ARG_IS_ADDING_NEW_ACCOUNT, true);
-                        } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), Constants.KEY_ERROR_MESSAGE_WHILE_STORING_ACCOUNT, Toast.LENGTH_SHORT).show();
-                        }
-                        final Intent intent = new Intent();
-                        intent.putExtra(Constants.AMOUNT, getIntent().getStringExtra(Constants.AMOUNT));
-                        intent.putExtra(Constants.MERCHANTID, getIntent().getStringExtra(Constants.MERCHANTID));
-                        intent.putExtra(Constants.PARAMS, getIntent().getSerializableExtra(Constants.PARAMS));
-                        intent.putExtras(data);
-                        saveAccountAndFinishLogin(intent);
-                    }*/
-                    if(event.getValue().toString().equals("Error"))
-                    {
+                    if(event.getValue().toString().equals("Error")) {
                         Toast.makeText(c,"Error while Login",Toast.LENGTH_LONG).show();
-                    }
-                    else {
+                    } else {
                         ((SdkLoginSignUpActivity)getActivity()).close();
                     }
 
                 } else {
-
                     mCrouton = Crouton.makeText(c,loginMode == "otpLogin" ? R.string.invalid_otp : R.string.invalid_email_or_password, Style.ALERT).setConfiguration(SdkConstants.CONFIGURATION_SHORT);
                     mCrouton.show();
                     mLogin.setEnabled(true);
@@ -758,8 +723,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
         finish();
     }*/
 
-    public void registerOTP()
-    {
+    public void registerOTP() {
          /*
         * Start broadcast receiverx
         * for sms listen*/

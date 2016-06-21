@@ -37,6 +37,7 @@ public class SdkNetBankingFragment extends View {
     // Container Activity must implement this interface
     public interface MakePaymentListener {
         void goToPayment(String mode, HashMap<String, Object> data) throws JSONException;
+        void modifyConvenienceCharges(String cardBankType);
     }
 
 
@@ -77,10 +78,10 @@ public class SdkNetBankingFragment extends View {
                     final HashMap<String, Object> data = new HashMap<>();
                     try {
 
-                        data.put("bankcode", bankCode);
+                        data.put(SdkConstants.BANK_CODE, bankCode);
                         data.put("key", key);
 
-                        mCallback.goToPayment("NB", data);
+                        mCallback.goToPayment(SdkConstants.PAYMENT_MODE_NB, data);
                     } catch (JSONException e) {
                         Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_LONG).show();
                         e.printStackTrace();
@@ -101,22 +102,22 @@ public class SdkNetBankingFragment extends View {
             if(tempDetails != null && tempDetails.has(SdkConstants.PAYMENT_OPTION) && !tempDetails.isNull(SdkConstants.PAYMENT_OPTION))
             {
                 JSONObject paymentOption = tempDetails.getJSONObject(SdkConstants.PAYMENT_OPTION);
-                if(paymentOption != null && paymentOption.has("options") && !paymentOption.isNull("options"))
+                if(paymentOption != null && paymentOption.has(SdkConstants.OPTIONS) && !paymentOption.isNull(SdkConstants.OPTIONS))
                 {
-                    JSONObject tempOptions = paymentOption.getJSONObject("options");
+                    JSONObject tempOptions = paymentOption.getJSONObject(SdkConstants.OPTIONS);
                     if(tempOptions != null && tempOptions.has("nb") && !tempOptions.isNull("nb"))
                     {
                         bankObject = new JSONObject(tempOptions.getString("nb"));
                     }
                 }
                 SharedPreferences sharedPreferences = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Context.MODE_PRIVATE);
-                lastUsedBank = sharedPreferences.getString(SdkConstants.LASTUSEDBANK, "XYZ");
-                if(paymentOption != null && paymentOption.has("config") && !paymentOption.isNull("config")) {
-                    JSONObject tempConfig = paymentOption.getJSONObject("config");
-                    if (tempConfig != null && tempConfig.has("preferredPaymentOption") && !tempConfig.isNull("preferredPaymentOption")) {
-                        JSONObject tempPreferredPaymentOption = tempConfig.getJSONObject("preferredPaymentOption");
-                        if (tempPreferredPaymentOption != null && tempPreferredPaymentOption.has("optionType") && tempPreferredPaymentOption.optString("optionType", "").equals("NB")) {
-                            lastUsedBank = tempPreferredPaymentOption.getString("bankCode");
+                lastUsedBank = sharedPreferences.getString(SdkConstants.LASTUSEDBANK, SdkConstants.XYZ_STRING);
+                if(paymentOption != null && paymentOption.has(SdkConstants.CONFIG) && !paymentOption.isNull(SdkConstants.CONFIG)) {
+                    JSONObject tempConfig = paymentOption.getJSONObject(SdkConstants.CONFIG);
+                    if (tempConfig != null && tempConfig.has(SdkConstants.PREFERRED_PAYMENT_OPTION) && !tempConfig.isNull(SdkConstants.PREFERRED_PAYMENT_OPTION)) {
+                        JSONObject tempPreferredPaymentOption = tempConfig.getJSONObject(SdkConstants.PREFERRED_PAYMENT_OPTION);
+                        if (tempPreferredPaymentOption != null && tempPreferredPaymentOption.has("optionType") && tempPreferredPaymentOption.optString("optionType", "").equals(SdkConstants.PAYMENT_MODE_NB)) {
+                            lastUsedBank = tempPreferredPaymentOption.getString(SdkConstants.BANK_CODE_STRING);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString(SdkConstants.LASTUSEDBANK, lastUsedBank);
                             editor.commit();
@@ -139,10 +140,10 @@ public class SdkNetBankingFragment extends View {
                     //sagar getting the last used bank on the top
                     if (lastUsedBank.equals(code)) {
                         banks1[j][0] = Integer.toString(-1);
-                        banks1[j][1] = object.getString("title");
+                        banks1[j][1] = object.getString(SdkConstants.BANK_TITLE_STRING);
                     } else {
                         banks1[j][0] = object.getString("pt_priority");
-                        banks1[j][1] = object.getString("title");
+                        banks1[j][1] = object.getString(SdkConstants.BANK_TITLE_STRING);
                     }
                 }
                 for (int j = 0; j < keyNames.length(); j++) {
@@ -187,9 +188,10 @@ public class SdkNetBankingFragment extends View {
                     while (bankCodes.hasNext()) {
                         final String code = (String) bankCodes.next();
                         JSONObject object = bankObject.getJSONObject(code);
-                        if (object.getString("title").equals(item.toString())) {
+                        if (object.getString(SdkConstants.BANK_TITLE_STRING).equals(item.toString())) {
                             bankCode = code;
                             ((SdkHomeActivityNew)mContext).findViewById(R.id.nbPayButton).setEnabled(true);
+                            mCallback.modifyConvenienceCharges(bankCode);
                             break;
                         }
                     }

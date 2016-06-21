@@ -38,22 +38,22 @@ public class SdkSetupCardDetails {
                 return "MAES";
             }
             /* else if (mNumber.matches("((504([435|645|774|775|809|993]))|(60([0206]|[3845]))|(622[018])\\d)[\\d|\\D]+")) {
-                if (cardMode.contentEquals("CC"))
-                    return "CC";
+                if (cardMode.contentEquals(SdkConstants.PAYMENT_MODE_CC))
+                    return SdkConstants.PAYMENT_MODE_CC;
                 else
                     return "SMAE";//smaestro
             } else if (mNumber.matches("(5[06-8]|6\\d)")) {
-                if (cardMode.contentEquals("CC"))
-                    return "CC";
+                if (cardMode.contentEquals(SdkConstants.PAYMENT_MODE_CC))
+                    return SdkConstants.PAYMENT_MODE_CC;
                 else
                     return "MAES";//maestro
             }*/
             else if (mNumber.matches("6(?:011|5[0-9]{2})[0-9]{12}")) {
-                return "CC";//discover
+                return SdkConstants.PAYMENT_MODE_CC;//discover
             } else {
-                if (cardMode.contentEquals("CC"))
-                    return "CC";
-                else if (cardMode.contentEquals("DC"))
+                if (cardMode.contentEquals(SdkConstants.PAYMENT_MODE_CC))
+                    return SdkConstants.PAYMENT_MODE_CC;
+                else if (cardMode.contentEquals(SdkConstants.PAYMENT_MODE_DC))
                     return "MAST";
             }
             /*    if (mNumber.startsWith("4")) {

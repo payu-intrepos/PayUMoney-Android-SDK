@@ -33,7 +33,7 @@ public class SdkConstants {
 
     public static final String CRITTERCISM_ID = "53ba89d41787840d8e000003";
 
-    public static final Boolean DEBUG = true;
+//    public static final Boolean DEBUG = Boolean.FALSE;
     /**
      * Name of the {@link SharedPreferences} that
      * are to be used
@@ -46,13 +46,14 @@ public class SdkConstants {
     public static final String ONE_TAP_FEATURE = "oneTap";
 
     public static final String greenPayU = "#6ac451";
-
+//
     public static final String RESULT = "result";
     public static final String MESSAGE = "message";
     public static final String AMEX = "AMEX";
     public static final String CONTENT = "content";
     public static final String STATUS = "status";
     public static final String PAYMENT_ID = "paymentId";
+    public static final String PAYMENT_ID_STRING = "paymentid";
     public static final String DATA = "data";
     public static final String MID = "mid";
     public static final String NAME = "name";
@@ -75,6 +76,7 @@ public class SdkConstants {
     public static final String IS_FAVORITE = "isFavourite";
     public static final String COOKIE_VALUE = "cookie";
     public static final String PAYMENT_OPTION = "paymentOptions";
+    public static final String OPTIONS = "options";
     public static final String TRANSACTION_DTO = "transactionDto";
     public static final String PAYMENT = "payment";
     public static final String NUMBER = "ccnum";
@@ -86,24 +88,10 @@ public class SdkConstants {
     public static final String STORE = "store_card";
     public static final String ONE_CLICK_CHECKOUT = "one_click_checkout";
     public static final String CARD_MERCHANT_PARAM = "card_merchant_param";
-    private static final String BASE_URL_LIVE = "https://www.payumoney.com";
 
-    //URL FOR TEST ENVIRONMENT
-
-    private static final String BASE_URL_DEBUG = "https://mobiletest.payumoney.com";
-    private static final String BASE_URL_IMAGE_DEBUG = "https://testfile.payumoney.com";
-
-
-//URL FOR PP4 ENVIRONMENT
-//private static final String BASE_URL_DEBUG = "http://pp5.payumoney.com";
-//private static final String BASE_URL_IMAGE_DEBUG = "http://ppfile5.payumoney.com";
-
-    private static final String BASE_URL_IMAGE_LIVE = "https://file.payumoney.com";
-    /**
-     * The URL of the serverBASE_URL_IMAGE
-     */
-    public static final String BASE_URL = (DEBUG.booleanValue() ? BASE_URL_DEBUG : BASE_URL_LIVE);
-    public static final String BASE_URL_IMAGE = (DEBUG.booleanValue() ? BASE_URL_IMAGE_DEBUG : BASE_URL_IMAGE_LIVE);
+    public static final String BASE_URL = PayUmoneySdkInitilizer.getBaseUrl();
+    public static final String BASE_URL_IMAGE = PayUmoneySdkInitilizer.getBaseUrlImage();
+    public static final String WEBVIEW_REDIRECTION_URL = PayUmoneySdkInitilizer.getWebviewRedirectionUrl();
 
     private static final String BASE_URL_AMIT = "http://10.100.66.141:8080";
     public static final String PROFILE_PICTURE = "profilePicture";
@@ -112,8 +100,16 @@ public class SdkConstants {
     public static final String SURL = "SURL";
     public static final String FURL = "FURL";
     public static final String PRODUCT_INFO = "productInfo";
+    public static final String PRODUCT_INFO_STRING = "productinfo";
     public static final String FIRSTNAME = "firstName";
+    public static final String FIRST_NAME_STRING = "firstname";
     public static final String USER_NAME = "username";
+    public static final String UDF1 = "udf1";
+    public static final String UDF2 = "udf2";
+    public static final String UDF3 = "udf3";
+    public static final String UDF4 = "udf4";
+    public static final String UDF5 = "udf5";
+
 
     public static final String CVV_TITLE = "CVV Required";
     public static final String CVV_MESSAGE = "Enter your CVV to make payment.";
@@ -186,9 +182,12 @@ public class SdkConstants {
     public static final String MOBILE = "mobile";
     public static final String MAX_LIMIT = "maxLimit";
     public static final String MIN_LIMIT = "minLimit";
+    public static final String MAX_LOAD_LIMIT = "maxLoadLimit";
+    public static final String MIN_LOAD_LIMIT = "minLoadLimit";
     public static final String USER = "user";
     public static final String IS_LOGOUT_CALL = "isLogoutCall";
-    public static final String WALLET_STRING = "wallet";
+    public static final String WALLET_STRING = "WALLET";
+    public static final String POINT_STRING = "POINT";
     public static final String VAULT_TYPE = "vaultType";
     public static final String CONTENT_STRING = "content";
 
@@ -220,10 +219,83 @@ public class SdkConstants {
     public static final String AUTHORIZATION_SALT_PROD = "paiumkney183";
     public static final String AUTHORIZATION_SALT = "authorizationSalt";
     public static final String KVAULT_PROD_URL = "https://www.payumoney.com/oneclick/getToken";
-    public static final String KVAULT_TEST_URL = "http://tvapaymon.payubiz.in/vault/getToken";
+    //public static final String KVAULT_TEST_URL = "http://tvapaymon.payubiz.in/vault/getToken";
+    public static final String KVAULT_TEST_URL = "http://10.100.66.49:8080/vault/getToken";
     public static final String KVAULT_DELETE_TOKEN_URL_TEST = "http://tvapaymon.payubiz.in/vault/deleteToken";
     public static final String KVAULT_DELETE_TOKEN_URL_PROD = "https://www.payumoney.com/oneclick/deleteToken";
 
+    public static final long DEFAULT_SESSION_UPDATE_TIME = 30 * 60 * 1000 ; // 30 minutes
+    public static final long DEFAULT_SESSION_SEND_MAX_TIME = 10 * 60 * 1000 ; // 10 minutes
+    public static final String SOURCE_URL = "source_url";
+    public static final String IS_WIFI = "wifi";
+    public static final String HEIGHT = "screenHeight";
+    public static final String WIDTH = "screenWidth";
+    public static final String NFC = "hasNFC";
+    public static final String TELEPHONE = "hasTelephone";
+    public static final String LAST_SESSION_ID = "session_id"; // 30 minutes
+    public static final String LAST_USED_SESSION_TIMESTAMP= "timestamp";
+    public static final String LAST_USED_SESSION_SEND_TIMESTAMP= "last_send_timestamp";
+    public static final String USER_SESSION_COOKIE = "UserSessionCookie";
+    public static final String CUSTOM_BROWSER_PROPERTY = "customBrowserProperty";
+    public static final String USER_SESSION_COOKIE_PAGE_URL = "UserSessionCookiePageUrl";
+    public static final String USER_SESSION_UPDATE = "updateSession";
+    public static final String SUCCESS_STRING = "success";
+    public static final String CANCEL_STRING = "cancel";
+    public static final String DEVICE_NAME = "deviceName";
+    public static final String OS_NAME = "os";
+    public static final String OS_VERSION = "osVersion";
+    public static final String OS_NAME_VALUE = "Android";
+    public static final String BR_VERSION = "brVersion";
+    public static final String BR_VERSION_VALUE = "Payumoney APP";
+    public static final String INTERNAL_LOAD_WALLET_CALL = "internal_load_wallet_call";
+    public static final String NEED_TO_SHOW_ONE_TAP_CHECK_BOX = "need_to_show_one_tap_check_box";
+    public static final String PAYMENT_IDENTIFIERS_STRING = "paymentIdentifiers";
+    public static final String PAYMENT_PARTS_STRING = "paymentParts";
+    public static final String COUPONS_STRING = "coupons";
+    public static final String ENABLED_STRING = "enabled";
+    public static final String CONVENIENCE_CHARGES = "convenienceCharges";
+    public static final String ORDER_AMOUNT = "orderAmount";
+    public static final String MERCHANT_CATEGORY_TYPE = "merchantCategoryType";
+    public static final String CONFIG_DATA = "configData";
+    public static final String CONFIG = "config";
+    public static final String ONLY_WALLET_PAYMENT = "onlywallet";
+    public static final String PREFERRED_PAYMENT_OPTION = "preferredPaymentOption";
+    public static final String ONE_CLICK_CHECK_OUT = "oneclickcheckout";
+    public static final String CARD_TOKEN = "cardToken";
+    public static final String FALSE_STRING = "false";
+    public static final String TRUE_STRING = "TRUE";
+    public static final String PAYMENT_MODE_STORE_CARDS = "STORED_CARDS";
+    public static final String PAYMENT_MODE_CC = "CC";
+    public static final String PAYMENT_MODE_DC = "DC";
+    public static final String PAYMENT_MODE_NB = "NB";
+    public static final String BANK_CODE = "bankcode";
+    public static final String BANK_CODE_STRING = "bankCode";
+    public static final String XYZ_STRING = "XYZ";
+    public static final String USER_TOKEN = "userToken";
+    public static final String CARD_HASH_FOR_ONE_CLICK_TXN = "cardHashForOneClickTxn";
+    public static final String SHOW_CUSTOM = "showCustom";
+    public static final String COULD_NOT_FOUND = "could not find";
+    public static final String CUSTOM_BROWSER_PACKAGE = "com.payu.custombrowser.Bank";
+    public static final String DEFAULT = "DEFAULT";
+    public static final String COUPON_USED = "couponUsed";
+    public static final double FIXED_CONVENIENCE_CHARGES_COMPONENT = 0.75;
+    public static final String OTP_AUTO_READ = "otpAutoRead";
+    public static final String UP_STATUS = "up_status";
+    public static final String BANK_TITLE_STRING = "title";
+    public static final String PAYMENT_NOT_VALID = "payment not valid";
+
+    // for temporary payment
+    /*public static String ccname_KEY = "ccname";
+    public static String ccname_VALUE = "payumoney";
+
+    public static String ccvv_KEY = "ccvv";
+    public static String ccvv_VALUE = "";
+
+    public static String ccexpmon_KEY = "ccexpmon";
+    public static String ccexpmon_VALUE = "";
+
+    public static String ccexpyr_KEY = "ccexpyr";
+    public static String ccexpyr_VALUE = "";*/
 
     public static int getVersionCode(Context context) {
         if (context == null)

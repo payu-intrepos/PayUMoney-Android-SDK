@@ -166,6 +166,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
+            android:id="@+id/user_profile_is_cvv_less_layout"
             android:paddingLeft="2dp">
 
             <CheckBox
@@ -207,6 +208,7 @@
             android:id="@+id/lvExp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_marginBottom="20sp"
             />
         <Button
             android:id="@+id/PayByWallet"

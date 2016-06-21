@@ -60,18 +60,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme"/>
-        <!--
-        <activity
-            android:name=".FinalActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" >
-        </activity>
-        -->
-        <activity
-            android:name=".SdkWebViewActivityPoints"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
 
         <activity
             android:name=".dialog.SdkOtpProgressDialog"

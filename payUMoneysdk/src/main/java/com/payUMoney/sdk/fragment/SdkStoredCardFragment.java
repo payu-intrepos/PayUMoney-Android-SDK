@@ -22,8 +22,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.payUMoney.sdk.PayUmoneySdkInitilizer;
 import com.payUMoney.sdk.SdkConstants;
 import com.payUMoney.sdk.R;
 import com.payUMoney.sdk.SdkHomeActivityNew;
@@ -38,6 +40,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.ProxySelector;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -75,7 +83,7 @@ public class SdkStoredCardFragment extends View {
 
     public RequestQueue getRequestQueue(Context context) {
         if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(context);
+            mRequestQueue = Volley.newRequestQueue(context/*, new ProxyHurlStack()*/);
         }
         return mRequestQueue;
     }
@@ -136,14 +144,18 @@ public class SdkStoredCardFragment extends View {
                 try {
                     SharedPreferences mPref = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE);
                     if (mPref.contains(SdkConstants.ONE_TAP_FEATURE) && mPref.getBoolean(SdkConstants.ONE_TAP_FEATURE,false) && mPref.contains(SdkConstants.CONFIG_DTO))
-                        userConfigDto = new JSONObject(mPref.getString(SdkConstants.CONFIG_DTO, "XYZ"));
+                        userConfigDto = new JSONObject(mPref.getString(SdkConstants.CONFIG_DTO, SdkConstants.XYZ_STRING));
 
                     mode = selectedCard.getString("pg");
                     ((SdkHomeActivityNew) mContext).updateDetails(mode);
 
-                    if (userConfigDto != null && userConfigDto.has(SdkConstants.ONE_CLICK_PAYMENT) && userConfigDto.optBoolean(SdkConstants.ONE_CLICK_PAYMENT, false) && selectedCard.has("cardToken") && !selectedCard.isNull("cardToken")) {
+                    if (userConfigDto != null && userConfigDto.has(SdkConstants.ONE_CLICK_PAYMENT)
+                            && userConfigDto.optBoolean(SdkConstants.ONE_CLICK_PAYMENT, false)
+                            && selectedCard.has(SdkConstants.ONE_CLICK_CHECK_OUT) && !selectedCard.isNull(SdkConstants.ONE_CLICK_CHECK_OUT)
+                            && selectedCard.optBoolean(SdkConstants.ONE_CLICK_CHECK_OUT, false)
+                            && selectedCard.has(SdkConstants.CARD_TOKEN) && !selectedCard.isNull(SdkConstants.CARD_TOKEN)) {
                             /*One Click is true Henc ConfigDto must not be null*/
-                        calculateCardHash(selectedCard.getString("cardToken"), userConfigDto);
+                        calculateCardHash(selectedCard.getString(SdkConstants.CARD_TOKEN), userConfigDto);
                     }
                     else{
                         askForCvvDialog(adapter, selectedCardPosition);
@@ -163,7 +175,6 @@ public class SdkStoredCardFragment extends View {
         dismissProgress();
         adapter.setSelectedCard(i);
         adapter.notifyDataSetInvalidated();
-
     }
 
     private void calculateCardHash(String cardToken, JSONObject userConfigDto) {
@@ -173,8 +184,8 @@ public class SdkStoredCardFragment extends View {
             if (userConfigDto != null && userConfigDto.has(SdkConstants.AUTHORIZATION_SALT) && !userConfigDto.isNull(SdkConstants.AUTHORIZATION_SALT))
                 authorizationSalt = userConfigDto.getString(SdkConstants.AUTHORIZATION_SALT);
 
-            if (userConfigDto != null && userConfigDto.has("userToken") && !userConfigDto.isNull("userToken"))
-                userToken = userConfigDto.getString("userToken");
+            if (userConfigDto != null && userConfigDto.has(SdkConstants.USER_TOKEN) && !userConfigDto.isNull(SdkConstants.USER_TOKEN))
+                userToken = userConfigDto.getString(SdkConstants.USER_TOKEN);
 
             if (userConfigDto != null && userConfigDto.has("userId") && !userConfigDto.isNull("userId"))
                 encryptedUserId = userConfigDto.getString("userId");
@@ -194,7 +205,7 @@ public class SdkStoredCardFragment extends View {
             p.put("pid", paymentId);
             p.put("did", deviceId);
 
-            postFetch(SdkConstants.DEBUG ? SdkConstants.KVAULT_TEST_URL : SdkConstants.KVAULT_PROD_URL, p, Request.Method.POST);
+            postFetch(PayUmoneySdkInitilizer.IsDebugMode()? SdkConstants.KVAULT_TEST_URL : SdkConstants.KVAULT_PROD_URL, p, Request.Method.POST);
         }
 
     }
@@ -253,18 +264,18 @@ public class SdkStoredCardFragment extends View {
 
             final HashMap<String, Object> data = new HashMap<>();
             data.put("storeCardId", jsonObject.getString("cardId"));
-            data.put("store_card_token", jsonObject.getString("cardToken"));
+            data.put("store_card_token", jsonObject.getString(SdkConstants.CARD_TOKEN));
             data.put(SdkConstants.LABEL, jsonObject.getString("cardName"));
             data.put(SdkConstants.NUMBER, "");
             /*data.put(SdkConstants.CARD_CVV_MERCHANT, jsonObject.getString("cvvToken"));*/
 
-            /*if (jsonObject.getString("cardType").equals("CC"))
-                mode = "CC";
+            /*if (jsonObject.getString("cardType").equals(SdkConstants.PAYMENT_MODE_CC))
+                mode = SdkConstants.PAYMENT_MODE_CC;
             else
-                mode = "DC";
+                mode = SdkConstants.PAYMENT_MODE_DC;
 */
             data.put("key", ((SdkHomeActivityNew) mContext).getPublicKey());
-            data.put("bankcode", SdkSetupCardDetails.findIssuer(jsonObject.getString("ccnum"), mode));
+            data.put(SdkConstants.BANK_CODE, SdkSetupCardDetails.findIssuer(jsonObject.getString("ccnum"), mode));
 
             if (!SdkHelper.checkNetwork(mContext)) {
                 Toast.makeText(mContext, R.string.disconnected_from_internet, Toast.LENGTH_SHORT).show();
@@ -316,17 +327,37 @@ public class SdkStoredCardFragment extends View {
                 return SdkIssuer.MAESTRO;
 
             default:
-                if (cardMode.contentEquals("CC"))
+                if (cardMode.contentEquals(SdkConstants.PAYMENT_MODE_CC))
                     return SdkIssuer.UNKNOWN;
-                else if (cardMode.contentEquals("DC"))
+                else if (cardMode.contentEquals(SdkConstants.PAYMENT_MODE_DC))
                     return SdkIssuer.MASTERCARD;
         }
 
         return SdkIssuer.UNKNOWN;
     }
 
+    /*public class ProxyHurlStack extends HurlStack {
+
+        @Override
+        protected HttpURLConnection createConnection(URL url) throws IOException {
+            final HttpURLConnection urlConnection;
+            Proxy proxy = null;
+            try {
+                proxy = ProxySelector.getDefault().select(url.toURI()).get(0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (proxy == null) {
+                urlConnection = (HttpURLConnection) url.openConnection();
+            } else {
+                urlConnection = (HttpURLConnection) url.openConnection(proxy);
+            }
+            return urlConnection;
+        }
+    }*/
+
     public void postFetch(final String url, final Map<String, String> params, final int method) {
-        if (SdkConstants.DEBUG.booleanValue()) {
+        if (PayUmoneySdkInitilizer.IsDebugMode()) {
             SdkLogger.d(SdkConstants.TAG, "SdkSession.postFetch: " + url + " " + params + " " + method);
         }
 
@@ -354,7 +385,7 @@ public class SdkStoredCardFragment extends View {
             }
 
             public void onFailure(String msg, Throwable e) {
-                if (SdkConstants.DEBUG) {
+                if (PayUmoneySdkInitilizer.IsDebugMode()) {
                     Log.e(SdkConstants.TAG, "Session...new JsonHttpResponseHandler() {...}.onFailure: " + e.getMessage() + " " + msg);
                 }
                 askForCvvDialog(adapter, selectedCardPosition);
@@ -364,7 +395,7 @@ public class SdkStoredCardFragment extends View {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (SdkConstants.DEBUG) {
+                if (PayUmoneySdkInitilizer.IsDebugMode()) {
                     Log.e(SdkConstants.TAG, "Session...new JsonHttpResponseHandler() {...}.onFailure: " + error.getMessage());
                 }
                 if (error != null && error.networkResponse != null && error.networkResponse.statusCode == 401) {
@@ -388,6 +419,7 @@ public class SdkStoredCardFragment extends View {
                 } else {
                     params.put("Accept", "*/*;");
                 }
+                params.put("Cookie", SdkHelper.getUserCookieSessionId(mContext));
                 return params;
             }
 

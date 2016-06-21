@@ -48,7 +48,7 @@ public class WalletSdkLoginSignUpActivity extends FragmentActivity {
         //overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
 
         setContentView(R.layout.walletsdk_activity_login_sign_up);
-        setTitle("dsfjsdflsfljsdjf");
+
         titleTextView = (TextView) findViewById(R.id.pages_tabs);
 
         findViewById(R.id.main_layout).setOnClickListener(new View.OnClickListener() {
@@ -74,14 +74,14 @@ public class WalletSdkLoginSignUpActivity extends FragmentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        if(findViewById(R.id.more_options_imageView).getVisibility() == View.VISIBLE)
+        if (findViewById(R.id.more_options_imageView).getVisibility() == View.VISIBLE)
             menu.add(Menu.NONE, R.id.logout, menu.size(), R.string.logout).setIcon(R.drawable.logout).setShowAsAction(MenuItem.SHOW_AS_ACTION_WITH_TEXT);
         else
             menu.clear();
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void invalidateActivityOptionsMenu(){
+    public void invalidateActivityOptionsMenu() {
         invalidateOptionsMenu();
     }
 
@@ -230,6 +230,8 @@ public class WalletSdkLoginSignUpActivity extends FragmentActivity {
     public void onResume() {   //< -- register and initialize receiver here. What if server gives 401? user will come here.
         super.onResume();
 
+        SharedPrefsUtils.setStringPreference(this, SdkConstants.USER_SESSION_COOKIE_PAGE_URL, this.getClass().getSimpleName());
+
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
     }
@@ -300,11 +302,11 @@ public class WalletSdkLoginSignUpActivity extends FragmentActivity {
         }
     }
 
-    private int getPixelValue(int px){
+    private int getPixelValue(int px) {
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        return ((int)(px * dm.scaledDensity));
+        return ((int) (px * dm.scaledDensity));
 
     }
 

@@ -156,6 +156,7 @@
     <string name="title_activity_otp_progress_dialog">OtpProgressDialog</string>
     <string name="title_activity_sdk_home_activity_new">SdkHomeActivityNew</string>
     <string name="pay_using_wallet">Pay Using Wallet</string>
+    <string name="load_and_pay">Load and Pay</string>
     <string name="disconnected_from_internet">Kindly check your internet connectivity.</string>
     <string name="enter_coupon">Enter Coupon</string>
     <string name="update_version_message">We have brand new app waiting for you. Your current version of app is not supported.</string>
@@ -189,6 +190,9 @@
     <string name = "cvv_tnc_text">Enable onetap.I accept the <a href="https://www.payumoney.com/musertnc.html#onetap">T&amp;C  </a> and <a href="https://www.payumoney.com/privacypolicy.html#pponetap"> Privacy Policy </a>"  </string>
     <string name = "sdk_tnc_pp_text">By clicking Pay,I accept the <a href="https://www.payumoney.com/musertnc.html#onectnc">T&amp;C  </a> and <a href="https://www.payumoney.com/privacypolicy.html#pponetap"> Privacy Policy </a>"  </string>
     <string name = "sdk_card_tnc_pp_text">Save for faster checkout. I accept the <a href="https://www.payumoney.com/musertnc.html#onectnc">T&amp;C  </a> and <a href="https://www.payumoney.com/privacypolicy.html#pponetap"> Privacy Policy </a>"  </string>
-
+    <string name="insufficient_wallet_balance_message_string">Insufficient Wallet Balance</string>
+    <string name="proceed">Proceed</string>
+    <string name="back_to_home">Back to Home</string>
+    <string name="remaining_wallet_bal">Remaining wallet balance: </string>
 
 </resources>

@@ -28,5 +28,5 @@ dependencies {
     compile 'com.mobsandgeeks:android-saripaar:1.0.3'
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.payu.magicretry:magicretry:1.0.3'
-    compile 'com.payu.custombrowser:payu-custom-browser:5.3.6'
+    compile 'com.payu.custombrowser:payu-custom-browser:5.3.7'
 }

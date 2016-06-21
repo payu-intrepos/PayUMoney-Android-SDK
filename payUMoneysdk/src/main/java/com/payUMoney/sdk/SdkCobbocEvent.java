@@ -23,6 +23,9 @@ public class SdkCobbocEvent {
     public static final int OPEN_SEND_OTP_VERIFICATION = 46;
     public static final int OPEN_REGISTER_USING_OTP_AND_SIGNIN = 48;
     public static final int USER_VAULT = 49;
+    public static final int SEND_OTP_TO_USER = 50;
+    public static final int CREATE_WALLET = 51;
+    public static final int NET_BANKING_STATUS = 52;
 
 
     private boolean STATUS;

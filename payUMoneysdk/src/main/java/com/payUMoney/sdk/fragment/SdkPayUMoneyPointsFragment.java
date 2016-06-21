@@ -32,6 +32,7 @@ public class SdkPayUMoneyPointsFragment extends Fragment {
     Button checkout = null;
     JSONObject details = null;
     private double discount = 0.0, cashback = 0.0, couponAmt = 0.0;
+    private boolean enoughDiscount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +48,8 @@ public class SdkPayUMoneyPointsFragment extends Fragment {
             discount = getArguments().getDouble("discount");
             cashback = getArguments().getDouble("cashback");
             couponAmt = getArguments().getDouble("couponAmount");
-
+            enoughDiscount = getArguments().getBoolean("enoughDiscount");
+            amt_convenience = getArguments().getDouble("convenienceChargesAmount");
 
             initiate();
         } catch (JSONException e) {
@@ -65,9 +67,9 @@ public class SdkPayUMoneyPointsFragment extends Fragment {
                         pb.setVisibility(View.VISIBLE);
                         amt_net = round(amt_net, 2);
                         if (couponAmt > 0.0)
-                            SdkSession.getInstance(getActivity()).sendToPayU(details, "points", data, Double.valueOf(amt_net), Double.valueOf(couponAmt));
+                            SdkSession.getInstance(getActivity()).sendToPayU(details, SdkConstants.POINTS, data, Double.valueOf(amt_net), Double.valueOf(couponAmt), amt_convenience);
                         else
-                            SdkSession.getInstance(getActivity()).sendToPayU(details, "points", data, Double.valueOf(amt_net), Double.valueOf(discount));
+                            SdkSession.getInstance(getActivity()).sendToPayU(details, SdkConstants.POINTS, data, Double.valueOf(amt_net), Double.valueOf(discount), amt_convenience);
                     } catch (Exception e) {
                         tv.setText("Something went wrong " + e.toString());
                     }
@@ -85,17 +87,25 @@ public class SdkPayUMoneyPointsFragment extends Fragment {
         else if (discount > 0.0)
             amt_discount = discount;
         //amount = details.getJSONObject(Constants.PAYMENT).getDouble("totalAmount"); //Get amount user need to pay
-        //amt_convenience = new JSONObject(details.getJSONObject(Constants.PAYMENT_OPTION).getString("convenienceFeeCharges")).getJSONObject("WALLET").getDouble("DEFAULT");
-        amount = details.getJSONObject(SdkConstants.PAYMENT).getDouble("orderAmount");
-        amt_convenience = new JSONObject(details.getString("convenienceCharges")).getJSONObject("WALLET").getDouble("DEFAULT");
+        //amt_convenience = new JSONObject(details.getJSONObject(Constants.PAYMENT_OPTION).getString("convenienceFeeCharges")).getJSONObject("WALLET").getDouble(SdkConstants.DEFAULT);
+        amount = details.getJSONObject(SdkConstants.PAYMENT).getDouble(SdkConstants.ORDER_AMOUNT);
         amt_total = amount + amt_convenience;
         amtafterDicount = amt_total - amt_discount;
         amt_net = amtafterDicount;
 
-        StringBuffer s = new StringBuffer("You have enough PayUPoints, please click on \"Pay Now\" to complete transaction" +
-                "\n\n\n" + "Summary: \n" +
-                "\n\n***************************************\n\n" +
-                "Net Amount: " + round(amt_net, 2) + "\n");
+        StringBuffer s;
+        if(enoughDiscount) {
+            s = new StringBuffer("You don't need to pay anything else for this transaction, please click on \"Pay Now\" to complete transaction" +
+                    "\n\n\n" + "Summary: \n" +
+                    "\n\n***************************************\n\n" +
+                    "Net Amount: " + round(amt_net, 2) + "\n");
+        } else {
+            s = new StringBuffer("You have enough PayUPoints, please click on \"Pay Now\" to complete transaction" +
+                    "\n\n\n" + "Summary: \n" +
+                    "\n\n***************************************\n\n" +
+                    "Net Amount: " + round(amt_net, 2) + "\n");
+        }
+
         if (amt_convenience > 0.0)
             s.append("Convenience Charge : ").append(round(amt_convenience, 2)).append("\n");
         if(amt_discount > 0.0) {
@@ -110,7 +120,7 @@ public class SdkPayUMoneyPointsFragment extends Fragment {
         s.append("Order Amount: ").append(round(amount, 2));
 
         if (((SdkHomeActivityNew) getActivity()).getPoints().doubleValue() > 0.0)
-            s.append("\n\n***************************************\n\n" + "Available PayUMoney Points (in rs):").append(round(((SdkHomeActivityNew) getActivity()).getPoints().doubleValue(), 2));
+            s.append("\n\n***************************************\n\n" + "Available PayUMoney Points ₹ :").append(round(((SdkHomeActivityNew) getActivity()).getPoints().doubleValue(), 2));
 
         tv.setText(s);
 

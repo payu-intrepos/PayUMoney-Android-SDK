@@ -38,23 +38,23 @@ public class SdkLuhn {
         }
         if (sum % 10 == 0) {
             // valid now check length
-            if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("VISA") && ccNumber.length() == 16) {
+            if (SdkSetupCardDetails.findIssuer(ccNumber, SdkConstants.PAYMENT_MODE_CC).contentEquals("VISA") && ccNumber.length() == 16) {
                 return true;
-            } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("LASER") && ccNumber.length() >= 16 && ccNumber.length() <= 19) {
+            } else if (SdkSetupCardDetails.findIssuer(ccNumber, SdkConstants.PAYMENT_MODE_CC).contentEquals("LASER") && ccNumber.length() >= 16 && ccNumber.length() <= 19) {
                 return true;
-            } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("MAST") && ccNumber.length() == 16) {
+            } else if (SdkSetupCardDetails.findIssuer(ccNumber, SdkConstants.PAYMENT_MODE_CC).contentEquals("MAST") && ccNumber.length() == 16) {
                 return true;
-            } else if ((SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("MAES")/* || SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("SMAE")*/) && ccNumber.length() >= 12 && ccNumber.length() <= 19) {
+            } else if ((SdkSetupCardDetails.findIssuer(ccNumber, SdkConstants.PAYMENT_MODE_CC).contentEquals("MAES")/* || SdkSetupCardDetails.findIssuer(ccNumber, SdkConstants.PAYMENT_MODE_CC).contentEquals("SMAE")*/) && ccNumber.length() >= 12 && ccNumber.length() <= 19) {
                 return true;
-            } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("DINR") && ccNumber.length() == 14) {
+            } else if (SdkSetupCardDetails.findIssuer(ccNumber, SdkConstants.PAYMENT_MODE_CC).contentEquals("DINR") && ccNumber.length() == 14) {
                 return true;
-            } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("AMEX") && ccNumber.length() == 15) {
+            } else if (SdkSetupCardDetails.findIssuer(ccNumber, SdkConstants.PAYMENT_MODE_CC).contentEquals("AMEX") && ccNumber.length() == 15) {
                 return true;
-            } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("JCB") && ccNumber.length() == 16) {
+            } else if (SdkSetupCardDetails.findIssuer(ccNumber, SdkConstants.PAYMENT_MODE_CC).contentEquals("JCB") && ccNumber.length() == 16) {
                 return true;
-            } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("RUPAY") && (ccNumber.length() == 16 || ccNumber.length() == 19)) {
+            } else if (SdkSetupCardDetails.findIssuer(ccNumber, SdkConstants.PAYMENT_MODE_CC).contentEquals("RUPAY") && (ccNumber.length() == 16 || ccNumber.length() == 19)) {
                 return true;
-            } else if (SdkSetupCardDetails.findIssuer(ccNumber, "CC").contentEquals("JCB") && ccNumber.length() == 16) {
+            } else if (SdkSetupCardDetails.findIssuer(ccNumber, SdkConstants.PAYMENT_MODE_CC).contentEquals("JCB") && ccNumber.length() == 16) {
                 return true;
             } else if (ccNumber.matches("6(?:011|5[0-9]{2})[0-9]{12}") && ccNumber.length() == 16) {
                 return true;//discover

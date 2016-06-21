@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +20,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.payUMoney.sdk.utils.SdkLogger;
+import com.payUMoney.sdk.walledSdk.SharedPrefsUtils;
 import com.payu.custombrowser.Bank;
 import com.payu.custombrowser.PayUWebChromeClient;
 import com.payu.custombrowser.PayUWebViewClient;
@@ -56,7 +56,7 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
         JSONObject object;
         JSONObject userConfigDto = null;
         String userToken = null;
-        Boolean oneClickPayment = false, oneTapFeature = false;
+        Boolean oneClickPayment = false, oneTapFeature = false, mOTPAutoRead = false;
 
         try {
             if (savedInstanceState != null) {
@@ -65,12 +65,20 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
             } else {
                 super.onCreate(savedInstanceState);
             }
+
+            bundle = getIntent().getExtras();
+
             setContentView(R.layout.sdk_activity_web_view);
             mWebView = (WebView) findViewById(R.id.webview);
             SharedPreferences mPref = getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE);
-            String paymentMode = getIntent().getExtras().getString(SdkConstants.PAYMENT_MODE);
+
+            String paymentMode = null;
+            if(bundle != null) {
+                paymentMode = bundle.getString(SdkConstants.PAYMENT_MODE);
+            }
+
             if (mPref.contains(SdkConstants.CONFIG_DTO) && mPref.contains(SdkConstants.ONE_TAP_FEATURE) && mPref.getBoolean(SdkConstants.ONE_TAP_FEATURE,false))
-                userConfigDto = new JSONObject(mPref.getString(SdkConstants.CONFIG_DTO, "XYZ"));
+                userConfigDto = new JSONObject(mPref.getString(SdkConstants.CONFIG_DTO, SdkConstants.XYZ_STRING));
 
             if (userConfigDto != null) {
                 if (userConfigDto.has(SdkConstants.ONE_CLICK_PAYMENT) && !userConfigDto.isNull(SdkConstants.ONE_CLICK_PAYMENT)) {
@@ -80,13 +88,11 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
                     }
                 }
             }
-            if (userConfigDto != null && userConfigDto.has("userToken") && !userConfigDto.isNull("userToken")) {
-                userToken = userConfigDto.getString("userToken");
+            if (userConfigDto != null && userConfigDto.has(SdkConstants.USER_TOKEN) && !userConfigDto.isNull(SdkConstants.USER_TOKEN)) {
+                userToken = userConfigDto.getString(SdkConstants.USER_TOKEN);
             }
 
-            bundle = getIntent().getExtras();
-
-            Class.forName("com.payu.custombrowser.Bank");
+            Class.forName(SdkConstants.CUSTOM_BROWSER_PACKAGE);
             final Bank bank = new Bank() {
                 @Override
                 public void registerBroadcast(BroadcastReceiver broadcastReceiver, IntentFilter filter) {
@@ -124,24 +130,34 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
             args.putInt(Bank.WEBVIEW, R.id.webview);
             args.putInt(Bank.TRANS_LAYOUT, R.id.trans_overlay);
             args.putInt(Bank.MAIN_LAYOUT, R.id.r_layout);
-            if (getIntent().getStringExtra(SdkConstants.PAYMENT_MODE).equals("NB"))
+
+            if (bundle != null && bundle.getString(SdkConstants.PAYMENT_MODE).equals(SdkConstants.PAYMENT_MODE_NB)) {
                 viewPortWide = true;
+            }
 
             args.putBoolean(Bank.VIEWPORTWIDE, viewPortWide);
-            JSONObject temp = new JSONObject(getIntent().getStringExtra(SdkConstants.RESULT));
-            String txnId = temp.getString(SdkConstants.TXNID);
+
+            String txnId = null, merchantKey = null;
+            if(bundle != null) {
+                JSONObject temp = new JSONObject(bundle.getString(SdkConstants.RESULT));
+                if(temp != null && temp.has(SdkConstants.TXNID) && !temp.isNull(SdkConstants.TXNID)) {
+                    txnId = temp.getString(SdkConstants.TXNID);
+                }
+
+                merchantKey = bundle.getString(SdkConstants.MERCHANT_KEY);
+            }
 
             txnId = txnId == null ? String.valueOf(System.currentTimeMillis()) : txnId;
             args.putString(Bank.TXN_ID, txnId);
 
-            String merchantKey = getIntent().getExtras().getString(SdkConstants.MERCHANT_KEY);
-            args.putString(Bank.MERCHANT_KEY, null != merchantKey ? merchantKey : "could not find");
-            /*PayUSdkDetails payUSdkDetails = new PayUSdkDetails();
-            args.putString(Bank.SDK_DETAILS, payUSdkDetails.getSdkVersionName());*/
-            if (getIntent().getExtras().containsKey("showCustom")) {
-                args.putBoolean(Bank.SHOW_CUSTOMROWSER, getIntent().getBooleanExtra("showCustom", false));
-            }
+            args.putString(Bank.MERCHANT_KEY, null != merchantKey ? merchantKey : SdkConstants.COULD_NOT_FOUND);
+
             args.putBoolean(Bank.SHOW_CUSTOMROWSER, true);
+
+            if(bundle != null && bundle.getBoolean(SdkConstants.OTP_AUTO_READ, false)) {
+                args.putBoolean(Bank.MERCHANT_SMS_PERMISSION, true);
+            }
+
             if (oneTapFeature) {
                 args.putBoolean(Bank.AUTO_APPROVE, true);
                 args.putBoolean(Bank.AUTO_SELECT_OTP, true);
@@ -183,37 +199,49 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
             });
             p = new HashMap<>();
 
-            object = new JSONObject(getIntent().getStringExtra(SdkConstants.RESULT));
-            Iterator keys = object.keys();
-            while (keys.hasNext()) {
-                String key = (String) keys.next();
-                p.put(key, object.getString(key));
+            if(bundle != null){
+                object = new JSONObject(bundle.getString(SdkConstants.RESULT));
+                if(object != null) {
+                    Iterator keys = object.keys();
+                    while (keys.hasNext()) {
+                        String key = (String) keys.next();
+                        p.put(key, object.getString(key));
+                    }
+                }
             }
 
             if (paymentMode != null && oneClickPayment) {
-                if (paymentMode.equals("")) {
-                    if (getIntent().getExtras().getString("cardHashForOneClickTxn").equals("0")) {
+                if (paymentMode.isEmpty()) {
+                    if (bundle != null && bundle.getString(SdkConstants.CARD_HASH_FOR_ONE_CLICK_TXN).equals("0")) {
                         p.put(SdkConstants.ONE_CLICK_CHECKOUT, "1");
                         if (userToken != null && !userToken.isEmpty())
-                            p.put("userToken", userToken);
+                            p.put(SdkConstants.USER_TOKEN, userToken);
                     } else
-                        p.put(SdkConstants.CARD_MERCHANT_PARAM, getIntent().getExtras().getString("cardHashForOneClickTxn"));
-                } else if (paymentMode.equals("DC") || paymentMode.equals("CC")) {
+                        p.put(SdkConstants.CARD_MERCHANT_PARAM, bundle.getString(SdkConstants.CARD_HASH_FOR_ONE_CLICK_TXN));
+                } else if (paymentMode.equals(SdkConstants.PAYMENT_MODE_DC) || paymentMode.equals(SdkConstants.PAYMENT_MODE_CC)) {
                     p.put(SdkConstants.ONE_CLICK_CHECKOUT, "1");
                     if (userToken != null && !userToken.isEmpty())
-                        p.put("userToken", userToken);
+                        p.put(SdkConstants.USER_TOKEN, userToken);
                 }
             }
 
             initMagicRetry(txnId);
-            mWebView.setWebViewClient(new PayUWebViewClient(bank, magicRetryFragment));
+            mWebView.setWebViewClient(new PayUWebViewClient(bank, magicRetryFragment,merchantKey));
             //mWebView is the WebView Object
             magicRetryFragment.setWebView(mWebView);
             // MR Integration - initMRSettingsFromSharedPreference
             magicRetryFragment.initMRSettingsFromSharedPreference(this);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.getSettings().setDomStorageEnabled(true);
-            mWebView.postUrl("https://" + (SdkConstants.DEBUG.booleanValue() ? "mobiletest" : "secure") + ".payu.in/_seamless_payment", getParameters(p).toString().getBytes());
+
+            // Remove these
+            /*p.put(SdkConstants.ccname_KEY, SdkConstants.ccname_VALUE);
+            p.put(SdkConstants.ccvv_KEY, SdkConstants.ccvv_VALUE);
+            p.put(SdkConstants.ccexpmon_KEY, SdkConstants.ccexpmon_VALUE);
+            p.put(SdkConstants.ccexpyr_KEY, SdkConstants.ccexpyr_VALUE);*/
+
+            mWebView.postUrl(PayUmoneySdkInitilizer.getWebviewRedirectionUrl(), getParameters1(p).getBytes());
+
 
 
         } catch (ClassNotFoundException e) {
@@ -222,8 +250,8 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
         }
     }
 
-    private String getParameters(Map<String, String> params) {
-        String parameters = "?";
+    private String getParameters1(Map<String, String> params) {
+        String parameters = "";
         Iterator it = params.entrySet().iterator();
         boolean isFirst = true;
         while (it.hasNext()) {
@@ -292,7 +320,19 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
         public void success(long id, final String paymentId) {
             runOnUiThread(new Runnable() {
                 public void run() {
+                    Intent intent = new Intent();
+                    intent.putExtra(SdkConstants.RESULT, "success");
+                    intent.putExtra(SdkConstants.PAYMENT_ID, paymentId);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            });
+        }
 
+        @JavascriptInterface
+        public void success(long id, final String paymentId, String amount) {
+            runOnUiThread(new Runnable() {
+                public void run() {
                     Intent intent = new Intent();
                     intent.putExtra(SdkConstants.RESULT, "success");
                     intent.putExtra(SdkConstants.PAYMENT_ID, paymentId);
@@ -348,6 +388,12 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        SharedPrefsUtils.setStringPreference(this, SdkConstants.USER_SESSION_COOKIE_PAGE_URL, this.getClass().getSimpleName());
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -364,9 +410,12 @@ public class SdkWebViewActivityNew extends FragmentActivity implements MagicRetr
     public void onBackPressed() {
         if (cancelTransaction) {
             cancelTransaction = false;
-            String paymentId = getIntent().getStringExtra(SdkConstants.PAYMENT_ID);
+            String paymentId = null;
+            if(bundle != null) {
+                paymentId = bundle.getString(SdkConstants.PAYMENT_ID);
+            }
             if (paymentId != null)
-                SdkSession.getInstance(this).notifyUserCancelledTransaction(paymentId, "1");
+                SdkSession.getInstance(this).notifyUserCancelledTransaction(paymentId, null);
             Intent intent = new Intent();
             intent.putExtra(SdkConstants.RESULT, "cancel"/*"Transaction canceled due to back pressed!"*/);
             setResult(RESULT_CANCELED, intent);

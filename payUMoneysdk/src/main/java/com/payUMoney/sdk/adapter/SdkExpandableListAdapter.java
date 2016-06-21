@@ -13,6 +13,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.payUMoney.sdk.R;
+import com.payUMoney.sdk.SdkConstants;
 import com.payUMoney.sdk.fragment.SdkDebit;
 import com.payUMoney.sdk.fragment.SdkNetBankingFragment;
 import com.payUMoney.sdk.fragment.SdkStoredCardFragment;
@@ -46,22 +47,22 @@ public class SdkExpandableListAdapter extends BaseExpandableListAdapter {
         LayoutInflater infalInflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
-            if (_listDataHeader.get(groupPosition).equals("STORED_CARDS")) {
+            if (_listDataHeader.get(groupPosition).equals(SdkConstants.PAYMENT_MODE_STORE_CARDS)) {
 
               //  if(convertView != null && convertView.getParent().equals(""))
 
                     return new SdkStoredCardFragment(_context).onCreateView(infalInflater, parent);
 
-            } else if (_listDataHeader.get(groupPosition).equals("CC")) {
+            } else if (_listDataHeader.get(groupPosition).equals(SdkConstants.PAYMENT_MODE_CC)) {
 
                    // getGroup
-                    return new SdkDebit(_context).onCreateView(infalInflater, parent,"CC");
+                    return new SdkDebit(_context).onCreateView(infalInflater, parent,SdkConstants.PAYMENT_MODE_CC);
 
-            } else if (_listDataHeader.get(groupPosition).equals("DC")) {
+            } else if (_listDataHeader.get(groupPosition).equals(SdkConstants.PAYMENT_MODE_DC)) {
 
-                    return new SdkDebit(_context).onCreateView(infalInflater, parent,"DC");
+                    return new SdkDebit(_context).onCreateView(infalInflater, parent,SdkConstants.PAYMENT_MODE_DC);
 
-            } else if(_listDataHeader.get(groupPosition).equals("NB")) {
+            } else if(_listDataHeader.get(groupPosition).equals(SdkConstants.PAYMENT_MODE_NB)) {
 
                     return new SdkNetBankingFragment(_context).onCreateView(infalInflater, parent);
             }
@@ -83,12 +84,18 @@ public class SdkExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+        if(this._listDataHeader != null && this._listDataHeader.size() > groupPosition) {
+            return this._listDataHeader.get(groupPosition);
+        }
+        return null;
     }
 
     @Override
     public int getGroupCount() {
-        return this._listDataHeader.size();
+        if(this._listDataHeader != null) {
+            return this._listDataHeader.size();
+        }
+        return 0;
     }
 
     @Override
@@ -99,32 +106,40 @@ public class SdkExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String titleGroup = getGroup(groupPosition).toString();
-        String headerTitle = "No group";
-        switch (titleGroup) {
-            case "STORED_CARDS":
-                headerTitle = "Saved Cards";
-                break;
-            case "CC":
-                headerTitle = "Credit Card";
-                break;
-            case "DC":
-                headerTitle = "Debit Card";
-                break;
-            case "NB":
-                headerTitle = "Net Banking";
-                break;
+        Object object = getGroup(groupPosition);
+        String headerTitle = "";
+        if(object != null) {
+            String titleGroup = object.toString();
+            if(titleGroup != null) {
+                switch (titleGroup) {
+                    case SdkConstants.PAYMENT_MODE_STORE_CARDS:
+                        headerTitle = "Saved Cards";
+                        break;
+                    case SdkConstants.PAYMENT_MODE_CC:
+                        headerTitle = "Credit Card";
+                        break;
+                    case SdkConstants.PAYMENT_MODE_DC:
+                        headerTitle = "Debit Card";
+                        break;
+                    case SdkConstants.PAYMENT_MODE_NB:
+                        headerTitle = "Net Banking";
+                        break;
+                }
+            }
         }
+
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.sdk_list_group, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
+        if(headerTitle != null && !headerTitle.isEmpty()) {
+            TextView lblListHeader = (TextView) convertView
+                    .findViewById(R.id.lblListHeader);
+            lblListHeader.setTypeface(null, Typeface.BOLD);
+            lblListHeader.setText(headerTitle);
+        }
         /*if(isExpanded) {
 
             convertView.setBackgroundColor(_context.getResources().getColor(R.color.sky_blue));

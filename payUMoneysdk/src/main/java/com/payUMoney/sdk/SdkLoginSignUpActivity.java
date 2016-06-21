@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.payUMoney.sdk.fragment.SdkForgotPasswordFragment;
 import com.payUMoney.sdk.fragment.SdkLoginFragment;
 import com.payUMoney.sdk.fragment.SdkSignUpFragment;
+import com.payUMoney.sdk.walledSdk.SharedPrefsUtils;
 
 
 public class SdkLoginSignUpActivity extends FragmentActivity {
@@ -23,6 +24,7 @@ public class SdkLoginSignUpActivity extends FragmentActivity {
         String allowGuestCheckoutValue = getIntent().getStringExtra(SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_VALUE);
         setContentView(R.layout.sdk_activity_login_sign_up);
         setTitle(R.string.app_name);
+
         ((TextView)findViewById(R.id.login_tab)).setAllCaps(true);
         ((TextView)findViewById(R.id.sign_up_tab)).setAllCaps(true);
         if(allowGuestCheckoutValue != null && allowGuestCheckoutValue.equals(SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_ONLY)){
@@ -95,5 +97,11 @@ public class SdkLoginSignUpActivity extends FragmentActivity {
     public void close() {
         setResult(Activity.RESULT_OK);
         finish();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPrefsUtils.setStringPreference(this, SdkConstants.USER_SESSION_COOKIE_PAGE_URL, this.getClass().getSimpleName());
     }
 }

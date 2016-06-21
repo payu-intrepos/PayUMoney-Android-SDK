@@ -18,13 +18,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.payUMoney.sdk.entity.SdkUser;
 import com.payUMoney.sdk.utils.SdkHelper;
 import com.payUMoney.sdk.utils.SdkLogger;
 import com.payUMoney.sdk.walledSdk.SharedPrefsUtils;
 import com.payUMoney.sdk.walledSdk.WalletSdkLoginSignUpActivity;
 
 import org.apache.http.conn.ConnectTimeoutException;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,10 +54,11 @@ import de.greenrobot.event.EventBus;
  */
 public class SdkSession {
 
-    public static Activity merchantContext = null;
+    //public static Activity merchantContext = null;
     private boolean mIsLogOutCall = false;
     public double wallet_points = 0.0;
-    public static final int PAYMENT_SUCCESS = 3;
+
+//    public static final int PAYMENT_SUCCESS = PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE;
 
     public enum PaymentMode {
         CC, DC, NB, EMI, PAYU_MONEY, STORED_CARDS, CASH
@@ -79,7 +80,6 @@ public class SdkSession {
 
     private class SessionData {
         private String token = null;
-        private SdkUser sdkUser = null;
         private String revisedCashbackReceivedStatus = "0";
 
         public SessionData() {
@@ -104,17 +104,8 @@ public class SdkSession {
             this.token = token;
         }
 
-        public SdkUser getSdkUser() {
-            return sdkUser;
-        }
-
-        public void setSdkUser(SdkUser sdkUser) {
-            this.sdkUser = sdkUser;
-        }
-
         public void reset() {
             token = null;
-            sdkUser = null;
         }
     }
 
@@ -186,12 +177,6 @@ public class SdkSession {
         if (mToken != null) {
             mSessionData.setToken(mToken);
         }
-        String mEmail = SharedPrefsUtils.getStringPreference(mContext, SdkConstants.EMAIL);
-        if (mEmail != null) {
-            SdkUser sdkUser = new SdkUser();
-            sdkUser.setEmail(mEmail);
-            mSessionData.setSdkUser(sdkUser);
-        }
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {
@@ -243,7 +228,7 @@ public class SdkSession {
      */
     public static void startPaymentProcess(Activity mActivity, HashMap<String, String> userParams)  //HashMap has all required params
     {
-        merchantContext = mActivity;
+        //merchantContext = mActivity;
         if (SdkConstants.WALLET_SDK) {
             merchantKey = userParams.get(SdkConstants.KEY);
             merchantSalt = userParams.get(SdkConstants.SALT);
@@ -252,7 +237,7 @@ public class SdkSession {
 
             Intent intent = new Intent(mActivity, WalletSdkLoginSignUpActivity.class);
             intent.putExtra(SdkConstants.PARAMS, userParams);
-            mActivity.startActivityForResult(intent, PAYMENT_SUCCESS);
+            mActivity.startActivityForResult(intent, PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE);
         } else {
         /*SDK specific,Handling logout from SDK in case of Merchant's App with SDK*/
         /*if(merchantContext == null)
@@ -262,10 +247,10 @@ public class SdkSession {
             Intent intent = new Intent(mActivity, SdkHomeActivityNew.class);
             if (!userParams.containsKey(SdkConstants.PAYUMONEY_APP) && !userParams.containsKey(SdkConstants.PAYUBIZZ_APP)) {
                 //check for all compulsory params
-                if (userParams.get(SdkConstants.KEY) == null || userParams.get(SdkConstants.KEY).equals(""))
+                /*if (userParams.get(SdkConstants.KEY) == null || userParams.get(SdkConstants.KEY).equals(""))
                     throw new RuntimeException("Merchant Key missing");
                 else
-                    intent.putExtra(SdkConstants.KEY, userParams.get(SdkConstants.KEY));
+                    intent.putExtra(SdkConstants.KEY, userParams.get(SdkConstants.KEY));*/
 
                 if (userParams.get(SdkConstants.HASH) == null || userParams.get(SdkConstants.HASH).equals(""))
                     throw new RuntimeException("Hash is  missing");
@@ -324,7 +309,7 @@ public class SdkSession {
 
             //Step 2
             //merchantContext.startActivityForResult(intent, PAYMENT_SUCCESS);
-            mActivity.startActivityForResult(intent, PAYMENT_SUCCESS);//Start the Home Activity
+            mActivity.startActivityForResult(intent, PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE);//Start the Home Activity
 
 
         }
@@ -339,6 +324,7 @@ public class SdkSession {
         p.put(SdkConstants.MERCHANT_ID, merchantId);
         String uri = String.format("/auth/app/op/merchant/LoginParams" + getParameters(p),
                 merchantId);
+
         postFetch(uri, null, new Task() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
@@ -364,6 +350,105 @@ public class SdkSession {
 
             }
         }, Request.Method.GET);
+    }
+
+    private Map<String, String> getUserSessionInfo() {
+        Map<String, String> customHeaders = new HashMap<String, String>();
+        customHeaders.put(SdkConstants.USER_SESSION_COOKIE, SdkHelper.getUserSessionId(mContext));
+        customHeaders.put(SdkConstants.CUSTOM_BROWSER_PROPERTY, SdkHelper.getDeviceCustomPropertyJsonString(mContext));
+        customHeaders.put(SdkConstants.USER_SESSION_COOKIE_PAGE_URL, SharedPrefsUtils.getStringPreference(mContext, SdkConstants.USER_SESSION_COOKIE_PAGE_URL));
+        if (SdkHelper.isUpdateSessionRequired(mContext)) {
+            customHeaders.put(SdkConstants.USER_SESSION_UPDATE, "1");
+        }
+        return customHeaders;
+    }
+
+    public void createWallet(String email, String phone, String OTP) {
+        final Map<String, String> p = new HashMap<>();
+
+        p.put("userName", email);
+        p.put("name", email);
+        p.put("mobile", phone);
+        p.put("otp", OTP);
+
+        postFetch("/vault/app/createWallet", p, new Task() {
+            //Override Task interface
+            //**//*//**//**//**//****CHECK WITH SHOBHIT FOR JSON FORMAT
+
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+                try {
+                    if (jsonObject.get(SdkConstants.STATUS) == null || jsonObject.getString(SdkConstants.STATUS).equals("null")) {
+                        // No response from server :/ -- Internet off/Server Down/Device internal issue
+                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.CREATE_WALLET, false, jsonObject));
+                    } else {
+                        //Server response {errorCode,GUID, sessionId, message, status }
+                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.CREATE_WALLET, true, jsonObject));
+                    }
+                } catch (JSONException e) {
+                    eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.CREATE_WALLET, false));
+                }
+            }
+
+            @Override
+            public void onSuccess(String response) {
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.CREATE_WALLET, false, "An error occurred while verifying your OTP. Please generate again."));
+            }
+
+            @Override
+            public void onProgress(int percent) {
+
+            }
+
+        }, Request.Method.POST);
+
+    }
+
+    public void sendMobileVerificationCodeForWalletCreation(String phone) {
+        final Map<String, String> p = new HashMap<>();
+
+        p.put("mobile", phone);
+        p.put("otpType", "R");
+
+        //Call postFetch
+        postFetch("/auth/app/generateWalletCode", p, new Task() {
+
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+                try {
+                    if (jsonObject.get(SdkConstants.STATUS) == null || jsonObject.getString(SdkConstants.STATUS).equals("null")) {
+                        // No response from server :/ -- Internet off/Server Down/Device internal issue
+                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.SEND_OTP_TO_USER, false, jsonObject.getString("message")));
+                    } else {
+                        //Server response {errorCode,GUID, sessionId, message, status }
+                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.SEND_OTP_TO_USER, true, jsonObject));
+                    }
+                } catch (JSONException e) {
+                    eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.SEND_OTP_TO_USER, false));
+                }
+            }
+
+            @Override
+            public void onSuccess(String response) {
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.SEND_OTP_TO_USER, false, "An error occurred while trying to sign you up. Please try again later."));
+            }
+
+            @Override
+            public void onProgress(int percent) {
+            }
+
+        }, Request.Method.POST);
+
     }
 
     public void fetchUserParams(String paymentId) {
@@ -418,7 +503,11 @@ public class SdkSession {
     }
 
     public void postFetch(final String url, final Map<String, String> params, final Task task, final int method) {
-        if (SdkConstants.DEBUG.booleanValue()) {
+        postFetch(url, params, null, task, method);
+    }
+
+    public void postFetch(final String url, final Map<String, String> params, final Map<String, String> customHeader, final Task task, final int method) {
+        if (PayUmoneySdkInitilizer.IsDebugMode()) {
             SdkLogger.d(SdkConstants.TAG, "SdkSession.postFetch: " + url + " " + params + " " + method);
         }
 
@@ -430,7 +519,7 @@ public class SdkSession {
 
                 SdkLogger.i("Difference ", "URL=" + url + "Time=" + diff);
 
-                if (SdkConstants.DEBUG.booleanValue()) {
+                if (PayUmoneySdkInitilizer.IsDebugMode()) {
                     SdkLogger.d(SdkConstants.TAG, "SdkSession.postFetch.onSuccess: " + url + " " + params + " " + method + ": " + response);
                 }
 
@@ -448,7 +537,7 @@ public class SdkSession {
             }
 
             public void onFailure(String msg, Throwable e) {
-                if (SdkConstants.DEBUG) {
+                if (PayUmoneySdkInitilizer.IsDebugMode()) {
                     Log.e(SdkConstants.TAG, "Session...new JsonHttpResponseHandler() {...}.onFailure: " + e.getMessage() + " " + msg);
                 }
                 if (msg.contains("401")) {
@@ -470,7 +559,7 @@ public class SdkSession {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (SdkConstants.DEBUG) {
+                if (PayUmoneySdkInitilizer.IsDebugMode()) {
                     Log.e(SdkConstants.TAG, "Session...new JsonHttpResponseHandler() {...}.onFailure: " + error.getMessage());
                 }
                 if (error != null && error.networkResponse != null && error.networkResponse.statusCode == 401) {
@@ -500,6 +589,13 @@ public class SdkSession {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
+
+                if (customHeader != null && !customHeader.isEmpty()) {
+                    params.putAll(customHeader);
+                }
+
+                params.putAll(getUserSessionInfo());
+
                 params.put("User-Agent", "PayUMoneyAPP");
                 if (getToken() != null) {
                     params.put("Authorization", "Bearer " + getToken());
@@ -589,10 +685,6 @@ public class SdkSession {
         return getToken() != null;
     }
 
-    public SdkUser getUser() {
-        return mSessionData.getSdkUser();
-    }
-
     public void setToken(String token) {
         mSessionData.setToken(token);
     }
@@ -605,7 +697,7 @@ public class SdkSession {
                 JSONObject userConfigDtoTmp = userDto.getJSONObject(SdkConstants.CONFIG_DTO);
                 String salt = SdkConstants.DEBUG ? SdkConstants.AUTHORIZATION_SALT_TEST : SdkConstants.AUTHORIZATION_SALT_PROD;
                 if (userConfigDtoTmp.has(SdkConstants.AUTHORIZATION_SALT) && !userConfigDtoTmp.isNull(SdkConstants.AUTHORIZATION_SALT)) {
-                    if (salt.equals(userConfigDtoTmp.optString(SdkConstants.AUTHORIZATION_SALT, "XYZ"))) {
+                    if (salt.equals(userConfigDtoTmp.optString(SdkConstants.AUTHORIZATION_SALT, SdkConstants.XYZ_STRING))) {
                         editor.putBoolean(SdkConstants.ONE_CLICK_PAYMENT, false);
                     } else {
                         editor.putBoolean(SdkConstants.ONE_CLICK_PAYMENT, userConfigDtoTmp.optBoolean(SdkConstants.ONE_CLICK_PAYMENT, false));
@@ -658,12 +750,16 @@ public class SdkSession {
                         String token = jsonObject.getString(SdkConstants.ACCESS_TOKEN);
                         SharedPrefsUtils.setStringPreference(mContext, SharedPrefsUtils.Keys.ACCESS_TOKEN, token);
                         SdkSession.getInstance(mContext).setToken(token);
+                        SdkHelper.resetSessionUpdateTimeStamp(mContext);
+
+                        SharedPrefsUtils.setStringPreference(mContext, SharedPrefsUtils.Keys.EMAIL, username);
 
 /*
                         postFetch("/auth/app/user", null, new Task() {
                             @Override
                             public void onSuccess(JSONObject object) {
                                 try {
+
                                     JSONObject result = object.getJSONObject(SdkConstants.RESULT);
                                     SharedPreferences.Editor editor = mContext.getSharedPreferences(SdkConstants.SP_SP_NAME, Activity.MODE_PRIVATE).edit();
                                     if (result != null) {
@@ -712,7 +808,7 @@ public class SdkSession {
                         eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.LOGIN, false, "Error"));
                     }
                 } catch (Throwable e) {
-                    if (SdkConstants.DEBUG.booleanValue()) {
+                    if (PayUmoneySdkInitilizer.IsDebugMode()) {
                         SdkLogger.d(SdkConstants.TAG, e.getMessage());
                     }
                     onError(e);
@@ -749,9 +845,9 @@ public class SdkSession {
                 // JSONObject jsonObject = new JSONObject(object);
                 // Toast.makeText(SdkSession.getInstance(getApplicationContext()), object.getString("message"), Toast.LENGTH_LONG).show();
                 //return result=object.getString("message");
-                if(object.has(SdkConstants.STATUS)) {
+                if (object.has(SdkConstants.STATUS)) {
                     String status = object.optString(SdkConstants.STATUS);
-                    if(status == null ||  status.equals("-1"))
+                    if (status == null || status.equals("-1"))
                         eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.GENERATE_AND_SEND_OTP, false, object));
                     else
                         eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.GENERATE_AND_SEND_OTP, true, object));
@@ -795,23 +891,23 @@ public class SdkSession {
         p.put(SdkConstants.KEY, params.get(SdkConstants.KEY));
         p.put(SdkConstants.AMOUNT, params.get(SdkConstants.AMOUNT));
         p.put(SdkConstants.TXNID, params.get(SdkConstants.TXNID));
-        p.put("productinfo", params.get(SdkConstants.PRODUCT_INFO));
-        p.put("firstname", params.get(SdkConstants.FIRSTNAME));
+        p.put(SdkConstants.PRODUCT_INFO_STRING, params.get(SdkConstants.PRODUCT_INFO));
+        p.put(SdkConstants.FIRST_NAME_STRING, params.get(SdkConstants.FIRSTNAME));
         p.put(SdkConstants.EMAIL, params.get(SdkConstants.EMAIL));
-        p.put("udf1", params.get("udf1"));
-        p.put("udf2", params.get("udf2"));
-        p.put("udf3", params.get("udf3"));
-        p.put("udf4", params.get("udf4"));
-        p.put("udf5", params.get("udf5"));
+        p.put(SdkConstants.UDF1, params.get(SdkConstants.UDF1));
+        p.put(SdkConstants.UDF2, params.get(SdkConstants.UDF2));
+        p.put(SdkConstants.UDF3, params.get(SdkConstants.UDF3));
+        p.put(SdkConstants.UDF4, params.get(SdkConstants.UDF4));
+        p.put(SdkConstants.UDF5, params.get(SdkConstants.UDF5));
         p.put(SdkConstants.HASH, params.get(SdkConstants.HASH));
-        p.put("paymentIdentifiers", "[]");
+        p.put(SdkConstants.PAYMENT_IDENTIFIERS_STRING, "[]");
         p.put("purchaseFrom", "merchant-app");
         // p.put("purchaseFrom", "applongtail");
         // p.put("txnDetails", "{\"surl\": \"" + Constants.BASE_URL + "/mobileapp/payumoney/success.php\", \"furl\": \"" + Constants.BASE_URL + "/mobileapp/payumoney/failure.php\",\"confirmSMSPhone\": \""+mob+"\"\n" +
         //      "        }");
         p.put("txnDetails", "{\"surl\": \"" + params.get(SdkConstants.SURL) + "\", \"furl\": \"" + params.get(SdkConstants.FURL) + "\"}");
         // p.put("txnDetails", "{\"surl\":\"https://www.payumoney.com/mobileapp/payumoney/success.php\", \"furl\": \"https://www.payumoney.com/mobileapp/payumoney/failure.php\"}");
-        p.put("paymentParts", "[]");
+        p.put(SdkConstants.PAYMENT_PARTS_STRING, "[]");
         p.put("deviceId", params.get("deviceId"));
         // p.put("appVersion", params.get("appVersion"));
         p.put("isMobile", "1");
@@ -827,8 +923,12 @@ public class SdkSession {
                         JSONObject result = object.getJSONObject(SdkConstants.RESULT);
 
                         eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.CREATE_PAYMENT, true, result /*object.getJSONObject(Constants.RESULT).getString(Constants.PAYMENT_ID)*/));
+                    } else if (object.has(SdkConstants.MESSAGE) && !object.isNull(SdkConstants.MESSAGE)) {
+
+                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.CREATE_PAYMENT, false, object.toString()));
                     } else {
                         eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.CREATE_PAYMENT, false));
+                        SdkLogger.e(object.toString());
                     }
                 } catch (JSONException e) {
                     eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.CREATE_PAYMENT, false));
@@ -852,6 +952,7 @@ public class SdkSession {
 
             }
         };
+
         postFetch("/payment/app/payment/addSdkPayment", p, task, Request.Method.POST);
     }
 
@@ -931,17 +1032,38 @@ public class SdkSession {
         }, Request.Method.POST);
     }
 
-    /**
-     * Create a credit {@link com.payUMoney.sdk.entity.SdkCard} on the server
-     * <p/>
-     * <ul>
-     * <li>A {@link com.payu.payumoney.CobbocEvent} is dispatched</li>
-     * </ul>
-     *
-     * @param number      the number
-     * @param expiryMonth the 2 digit month of mCardExpiry
-     * @param expiryYear  the 4 digit year of mCardExpiry
-     */
+    public void getNetBankingStatus() {
+
+        final Map<String, String> p = new HashMap<>();
+
+        postFetch("/payment/op/getNetBankingStatus", null, new Task() {
+            @Override
+            public void onSuccess(final JSONObject jsonObject) {
+                try {
+                    eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.NET_BANKING_STATUS, true, (new JSONObject((new JSONArray(jsonObject.getString(SdkConstants.RESULT))).getString(0)))));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.NET_BANKING_STATUS, false));
+                }
+            }
+
+            @Override
+            public void onSuccess(String response) {
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.NET_BANKING_STATUS, false));
+            }
+
+            @Override
+            public void onProgress(int percent) {
+
+            }
+        }, Request.Method.GET);
+
+    }
 
     /**
      * Sign up the user
@@ -1075,14 +1197,17 @@ public class SdkSession {
 
         final Map<String, String> p = new HashMap<>();
         p.put(SdkConstants.PAYMENT_ID, paymentId);
-        p.put(SdkConstants.USER_CANCELLED_TRANSACTION, userCancelled);
+
+        if(userCancelled != null) {
+            p.put(SdkConstants.USER_CANCELLED_TRANSACTION, userCancelled);
+        }
 
 
         postFetch("/payment/postBackParam.do" + getParameters(p), null, new Task() {
             @Override
             public void onSuccess(final JSONObject jsonObject) {
 
-                if (SdkConstants.DEBUG.booleanValue()) {
+                if (PayUmoneySdkInitilizer.IsDebugMode()) {
                     SdkLogger.d(SdkConstants.TAG, "Successfully Cancelled the transaction");
                 }
             }
@@ -1113,11 +1238,28 @@ public class SdkSession {
     params: cashback -> points/wallet depending on the call
     params: vault -> points/wallet depending on the call
      */
-    public void sendToPayUWithWallet(JSONObject details, final String mode, final HashMap<String, Object> data, Double cashback, Double vault, Double discount) throws JSONException {
+    public void sendToPayUWithWallet(JSONObject details, final String mode, final HashMap<String, Object> data, Double cashback, Double vault, Double discount, Double convenienceChargesAmount) throws JSONException {
         wallet_points = vault.doubleValue(); //Set points or wallet depending on the call
-        sendToPayU(details, mode, data, cashback, discount); //cashback is point/wallet to be payed depending on the call
-
+        sendToPayU(details, mode, data, cashback, discount, convenienceChargesAmount); //cashback is point/wallet to be payed depending on the call
     }
+
+    /*private boolean checkForValidObject(JSONObject jsonObject, String paymentModeString) {
+        try {
+            if (jsonObject.has(paymentModeString)
+                    && !jsonObject.isNull(paymentModeString)
+                    && !("-1").equals(jsonObject.getString(paymentModeString))
+                    && !(SdkConstants.FALSE_STRING).equals(jsonObject.getString(paymentModeString))
+                    && !(SdkConstants.NULL_STRING).equals(jsonObject.getString(paymentModeString))) {
+                return true;
+            }
+
+            return false;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }*/
 
     /*
        Send to payU with Wallet
@@ -1126,16 +1268,52 @@ public class SdkSession {
        params: Hashmap data - bankobject key etc.
        params: cashback is wallet or points
         */
-    public void sendToPayU(JSONObject details, final String mode, final HashMap<String, Object> data, Double cashback1, Double discount) throws JSONException {
+    /*private double getConvenienceChargesAmount(JSONObject details, String mode, boolean mWalletOrPointPayment) {
+
+        double convenienceChargesAmount = 0.0;
+
+        try {
+            if (checkForValidObject(details, SdkConstants.CONVENIENCE_CHARGES)) {
+                JSONObject convenienceChargesJsonObject = new JSONObject(details.getString(SdkConstants.CONVENIENCE_CHARGES));
+                String currentMode = ((SdkConstants.POINTS).equals(mode) || SdkConstants.WALLET.equals(mode)) ? SdkConstants.WALLET_STRING : mode;
+
+                if (checkForValidObject(convenienceChargesJsonObject, currentMode)) {
+                    if (SdkConstants.WALLET_STRING.equals(mode)) {
+                        convenienceChargesAmount = Math.max(convenienceChargesJsonObject.getJSONObject(mode).getDouble(SdkConstants.DEFAULT), 0.0);
+                        if (convenienceChargesAmount <= 0.0 && checkForValidObject(convenienceChargesJsonObject, SdkConstants.PAYMENT_MODE_DC)) {
+                            convenienceChargesAmount = Math.max(convenienceChargesJsonObject.getJSONObject(SdkConstants.PAYMENT_MODE_DC).getDouble(SdkConstants.DEFAULT),
+                                    Double.valueOf(details.getJSONObject(SdkConstants.PAYMENT).getDouble(SdkConstants.ORDER_AMOUNT)) * SdkConstants.FIXED_CONVENIENCE_CHARGES_COMPONENT);
+                        }
+                    } else if (mWalletOrPointPayment) {
+                        convenienceChargesAmount = Math.max(convenienceChargesJsonObject.getJSONObject(mode).getDouble(SdkConstants.DEFAULT),
+                                convenienceChargesJsonObject.getJSONObject(SdkConstants.WALLET_STRING).getDouble(SdkConstants.DEFAULT));
+                    } else {
+                        convenienceChargesAmount = convenienceChargesJsonObject.getJSONObject(mode).getDouble(SdkConstants.DEFAULT);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return convenienceChargesAmount;
+    }*/
+
+    public void sendToPayU(JSONObject details, final String mode, final HashMap<String, Object> data, Double cashback1, Double discount, Double convenienceChargesAmount) throws JSONException {
         Float cashback = Float.valueOf(round(cashback1.doubleValue()));
         // first get the transaction keys
         final Map<String, String> p = new HashMap<>();
         Double Dis_amt;
 
+
+        // Remove these things:
+        /*SdkConstants.ccvv_VALUE = (String)data.get("ccvv");
+        SdkConstants.ccexpmon_VALUE = (Integer)data.get("ccexpmon")+"";
+        SdkConstants.ccexpyr_VALUE = (Integer)data.get("ccexpyr")+"";*/
+
         final String paymentID = details.optString(SdkConstants.PAYMENT_ID);
 
         if (SdkHomeActivityNew.coupan_amt != 0) {
-            p.put("couponUsed", SdkHomeActivityNew.choosedCoupan);
+            p.put(SdkConstants.COUPON_USED, SdkHomeActivityNew.choosedCoupan);
             Dis_amt = Double.valueOf(SdkHomeActivityNew.coupan_amt);
         } else {
             //DecimalFormat format = new DecimalFormat("0.#");
@@ -1143,44 +1321,47 @@ public class SdkSession {
         }
         /*no payupoints
           * this will be fired in most cases*/
+        //double convenienceChargesAmount = getConvenienceChargesAmount(details, mode, (wallet_points > 0.0 || cashback > 0.0));
+
         if (cashback != null && cashback.floatValue() == 0) {
-            Double payUAmt = Double.valueOf(details.getJSONObject(SdkConstants.PAYMENT).getDouble("orderAmount") + new JSONObject(details.getString("convenienceCharges")).getJSONObject(mode).getDouble("DEFAULT") - Dis_amt.doubleValue());
+
+            Double payUAmt = Double.valueOf(details.getJSONObject(SdkConstants.PAYMENT).getDouble(SdkConstants.ORDER_AMOUNT) + convenienceChargesAmount - Dis_amt.doubleValue());
             if (wallet_points > 0.0) {
                 payUAmt = Double.valueOf(payUAmt.doubleValue() - wallet_points); //substract wallet
                 p.put("sourceAmountMap", "{\"PAYU\":" + payUAmt + ",\"DISCOUNT\":" + Dis_amt + ",\"WALLET\":" + wallet_points + "}"); //here wallet_point is wallet money
             } else {
                 p.put("sourceAmountMap", "{\"PAYU\":" + payUAmt + ",\"DISCOUNT\":" + Dis_amt + "}");
             }
-        } else if (mode.equals("wallet")) //Points+Wallet OR Just Wallet Payments
-        {
-            if (wallet_points == 0.0) //Pure wallet
-            {
+        } else if (mode.equals(SdkConstants.WALLET)) {//Points+Wallet OR Just Wallet Payments
+
+            if (wallet_points == 0.0) {//Pure wallet
+
                 p.put("sourceAmountMap", "{\"WALLET\":" + cashback + ",\"PAYU\":" + 0 + ",\"DISCOUNT\":" + Dis_amt + "}");
             } else //wallet+points
                 p.put("sourceAmountMap", "{\"WALLET\":" + cashback + ",\"CASHBACK\":" + wallet_points + ",\"PAYU\":" + 0 + ",\"DISCOUNT\":" + Dis_amt + "}"); //here wallet_point is PayUPoints (depends on call)
 
-        } else if (mode.equals("points")) //Have PayUPoints and has selected to pay via payupoints
-        {
+        } else if (mode.equals(SdkConstants.POINTS)) {//Have PayUPoints and has selected to pay via payupoints
+
             p.put("sourceAmountMap", "{\"CASHBACK\":" + cashback + ",\"PAYU\":" + 0 + ",\"DISCOUNT\":" + Dis_amt + "}");
-        } else  //Has PayUPoints but opted not to pay via payupoints
-        {
-            Double payUAmt = Double.valueOf(details.getJSONObject(SdkConstants.PAYMENT).getDouble("orderAmount") + new JSONObject(details.getString("convenienceCharges")).getJSONObject(mode).getDouble("DEFAULT") - Dis_amt.doubleValue() - cashback.doubleValue());
+        } else {//Has PayUPoints but opted not to pay via payupoints
+
+            Double payUAmt = Double.valueOf(details.getJSONObject(SdkConstants.PAYMENT).getDouble(SdkConstants.ORDER_AMOUNT) + convenienceChargesAmount - Dis_amt.doubleValue() - cashback.doubleValue());
             if (wallet_points > 0.0) payUAmt = Double.valueOf(payUAmt - wallet_points);
             p.put("sourceAmountMap", "{\"CASHBACK\":" + cashback + ",\"PAYU\":" + payUAmt + ",\"DISCOUNT\":" + Dis_amt + ",\"WALLET\":" + wallet_points + "}");
         }
 
         wallet_points = 0.0; //reinitialize to 0 for future use on same instance
 
-        if (mode.equals("points") || mode.equals("wallet"))
-            p.put("PG", "WALLET");
+        if (mode.equals(SdkConstants.POINTS) || mode.equals(SdkConstants.WALLET))
+            p.put("PG", SdkConstants.WALLET_STRING);
         else
             p.put("PG", mode); // Pure points/wallet - > CC, Pure Credit Card -> CC Debit Card -> DC Net banking -> NB
 
-        if (!mode.equals("points") && !mode.equals("wallet")) {
-            if (data.containsKey("bankcode")) {
-                p.put("bankCode", data.get("bankcode").toString());
+        if (!mode.equals(SdkConstants.POINTS) && !mode.equals(SdkConstants.WALLET)) {
+            if (data.containsKey(SdkConstants.BANK_CODE)) {
+                p.put(SdkConstants.BANK_CODE_STRING, data.get(SdkConstants.BANK_CODE).toString());
             } else {
-                p.put("bankCode", mode);
+                p.put(SdkConstants.BANK_CODE_STRING, mode);
             }
         }
 
@@ -1201,8 +1382,8 @@ public class SdkSession {
             @Override
             public void onSuccess(JSONObject object) {
                 try {
-                    if (object.has("message") && object.optString("message", "XYZ").contains(SdkConstants.INVALID_APP_VERSION)) {
-                        if (!mode.equals("points") && !mode.equals("wallet"))
+                    if (object.has(SdkConstants.MESSAGE) && object.optString(SdkConstants.MESSAGE, SdkConstants.XYZ_STRING).contains(SdkConstants.INVALID_APP_VERSION)) {
+                        if (!mode.equals(SdkConstants.POINTS) && !mode.equals(SdkConstants.WALLET))
                             eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT, false, SdkConstants.INVALID_APP_VERSION));
                         else
                             eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, false, SdkConstants.INVALID_APP_VERSION));
@@ -1213,9 +1394,11 @@ public class SdkSession {
                     object = object.getJSONObject(SdkConstants.RESULT);
                     JSONObject p = new JSONObject();
 
-                    if (mode.equals("points") || mode.equals("wallet")) {
+                    if (mode.equals(SdkConstants.POINTS) || mode.equals(SdkConstants.WALLET)) {
 
                         fetchPaymentStatus(paymentID);
+                        //fetchPaymentResponse(paymentID);
+                        //verifyPaymentDetails(paymentID);
 
                     } else//For NB CC AND DC
                     {
@@ -1224,7 +1407,7 @@ public class SdkSession {
                         //  if(!object.getString(Constants.TRANSACTION_DTO).equals("null")) {
                         object = object.getJSONObject(SdkConstants.TRANSACTION_DTO).getJSONObject("hash");
                         //  }
-                        if (!mode.equals("NB")) {
+                        if (!mode.equals(SdkConstants.PAYMENT_MODE_NB)) {
                             // we'll need to encrypt
                             Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
                             // encrypt the plain text using the public key
@@ -1238,12 +1421,12 @@ public class SdkSession {
                             p.put(key, object.getString(key));
                         }
                         p.put("pg", mode);
-                        if (data.containsKey("bankcode")) {
-                            p.put("bankcode", data.get("bankcode"));
+                        if (data.containsKey(SdkConstants.BANK_CODE)) {
+                            p.put(SdkConstants.BANK_CODE, data.get(SdkConstants.BANK_CODE));
                         } else {
-                            p.put("bankcode", mode);
+                            p.put(SdkConstants.BANK_CODE, mode);
                         }
-                        if (!mode.equals("NB")) {
+                        if (!mode.equals(SdkConstants.PAYMENT_MODE_NB)) {
                             if (data.containsKey(SdkConstants.LABEL)) {
                                 p.put(SdkConstants.LABEL, data.get(SdkConstants.LABEL));
                             }
@@ -1280,15 +1463,15 @@ public class SdkSession {
         }, Request.Method.GET);
     }
 
-    private void fetchPaymentStatus(String paymentID) {
+    public void fetchPaymentStatus(String paymentID) {
 
         final Map<String, String> p = new HashMap<>();
-        p.put(SdkConstants.PAYMENT_ID,paymentID);
+        p.put(SdkConstants.PAYMENT_ID, paymentID);
         postFetch("/payment/app/postPayment", p, new Task() {
             @Override
             public void onSuccess(JSONObject object) {
                 String status = object.optString(SdkConstants.STATUS);
-                if(status == null || status.equals("-1"))
+                if (status == null || status.equals("-1"))
                     eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, false, object));
                 else
                     eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, true, object));
@@ -1310,7 +1493,77 @@ public class SdkSession {
             public void onProgress(int percent) {
 
             }
-        },Request.Method.POST);
+        }, Request.Method.POST);
+
+    }
+
+    public void fetchPaymentResponse(String paymentID) {
+
+        final Map<String, String> p = new HashMap<>();
+        p.put(SdkConstants.PAYMENT_ID_STRING, paymentID);
+
+        postFetch("/payment/app/payment/verifyPaymentStatus", p, new Task() {
+            @Override
+            public void onSuccess(JSONObject object) {
+                String status = object.optString(SdkConstants.STATUS);
+                if (status == null || status.equals("-1"))
+                    eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, false, object));
+                else
+                    eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, true, object));
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, true, response));
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, false, throwable.getMessage()));
+
+            }
+
+            @Override
+            public void onProgress(int percent) {
+
+            }
+        }, Request.Method.POST);
+
+    }
+
+    public void verifyPaymentDetails(String paymentID) {
+
+        final Map<String, String> p = new HashMap<>();
+        p.put(SdkConstants.PAYMENT_ID_STRING, paymentID);
+
+        postFetch("/payment/app/payment/verifyPaymentDetails", p, new Task() {
+            @Override
+            public void onSuccess(JSONObject object) {
+                String status = object.optString(SdkConstants.STATUS);
+                if (status == null || status.equals("-1"))
+                    eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, false, object));
+                else
+                    eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, true, object));
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, true, response));
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.PAYMENT_POINTS, false, throwable.getMessage()));
+
+            }
+
+            @Override
+            public void onProgress(int percent) {
+
+            }
+        }, Request.Method.POST);
 
     }
 
@@ -1337,7 +1590,7 @@ public class SdkSession {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                            eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.ONE_TAP_OPTION_ALTERED, false));
+                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.ONE_TAP_OPTION_ALTERED, false));
                     }
                 }
 
@@ -1348,7 +1601,7 @@ public class SdkSession {
 
                 @Override
                 public void onError(Throwable throwable) {
-                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.ONE_TAP_OPTION_ALTERED, false));
+                    eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.ONE_TAP_OPTION_ALTERED, false));
                 }
 
                 @Override
@@ -1626,6 +1879,55 @@ public class SdkSession {
             @Override
             public void onError(Throwable throwable) {
                 eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.OPEN_REGISTER_USING_OTP_AND_SIGNIN, false, "An error occurred while trying to sign you up. Please try again later."));
+            }
+
+            @Override
+            public void onProgress(int percent) {
+
+            }
+        }, Request.Method.POST);
+    }
+
+    public void loadWallet(String otp, String amount, String paymentId, String productInfo) {
+
+        final Map<String, String> p = new HashMap<>();
+        p.put(SdkConstants.TOTAL_AMOUNT, amount);
+        if (otp != null) {
+            p.put("otp", otp);
+        }
+        p.put(SdkConstants.PAYMENT_IDENTIFIERS_STRING, "[]");
+        p.put(SdkConstants.PAYMENT_PARTS_STRING, "[]");
+        p.put(SdkConstants.PRODUCT_INFO, productInfo);
+        p.put("paymentDescription", "loadWallet");
+        p.put("sourceReferenceId", paymentId);
+        p.put("isMobile", "1");
+        p.put(SdkConstants.DEVICE_ID, SdkHelper.getAndroidID(mContext));
+        /* deliberatley set to higher value to skip the version check*/
+        p.put(SdkConstants.APP_VERSION_CODE, "5000");
+        postFetch("/payment/app/wallet/loadWalletPayment", p, new Task() {
+
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+                try {
+                    if (jsonObject.has(SdkConstants.RESULT) && !jsonObject.isNull(SdkConstants.RESULT))
+                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.LOAD_WALLET, true, jsonObject.getJSONObject(SdkConstants.RESULT)));
+                    else if (jsonObject.has(SdkConstants.MESSAGE) && !jsonObject.isNull(SdkConstants.MESSAGE)) {
+                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.LOAD_WALLET, false, jsonObject.getString(SdkConstants.MESSAGE)));
+                    } else
+                        eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.LOAD_WALLET, false));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.LOAD_WALLET, false));
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.LOAD_WALLET, false, null));
             }
 
             @Override
