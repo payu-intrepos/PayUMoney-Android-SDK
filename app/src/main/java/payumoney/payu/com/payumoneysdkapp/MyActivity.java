@@ -135,13 +135,13 @@ public class MyActivity extends Activity {
             }
 
             if(surl != null && surl.getText().toString().isEmpty()) {
-                builder.setsUrl("https://mobiletest.payumoney.com/mobileapp/payumoney/success.php");
+                builder.setsUrl("https://www.payumoney.com/mobileapp/payumoney/success.php");
             } else {
                 builder.setsUrl(surl.getText().toString());// debug
             }
 
             if(furl != null && furl.getText().toString().isEmpty()) {
-                builder.setfUrl("https://mobiletest.payumoney.com/mobileapp/payumoney/failure.php");
+                builder.setfUrl("https://www.payumoney.com/mobileapp/payumoney/failure.php");
             } else {
                 builder.setfUrl(furl.getText().toString());// debug
             }
@@ -176,39 +176,10 @@ public class MyActivity extends Activity {
                 builder.setUdf5(udf5.getText().toString());// debug
             }
 
-            /*builder.setKey("mdyCKV");// pp4
-            builder.setMerchantId("4914106");*/
             builder.setIsDebug(true);
-            //builder.setKey("510kFd");// mobileDev Key
-            /*builder.setKey("FCstqb");// mobileTest Key
-            builder.setMerchantId("4827834");// Debug Merchant ID*/
 
-            /*builder.setKey("279bckLH");// mobileTest Key
-            builder.setMerchantId("4828325");// Debug Merchant ID*/
-
-            /*builder.setKey("UxQ7ajsf");// mobileTest Key
-            builder.setMerchantId("4828544");// Debug Merchant ID*/
-
-            /*builder.setKey("hL7HHs");//  Key
-            builder.setMerchantId("4828901");// Debug Merchant ID*/
-
-            /*builder.setKey("tPJM2e");// mobileTest Key
-            builder.setMerchantId("4824899");// Debug Merchant ID*/
-
-            /*builder.setKey("mdyCKV");
-            builder.setMerchantId("4914106");*/
-
-            /*builder.setKey("O50ARA");// pp4
-            builder.setMerchantId("4825489");*/
-
-            /*builder.setKey("GJ048r");// PP21
-            builder.setMerchantId("4826176");*/
-
-            /*builder.setKey("40747T");// mobileTest Key
-            builder.setMerchantId("396132");// Debug Merchant ID*/
-
-            builder.setKey("YbZq8n");// mobileTest Key
-            builder.setMerchantId("393592");// Debug Merchant ID
+            builder.setKey("dRQuiA");// mobileTest Key
+            builder.setMerchantId("4928174");// Debug Merchant ID
 
             PayUmoneySdkInitilizer.PaymentParam paymentParam = builder.build();
 
@@ -228,22 +199,13 @@ public class MyActivity extends Activity {
             // Recommended
             calculateServerSideHashAndInitiatePayment(paymentParam);
 
-
-            /*String hashSequence = "mdyCKV" + "|" + txnId + "|" + amt.getText().toString() + "|" + "product_name" + "|" + "piyush" + "|"
-                    + "piyush.jain@payu.in" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "" + "|" + "Je7q3652";
-            String hash = hashCal(hashSequence);
-            paymentParam.setMerchantHash(hash);
-            PayUmoneySdkInitilizer.startPaymentActivityForResult(MyActivity.this, paymentParam);*/
-
            /*
             testing purpose
 
             String serverCalculatedHash="9f1ce50ba8995e970a23c33e665a990e648df8de3baf64a33e19815acd402275617a16041e421cfa10b7532369f5f12725c7fcf69e8d10da64c59087008590fc";
             paymentParam.setMerchantHash(serverCalculatedHash);
             PayUmoneySdkInitilizer.startPaymentActivityForResult(this, paymentParam);
-
             */
-
         }
     }
 
@@ -270,13 +232,7 @@ public class MyActivity extends Activity {
     private void calculateServerSideHashAndInitiatePayment(final PayUmoneySdkInitilizer.PaymentParam paymentParam) {
 
         // Replace your server side hash generator API URL
-        //String url = "https://mobiletest.payumoney.com/payment/op/calculateHashForTest";
-        //String url = "http://pp0.payumoney.com/payment/op/calculateHashForTest";
-        //String url = "http://pp10.payumoney.com/payment/op/calculateHashForTest";
-        //String url = "http://pp4.payumoney.com/payment/op/calculateHashForTest";
-        //String url = "http://pp41.payumoney.com/payment/op/calculateHashForTest";
-        String url = "http://pp42.payumoney.com/payment/op/calculateHashForTest";
-        //String url = "http://pp21.payumoney.com/payment/op/calculateHashForTest";
+        String url = "https://test.payumoney.com/payment/op/calculateHashForTest";
 
         Toast.makeText(this,"Please wait... Generating hash from server ... ",Toast.LENGTH_LONG).show();
         StringRequest jsonObjectRequest = new StringRequest(Request.Method.POST,url,new Response.Listener<String>() {

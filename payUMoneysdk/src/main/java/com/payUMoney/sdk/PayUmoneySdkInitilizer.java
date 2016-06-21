@@ -19,41 +19,9 @@ public class PayUmoneySdkInitilizer {
     public static final int RESULT_BACK = 8;
     private static Boolean isDebugMode = false;
 
-    /*private static final String BASE_URL_DEBUG = "https://mobiletest.payumoney.com";
+    private static final String BASE_URL_DEBUG = "https://test.payumoney.com";
     private static final String BASE_URL_IMAGE_DEBUG = "https://testfile.payumoney.com";
-    private static final String WEBVIEW_REDIRECTION_URL_DEBUG = "https://mobiletest.payu.in/_seamless_payment";*/
-
-    /*private static final String BASE_URL_DEBUG = "https://mobiledev.payumoney.com";
-    private static final String BASE_URL_IMAGE_DEBUG = "https://testfile.payumoney.com";
-    private static final String WEBVIEW_REDIRECTION_URL_DEBUG = "https://mobiledev.payu.in/_seamless_payment";*/
-
-    /*private static final String BASE_URL_DEBUG = "https://test.payumoney.com";
-    private static final String BASE_URL_IMAGE_DEBUG = "https://testfile.payumoney.com";
-    private static final String WEBVIEW_REDIRECTION_URL_DEBUG = "https://test.payu.in/_seamless_payment";*/
-
-    /*private static final String BASE_URL_DEBUG = "http://pp21.payumoney.com";
-    private static final String BASE_URL_IMAGE_DEBUG = "http://ppfile21.payumoney.com";
-    private static final String WEBVIEW_REDIRECTION_URL_DEBUG = "http://pp21.secure.payu.in/_seamless_payment";*/
-
-    /*private static final String BASE_URL_DEBUG = "http://pp4.payumoney.com";
-    private static final String BASE_URL_IMAGE_DEBUG = "http://ppfile4.payumoney.com";
-    private static final String WEBVIEW_REDIRECTION_URL_DEBUG = "http://pp4.secure.payu.in/_seamless_payment";*/
-
-    /*private static final String BASE_URL_DEBUG = "http://pp41.payumoney.com";
-    private static final String BASE_URL_IMAGE_DEBUG = "http://ppfile41.payumoney.com";
-    private static final String WEBVIEW_REDIRECTION_URL_DEBUG = "http://pp41.secure.payu.in/_seamless_payment";*/
-
-    private static final String BASE_URL_DEBUG = "http://pp42.payumoney.com";
-    private static final String BASE_URL_IMAGE_DEBUG = "http://ppfile42.payumoney.com";
-    private static final String WEBVIEW_REDIRECTION_URL_DEBUG = "http://pp42.secure.payu.in/_seamless_payment";
-
-    /*private static final String BASE_URL_DEBUG = "http://pp0.payumoney.com";
-    private static final String BASE_URL_IMAGE_DEBUG = "http://ppfile0.payumoney.com";
-    private static final String WEBVIEW_REDIRECTION_URL_DEBUG = "http://pp0.secure.payu.in/_seamless_payment";*/
-
-    /*private static final String BASE_URL_DEBUG = "http://pp10.payumoney.com";
-    private static final String BASE_URL_IMAGE_DEBUG = "http://ppfile10.payumoney.com";
-    private static final String WEBVIEW_REDIRECTION_URL_DEBUG = "http://pp10.secure.payu.in/_seamless_payment";*/
+    private static final String WEBVIEW_REDIRECTION_URL_DEBUG = "https://test.payu.in/_seamless_payment";
 
     private static final String BASE_URL_LIVE = "https://www.payumoney.com";
     private static final String BASE_URL_IMAGE_LIVE = "https://file.payumoney.com";

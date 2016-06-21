@@ -219,8 +219,8 @@ public class SdkConstants {
     public static final String AUTHORIZATION_SALT_PROD = "paiumkney183";
     public static final String AUTHORIZATION_SALT = "authorizationSalt";
     public static final String KVAULT_PROD_URL = "https://www.payumoney.com/oneclick/getToken";
-    //public static final String KVAULT_TEST_URL = "http://tvapaymon.payubiz.in/vault/getToken";
-    public static final String KVAULT_TEST_URL = "http://10.100.66.49:8080/vault/getToken";
+    public static final String KVAULT_TEST_URL = "http://tvapaymon.payubiz.in/vault/getToken";
+    //public static final String KVAULT_TEST_URL = "http://10.100.66.49:8080/vault/getToken";
     public static final String KVAULT_DELETE_TOKEN_URL_TEST = "http://tvapaymon.payubiz.in/vault/deleteToken";
     public static final String KVAULT_DELETE_TOKEN_URL_PROD = "https://www.payumoney.com/oneclick/deleteToken";
 
