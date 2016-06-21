@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:background="@drawable/shape"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_centerInParent="true"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:src="@drawable/nopoint_green"
+            android:paddingTop="10dp"
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            />
+
+        <TextView
+            android:paddingTop="30dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="20sp"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="normal"
+            android:text="Processing your request"
+            android:textColor="#000000"
+            >
+
+        </TextView>
+        <TextView
+            android:paddingTop="10dp"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:text="@string/please_wait"
+            android:textColor="@color/blue"
+            android:id="@+id/please_wait">
+        </TextView>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
