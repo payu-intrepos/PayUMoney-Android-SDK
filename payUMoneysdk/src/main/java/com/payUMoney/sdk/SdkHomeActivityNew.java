@@ -200,7 +200,6 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                         initLayout();
                         return;
                     }
-
                 }
                 if (fromPayUMoneyApp) {
                     if (appResponse != null) {
@@ -1146,7 +1145,9 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
             }
         } else if (requestCode == WEB_VIEW) { //Coming back from making a payment
 
-            if (!mInternalLoadWalletCall) {
+            if(guestCheckOut){
+                SdkSession.getInstance(this).fetchPaymentStatus(paymentId);
+            } else if (!mInternalLoadWalletCall) {
                 // Fetch DTO for merchant for this payment
                 //SdkSession.getInstance(this).fetchPaymentStatus(paymentId);
                 //SdkSession.getInstance(this).fetchPaymentResponse(paymentId);
@@ -1612,11 +1613,14 @@ public class SdkHomeActivityNew extends FragmentActivity implements SdkDebit.Mak
                                 String paramKey = object.optString(SdkConstants.PARAM_KEY, "");
                                 String paramValue = object.optString(SdkConstants.PARAM_VALUE, "");
 
-                                if (paramKey.equals(SdkConstants.OTP_LOGIN))
+                                if (paramKey.equals(SdkConstants.OTP_LOGIN)) {
                                     quickLogin = paramValue;
-                                else if (paramKey.equals(SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_VALUE))
+                                } else if (paramKey.equals(SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_VALUE)) {
+                                    if((SdkConstants.MERCHANT_PARAM_ALLOW_QUICK_GUEST_CHECKOUT).equals(paramValue)) {
+                                        paramValue = SdkConstants.MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_ONLY;
+                                    }
                                     allowGuestCheckout = paramValue;
-
+                                }
                             }
                         } else {
                             SdkLogger.d(SdkConstants.TAG, "Error fetching Merchant Login Params");

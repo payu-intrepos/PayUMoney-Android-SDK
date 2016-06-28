@@ -36,7 +36,7 @@ import java.util.UUID;
 public class MyActivity extends Activity {
 
 
-    EditText amt = null, txnid = null, phone = null, pinfo = null, fname = null, email = null, surl = null, furl = null, mid = null, udf1 = null, udf2 = null, udf3 = null, udf4 = null, udf5 = null;
+    EditText amt = null;
     Button pay = null;
 
     public static final String TAG = "PayUMoneySDK Sample";
@@ -47,20 +47,6 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
         amt = (EditText) findViewById(R.id.amount);
-        txnid = (EditText) findViewById(R.id.txnid);
-        mid = (EditText) findViewById(R.id.merchant_id);
-        phone = (EditText) findViewById(R.id.phone);
-        pinfo = (EditText) findViewById(R.id.pinfo);
-        fname = (EditText) findViewById(R.id.fname);
-        email = (EditText) findViewById(R.id.email);
-        surl = (EditText) findViewById(R.id.surl);
-        furl = (EditText) findViewById(R.id.furl);
-        udf1 = (EditText) findViewById(R.id.udf1);
-        udf2 = (EditText) findViewById(R.id.udf2);
-        udf3 = (EditText) findViewById(R.id.udf3);
-        udf4 = (EditText) findViewById(R.id.udf4);
-        udf5 = (EditText) findViewById(R.id.udf5);
-        furl = (EditText) findViewById(R.id.furl);
         pay = (Button) findViewById(R.id.pay);
     }
 
@@ -73,115 +59,46 @@ public class MyActivity extends Activity {
         }
     }
 
-    public void makePayment(View view) {
-        Double amount =0.0;
-        String txnId = "0nf7" + System.currentTimeMillis();
-        if(isDouble(amt.getText().toString())){
+    private String getTxnId() {
+        return ("0nf7" + System.currentTimeMillis());
+    }
+
+    private double getAmount() {
+
+
+        Double amount = 10.0;
+
+        if (isDouble(amt.getText().toString())) {
             amount = Double.parseDouble(amt.getText().toString());
-        }else{
-            Toast.makeText(getApplicationContext(), "Enter correct amount", Toast.LENGTH_LONG).show();
-            return ;
-        }
-        if (amount <= 0.0) {
-            Toast.makeText(getApplicationContext(), "Enter Some amount", Toast.LENGTH_LONG).show();
-        } else if (amount > 1000000.00) {
-            Toast.makeText(getApplicationContext(), "Amount exceeding the limit : 1000000.00 ", Toast.LENGTH_LONG).show();
+            return amount;
         } else {
+            Toast.makeText(getApplicationContext(), "Paying Default Amount ₹10", Toast.LENGTH_LONG).show();
+            return amount;
+        }
+    }
 
-            PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder(  );
+    public void makePayment(View view) {
 
-            if(amt != null && amt.getText().toString().isEmpty()) {
-                builder.setAmount(10);
-            } else {
-                builder.setAmount(amount);// debug
-            }
+        PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder();
 
-            if(txnid != null && txnid.getText().toString().isEmpty()) {
-                //builder.setTnxId(UUID.randomUUID().toString());
+        builder.setAmount(getAmount())
+                .setTnxId(getTxnId())
+                .setPhone("8882434664")
+                .setProductName("product_name")
+                .setFirstName("piyush")
+                .setEmail("piyush.jain@payu.in")
+                .setsUrl("https://www.payumoney.com/mobileapp/payumoney/success.php")
+                .setfUrl("https://www.payumoney.com/mobileapp/payumoney/failure.php")
+                .setUdf1("")
+                .setUdf2("")
+                .setUdf3("")
+                .setUdf4("")
+                .setUdf5("")
+                .setIsDebug(true)
+                .setKey("dRQuiA")
+                .setMerchantId("4928174");// Debug Merchant ID
 
-                builder.setTnxId(txnId);
-            } else {
-                builder.setTnxId(txnid.getText().toString());
-            }
-
-            if(mid != null && mid.getText().toString().isEmpty()) {
-                builder.setMerchantId("4744443"); //
-            } else {
-                builder.setMerchantId(mid.getText().toString());// debug
-            }
-
-            if(phone != null && phone.getText().toString().isEmpty()) {
-                builder.setPhone("8882434664");
-            } else {
-                builder.setPhone(phone.getText().toString());// debug
-            }
-
-            if(pinfo != null && pinfo.getText().toString().isEmpty()) {
-                builder.setProductName("product_name");
-            } else {
-                builder.setProductName(pinfo.getText().toString());// debug
-            }
-
-            if(fname != null && fname.getText().toString().isEmpty()) {
-                builder.setFirstName("piyush");
-            } else {
-                builder.setFirstName(fname.getText().toString());// debug
-            }
-
-            if(email != null && email.getText().toString().isEmpty()) {
-                builder.setEmail("piyush.jain@payu.in");
-            } else {
-                builder.setEmail(email.getText().toString());// debug
-            }
-
-            if(surl != null && surl.getText().toString().isEmpty()) {
-                builder.setsUrl("https://www.payumoney.com/mobileapp/payumoney/success.php");
-            } else {
-                builder.setsUrl(surl.getText().toString());// debug
-            }
-
-            if(furl != null && furl.getText().toString().isEmpty()) {
-                builder.setfUrl("https://www.payumoney.com/mobileapp/payumoney/failure.php");
-            } else {
-                builder.setfUrl(furl.getText().toString());// debug
-            }
-
-            if(udf1 != null && udf1.getText().toString().isEmpty()) {
-                builder.setUdf1("");
-            } else {
-                builder.setUdf1(udf1.getText().toString());// debug
-            }
-
-            if(udf2 != null && udf2.getText().toString().isEmpty()) {
-                builder.setUdf2("");
-            } else {
-                builder.setUdf2(udf2.getText().toString());// debug
-            }
-
-            if(udf3 != null && udf3.getText().toString().isEmpty()) {
-                builder.setUdf3("");
-            } else {
-                builder.setUdf3(udf3.getText().toString());// debug
-            }
-
-            if(udf4 != null && udf4.getText().toString().isEmpty()) {
-                builder.setUdf4("");
-            } else {
-                builder.setUdf4(udf4.getText().toString());// debug
-            }
-
-            if(udf5 != null && udf5.getText().toString().isEmpty()) {
-                builder.setUdf5("");
-            } else {
-                builder.setUdf5(udf5.getText().toString());// debug
-            }
-
-            builder.setIsDebug(true);
-
-            builder.setKey("dRQuiA");// mobileTest Key
-            builder.setMerchantId("4928174");// Debug Merchant ID
-
-            PayUmoneySdkInitilizer.PaymentParam paymentParam = builder.build();
+        PayUmoneySdkInitilizer.PaymentParam paymentParam = builder.build();
 
             /*
              server side call required to calculate hash with the help of <salt>
@@ -196,8 +113,8 @@ public class MyActivity extends Activity {
 
             */
 
-            // Recommended
-            calculateServerSideHashAndInitiatePayment(paymentParam);
+        // Recommended
+        calculateServerSideHashAndInitiatePayment(paymentParam);
 
            /*
             testing purpose
@@ -206,7 +123,6 @@ public class MyActivity extends Activity {
             paymentParam.setMerchantHash(serverCalculatedHash);
             PayUmoneySdkInitilizer.startPaymentActivityForResult(this, paymentParam);
             */
-        }
     }
 
     public static String hashCal(String str) {
@@ -234,26 +150,24 @@ public class MyActivity extends Activity {
         // Replace your server side hash generator API URL
         String url = "https://test.payumoney.com/payment/op/calculateHashForTest";
 
-        Toast.makeText(this,"Please wait... Generating hash from server ... ",Toast.LENGTH_LONG).show();
-        StringRequest jsonObjectRequest = new StringRequest(Request.Method.POST,url,new Response.Listener<String>() {
+        Toast.makeText(this, "Please wait... Generating hash from server ... ", Toast.LENGTH_LONG).show();
+        StringRequest jsonObjectRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try{
+                try {
                     JSONObject jsonObject = new JSONObject(response);
 
-                    if(jsonObject.has(SdkConstants.STATUS)) {
+                    if (jsonObject.has(SdkConstants.STATUS)) {
                         String status = jsonObject.optString(SdkConstants.STATUS);
-                        if(status != null ||  status.equals("1")) {
+                        if (status != null || status.equals("1")) {
 
-                            String hash =  jsonObject.getString(SdkConstants.RESULT);
+                            String hash = jsonObject.getString(SdkConstants.RESULT);
                             Log.i("app_activity", "Server calculated Hash :  " + hash);
 
                             paymentParam.setMerchantHash(hash);
 
                             PayUmoneySdkInitilizer.startPaymentActivityForResult(MyActivity.this, paymentParam);
-                        }
-                        else
-                        {
+                        } else {
                             Toast.makeText(MyActivity.this,
                                     jsonObject.getString(SdkConstants.RESULT),
                                     Toast.LENGTH_SHORT).show();
@@ -275,8 +189,7 @@ public class MyActivity extends Activity {
                     Toast.makeText(MyActivity.this,
                             MyActivity.this.getString(R.string.connect_to_internet),
                             Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     Toast.makeText(MyActivity.this,
                             error.getMessage(),
                             Toast.LENGTH_SHORT).show();
@@ -284,7 +197,7 @@ public class MyActivity extends Activity {
                 }
 
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 return paymentParam.getParams();
@@ -309,12 +222,11 @@ public class MyActivity extends Activity {
             if (resultCode == RESULT_OK) {
                 Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
                 String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
-                showDialogMessage( "Payment Success Id : " + paymentId);
-            }
-            else if (resultCode == RESULT_CANCELED) {
+                showDialogMessage("Payment Success Id : " + paymentId);
+            } else if (resultCode == RESULT_CANCELED) {
                 Log.i(TAG, "failure");
                 showDialogMessage("cancelled");
-            }else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
+            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
                 Log.i("app_activity", "failure");
 
                 if (data != null) {
@@ -325,17 +237,14 @@ public class MyActivity extends Activity {
                     }
                 }
                 //Write your code if there's no result
-            }
-
-            else if (resultCode == PayUmoneySdkInitilizer.RESULT_BACK) {
+            } else if (resultCode == PayUmoneySdkInitilizer.RESULT_BACK) {
                 Log.i(TAG, "User returned without login");
-                showDialogMessage( "User returned without login");
+                showDialogMessage("User returned without login");
             }
         }
-
     }
 
-    private void showDialogMessage(String message){
+    private void showDialogMessage(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(TAG);
         builder.setMessage(message);

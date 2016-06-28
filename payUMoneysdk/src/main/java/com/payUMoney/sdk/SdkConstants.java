@@ -132,6 +132,7 @@ public class SdkConstants {
     public static final String MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_VALUE = "allowGuestCheckout";
     public static final String MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT = "guestcheckout";
     public static final String MERCHANT_PARAM_ALLOW_GUEST_CHECKOUT_ONLY = "guestcheckoutonly";
+    public static final String MERCHANT_PARAM_ALLOW_QUICK_GUEST_CHECKOUT = "quickGuestCheckout";
     public static final String OTP_LOGIN = "quickLogin";
     public static final String CASHBACK_ACCUMULATED = "cashbackAccumulated";
     public static final String OFFER = "offer";

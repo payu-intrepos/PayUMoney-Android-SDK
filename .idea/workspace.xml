@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="20fc9932-5e19-478e-843f-0e0a68de07e6" name="Default" comment="" />
+    <list default="true" id="8b0b95c0-bc4c-4404-9f28-80b7a55891a3" name="Default" comment="" />
     <ignored path="PayUMoneySDK-Android.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,41 +30,38 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/payumoney/payu/com/payumoneysdkapp/MyActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="211" column="46" selection-start-line="211" selection-start-column="46" selection-end-line="211" selection-end-column="46" />
+              <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SdkConstants.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkConstants.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="221" column="4" selection-start-line="221" selection-start-column="4" selection-end-line="221" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SdkWebViewActivityNew.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkWebViewActivityNew.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="242" column="110" selection-start-line="242" selection-start-column="110" selection-end-line="242" selection-end-column="110" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PayUmoneySdkInitilizer.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PayUmoneySdkInitilizer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/PayUmoneySdkInitilizer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.51384085">
-              <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-              <folding>
-                <element signature="e#1704#1705#0" expanded="true" />
-                <element signature="e#1750#1751#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0">
+              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SdkSession.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkSession.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="888" column="16" selection-start-line="888" selection-start-column="16" selection-end-line="888" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SdkHomeActivityNew.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkHomeActivityNew.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.37994722">
+              <caret line="1128" column="16" selection-start-line="1128" selection-start-column="16" selection-end-line="1128" selection-end-column="16" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -100,6 +102,56 @@
         <entry key="$PROJECT_DIR$">
           <value>
             <list>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the components produced by root project 'PayUMoneySDK-Android'. [incubating]" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="components" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays all dependencies declared in root project 'PayUMoneySDK-Android'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="dependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the insight into a specific dependency in root project 'PayUMoneySDK-Android'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="dependencyInsight" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays a help message." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="help" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Initializes a new Gradle build. [incubating]" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="init" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the configuration model of root project 'PayUMoneySDK-Android'. [incubating]" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="model" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the sub-projects of root project 'PayUMoneySDK-Android'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="projects" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the properties of root project 'PayUMoneySDK-Android'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="properties" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the tasks runnable from root project 'PayUMoneySDK-Android' (some of the displayed tasks may belong to subprojects)." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="tasks" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Generates Gradle wrapper files. [incubating]" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="wrapper" />
+              </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Displays the Android dependencies of the project." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -881,6 +933,11 @@
                 <option name="name" value="compileReleaseUnitTestSources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Displays the components produced by project ':app'. [incubating]" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="components" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Installs and runs instrumentation tests for all flavors on connected devices." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="connectedAndroidTest" />
@@ -894,6 +951,16 @@
                 <option name="description" value="Installs and runs the tests for debug on connected devices." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="connectedDebugAndroidTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays all dependencies declared in project ':app'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="dependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the insight into a specific dependency in project ':app'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="dependencyInsight" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Installs and runs instrumentation tests using all Device Providers." />
@@ -978,6 +1045,11 @@
                 <option name="name" value="generateReleaseSources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Displays a help message." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="help" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Installs the Debug build." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="installDebug" />
@@ -1043,6 +1115,11 @@
                 <option name="description" value="Creates a version of android.jar that's suitable for unit tests." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="mockableAndroidJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the configuration model of project ':app'. [incubating]" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="model" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
@@ -1202,6 +1279,16 @@
                 <option name="name" value="proguardRelease" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Displays the sub-projects of project ':app'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="projects" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the properties of project ':app'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="properties" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="shrinkReleaseResources" />
               </ExternalTaskPojo>
@@ -1214,6 +1301,11 @@
                 <option name="description" value="Prints out all the source sets defined in this project." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="sourceSets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the tasks runnable from project ':app'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="tasks" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Run unit tests for all variants." />
@@ -1433,6 +1525,11 @@
                 <option name="name" value="compileReleaseUnitTestSources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Displays the components produced by project ':payUMoneysdk'. [incubating]" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
+                <option name="name" value="components" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Installs and runs instrumentation tests for all flavors on connected devices." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
                 <option name="name" value="connectedAndroidTest" />
@@ -1458,6 +1555,16 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
                 <option name="name" value="createDebugAndroidTestMainDexClassList" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays all dependencies declared in project ':payUMoneysdk'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
+                <option name="name" value="dependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the insight into a specific dependency in project ':payUMoneysdk'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
+                <option name="name" value="dependencyInsight" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Installs and runs instrumentation tests using all Device Providers." />
@@ -1544,6 +1651,11 @@
                 <option name="name" value="generateReleaseSources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Displays a help message." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
+                <option name="name" value="help" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Installs the android (on device) tests for the Debug build." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
                 <option name="name" value="installDebugAndroidTest" />
@@ -1599,6 +1711,11 @@
                 <option name="description" value="Creates a version of android.jar that's suitable for unit tests." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
                 <option name="name" value="mockableAndroidJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the configuration model of project ':payUMoneysdk'. [incubating]" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
+                <option name="name" value="model" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
@@ -1777,6 +1894,16 @@
                 <option name="name" value="processReleaseUnitTestJavaRes" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Displays the sub-projects of project ':payUMoneysdk'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
+                <option name="name" value="projects" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the properties of project ':payUMoneysdk'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
+                <option name="name" value="properties" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
                 <option name="name" value="shrinkDebugAndroidTestMultiDexComponents" />
               </ExternalTaskPojo>
@@ -1789,6 +1916,11 @@
                 <option name="description" value="Prints out all the source sets defined in this project." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
                 <option name="name" value="sourceSets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the tasks runnable from project ':payUMoneysdk'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/payUMoneysdk" />
+                <option name="name" value="tasks" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Run unit tests for all variants." />
@@ -1826,7 +1958,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="5865972117000" />
+        <entry key="$PROJECT_DIR$" value="5867212202000" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -2113,108 +2245,117 @@
               <option name="name" value="app" />
               <option name="projectBuildClasspath">
                 <list>
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/announce" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/antlr" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/base-services" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/base-services-groovy" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/build-comparison" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/build-init" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/cli" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/code-quality" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/core" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/cunit" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/dependency-management" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/diagnostics" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ear" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ide" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ide-native" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/internal-integ-testing" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/internal-testing" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ivy" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/jacoco" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/javascript" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/jetty" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/language-groovy" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/language-java" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/language-jvm" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/language-native" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/launcher" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/maven" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/messaging" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/model-core" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/model-groovy" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/native" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/open-api" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/osgi" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/platform-base" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/platform-jvm" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/platform-native" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/plugin-development" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/plugin-use" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/plugins" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/publish" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/reporting" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/resources" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/resources-http" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/scala" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/signing" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/sonar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/tooling-api" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ui" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/wrapper" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/ant-1.9.3.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/ant-launcher-1.9.3.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-base-services-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-base-services-groovy-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-cli-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-core-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-docs-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-launcher-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-messaging-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-model-core-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-model-groovy-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-native-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-open-api-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-resources-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-tooling-api-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-ui-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-wrapper-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/groovy-all-2.3.6.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/ant-antlr-1.9.3.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-announce-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-antlr-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-build-comparison-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-build-init-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-code-quality-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-cunit-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-dependency-management-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-diagnostics-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-ear-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-ide-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-ide-native-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-ivy-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-jacoco-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-javascript-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-jetty-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-language-groovy-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-language-java-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-language-jvm-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-language-native-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-maven-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-osgi-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-platform-base-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-platform-jvm-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-platform-native-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-plugin-development-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-plugin-use-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-plugins-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-publish-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-reporting-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-resources-http-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-scala-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-signing-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-sonar-2.2.1.jar" />
-                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/ivy-2.2.0.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/announce" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/antlr" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/base-services" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/base-services-groovy" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/build-comparison" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/build-init" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/cli" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/code-quality" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/core" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/dependency-management" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/diagnostics" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/ear" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/ide" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/ide-native" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/internal-integ-testing" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/internal-testing" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/ivy" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/jacoco" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/javascript" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/jetty" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/language-groovy" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/language-java" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/language-jvm" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/language-native" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/language-scala" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/launcher" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/maven" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/messaging" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/model-core" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/model-groovy" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/native" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/open-api" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/osgi" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/platform-base" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/platform-jvm" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/platform-native" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/platform-play" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/plugin-development" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/plugin-use" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/plugins" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/publish" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/reporting" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/resources" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/resources-http" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/resources-s3" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/resources-sftp" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/scala" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/signing" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/sonar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/testing-native" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/tooling-api" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/tooling-api-builders" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/ui" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/src/wrapper" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/ant-1.9.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/ant-launcher-1.9.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-base-services-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-base-services-groovy-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-cli-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-core-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-docs-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-launcher-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-messaging-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-model-core-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-model-groovy-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-native-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-open-api-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-resources-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-tooling-api-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-ui-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/gradle-wrapper-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/groovy-all-2.3.10.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-announce-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-antlr-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-build-comparison-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-build-init-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-code-quality-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-dependency-management-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-diagnostics-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-ear-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-ide-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-ide-native-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-ivy-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-jacoco-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-javascript-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-jetty-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-language-groovy-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-language-java-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-language-jvm-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-language-native-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-language-scala-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-maven-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-osgi-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-platform-base-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-platform-jvm-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-platform-native-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-platform-play-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-plugin-development-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-plugin-use-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-plugins-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-publish-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-reporting-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-resources-http-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-resources-s3-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-resources-sftp-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-scala-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-signing-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-sonar-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-testing-native-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/gradle-tooling-api-builders-2.4.jar" />
+                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4/lib/plugins/ivy-2.2.0.jar" />
                   <option value="$PROJECT_DIR$/buildSrc/src/main/java" />
                   <option value="$PROJECT_DIR$/buildSrc/src/main/groovy" />
                 </list>
@@ -2228,21 +2369,12 @@
       <projects_view />
     </option>
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/PayUmoneySdkInitilizer.java" />
-        <option value="$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkConstants.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/payumoney/payu/com/payumoneysdkapp/MyActivity.java" />
-      </list>
-    </option>
-  </component>
   <component name="NamedScopeManager">
     <order />
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1278" />
+    <option name="width" value="1280" />
     <option name="height" value="722" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -2255,125 +2387,9 @@
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
-  <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-    </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
-      <pane id="Scope" />
-      <pane id="AndroidView">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PayUMoneySDK-Android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PayUMoneySDK-Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PayUMoneySDK-Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PayUMoneySDK-Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PayUMoneySDK-Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PayUMoneySDK-Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="payUMoneysdk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PayUMoneySDK-Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PayUMoneySDK-Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="payUMoneysdk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PayUMoneySDK-Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PayUMoneySDK-Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="payUMoneysdk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sdk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-    </panes>
-  </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="android.sdk-updates" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="android.project.structure.last.selected" value="SDK Location" />
-    <property name="android.project.structure.proportion" value="0.15" />
     <property name="recentsLimit" value="5" />
   </component>
   <component name="RunManager" selected="Android Application.app">
@@ -2383,36 +2399,6 @@
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="0" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <option name="SELECTED_CLOUD_DEVICE_CONFIGURATION_ID" value="0" />
-      <option name="SELECTED_CLOUD_DEVICE_PROJECT_ID" value="" />
-      <option name="IS_VALID_CLOUD_MATRIX_SELECTION" value="false" />
-      <option name="INVALID_CLOUD_MATRIX_SELECTION_ERROR" value="" />
-      <option name="IS_VALID_CLOUD_DEVICE_SELECTION" value="false" />
-      <option name="INVALID_CLOUD_DEVICE_SELECTION_ERROR" value="" />
-      <option name="CLOUD_DEVICE_SERIAL_NUMBER" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
       <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
@@ -2470,11 +2456,6 @@
       </option>
       <envs />
       <patterns />
-      <method />
-    </configuration>
-    <configuration default="true" type="JarApplication" factoryName="JAR Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -2559,25 +2540,22 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SvnConfiguration">
-    <configuration />
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="20fc9932-5e19-478e-843f-0e0a68de07e6" name="Default" comment="" />
-      <created>1466493055182</created>
+      <changelist id="8b0b95c0-bc4c-4404-9f28-80b7a55891a3" name="Default" comment="" />
+      <created>1467113279729</created>
       <option name="number" value="Default" />
-      <updated>1466493055182</updated>
+      <updated>1467113279729</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1278" height="722" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1280" height="722" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32838285" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32838285" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -2591,7 +2569,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2603,14 +2581,6 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
-  <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USER_GROUPS">
-      <collection />
-    </option>
-    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-      <collection />
-    </option>
-  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
@@ -2619,38 +2589,35 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkWebViewActivityNew.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="242" column="110" selection-start-line="242" selection-start-column="110" selection-end-line="242" selection-end-column="110" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/payumoney/payu/com/payumoneysdkapp/MyActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="211" column="46" selection-start-line="211" selection-start-column="46" selection-end-line="211" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="221" column="4" selection-start-line="221" selection-start-column="4" selection-end-line="221" selection-end-column="4" />
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/PayUmoneySdkInitilizer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51384085">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding>
-            <element signature="e#1704#1705#0" expanded="true" />
-            <element signature="e#1750#1751#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkSession.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="888" column="16" selection-start-line="888" selection-start-column="16" selection-end-line="888" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/payUMoneysdk/src/main/java/com/payUMoney/sdk/SdkHomeActivityNew.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.37994722">
+          <caret line="1128" column="16" selection-start-line="1128" selection-start-column="16" selection-end-line="1128" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>

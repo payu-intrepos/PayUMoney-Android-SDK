@@ -630,8 +630,8 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
 
     }
 
-    private void login(String username, String password) //Begin Login
-    {
+    private void login(String username, String password) {//Begin Login
+
         mLogin.setEnabled(false);
         mLogin.setText(R.string.logging_in);
 
