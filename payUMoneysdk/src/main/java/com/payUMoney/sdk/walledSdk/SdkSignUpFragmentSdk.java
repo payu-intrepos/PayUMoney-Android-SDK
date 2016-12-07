@@ -52,13 +52,14 @@ public class SdkSignUpFragmentSdk extends SdkBaseFragment {
 
         mEmail = (AutoCompleteTextView) view.findViewById(R.id.email);
 
-        Account[] accounts = AccountManager.get(mSdkLoginSignUpActivity).getAccounts();
+        /*Account[] accounts = AccountManager.get(mSdkLoginSignUpActivity).getAccounts();
         Set<String> emailSet = new HashSet<String>();
         for (Account account : accounts) {
             if (SdkConstants.EMAIL_PATTERN.matcher(account.name).matches()) {
                 emailSet.add(account.name);
             }
-        }
+        }*/
+        Set<String> emailSet = new HashSet<String>();
         mEmail.setAdapter(new ArrayAdapter<String>(mSdkLoginSignUpActivity, android.R.layout.simple_dropdown_item_1line, new ArrayList<String>(emailSet)));
         mEmail.setOnTouchListener(new View.OnTouchListener() {
             @Override

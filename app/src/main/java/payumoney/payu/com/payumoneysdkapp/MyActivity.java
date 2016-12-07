@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -20,7 +19,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.payUMoney.sdk.PayUmoneySdkInitilizer;
-import com.payUMoney.sdk.SdkCobbocEvent;
 import com.payUMoney.sdk.SdkConstants;
 
 import org.json.JSONException;
@@ -28,9 +26,7 @@ import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 
 public class MyActivity extends Activity {
@@ -59,9 +55,6 @@ public class MyActivity extends Activity {
         }
     }
 
-    private String getTxnId() {
-        return ("0nf7" + System.currentTimeMillis());
-    }
 
     private double getAmount() {
 
@@ -79,50 +72,68 @@ public class MyActivity extends Activity {
 
     public void makePayment(View view) {
 
+        String phone = "8882434664";
+        String productName = "product_name";
+        String firstName = "piyush";
+        String txnId = "0nf7" + System.currentTimeMillis();
+        String email="piyush.jain@payu.in";
+        String sUrl = "https://test.payumoney.com/mobileapp/payumoney/success.php";
+        String fUrl = "https://test.payumoney.com/mobileapp/payumoney/failure.php";
+        String udf1 = "";
+        String udf2 = "";
+        String udf3 = "";
+        String udf4 = "";
+        String udf5 = "";
+        boolean isDebug = true;
+        String key = "dRQuiA";
+        String merchantId = "4928174" ;
+
         PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder();
 
+
         builder.setAmount(getAmount())
-                .setTnxId(getTxnId())
-                .setPhone("8882434664")
-                .setProductName("product_name")
-                .setFirstName("piyush")
-                .setEmail("piyush.jain@payu.in")
-                .setsUrl("https://www.payumoney.com/mobileapp/payumoney/success.php")
-                .setfUrl("https://www.payumoney.com/mobileapp/payumoney/failure.php")
-                .setUdf1("")
-                .setUdf2("")
-                .setUdf3("")
-                .setUdf4("")
-                .setUdf5("")
-                .setIsDebug(true)
-                .setKey("dRQuiA")
-                .setMerchantId("4928174");// Debug Merchant ID
+                .setTnxId(txnId)
+                .setPhone(phone)
+                .setProductName(productName)
+                .setFirstName(firstName)
+                .setEmail(email)
+                .setsUrl(sUrl)
+                .setfUrl(fUrl)
+                .setUdf1(udf1)
+                .setUdf2(udf2)
+                .setUdf3(udf3)
+                .setUdf4(udf4)
+                .setUdf5(udf5)
+                .setIsDebug(isDebug)
+                .setKey(key)
+                .setMerchantId(merchantId);
 
         PayUmoneySdkInitilizer.PaymentParam paymentParam = builder.build();
 
-            /*
-             server side call required to calculate hash with the help of <salt>
-             <salt> is already shared along with merchant <key>
-             serverCalculatedHash =sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|<salt>)
+//             server side call required to calculate hash with the help of <salt>
+//             <salt> is already shared along with merchant <key>
+     /*        serverCalculatedHash =sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|<salt>)
 
              (e.g.)
 
              sha512(FCstqb|0nf7|10.0|product_name|piyush|piyush.jain@payu.in||||||MBgjYaFG)
 
              9f1ce50ba8995e970a23c33e665a990e648df8de3baf64a33e19815acd402275617a16041e421cfa10b7532369f5f12725c7fcf69e8d10da64c59087008590fc
-
-            */
+*/
 
         // Recommended
         calculateServerSideHashAndInitiatePayment(paymentParam);
 
-           /*
-            testing purpose
+//        testing purpose
 
-            String serverCalculatedHash="9f1ce50ba8995e970a23c33e665a990e648df8de3baf64a33e19815acd402275617a16041e421cfa10b7532369f5f12725c7fcf69e8d10da64c59087008590fc";
-            paymentParam.setMerchantHash(serverCalculatedHash);
-            PayUmoneySdkInitilizer.startPaymentActivityForResult(this, paymentParam);
-            */
+       /* String salt = "";
+        String serverCalculatedHash=hashCal(key+"|"+txnId+"|"+getAmount()+"|"+productName+"|"
+                +firstName+"|"+email+"|"+udf1+"|"+udf2+"|"+udf3+"|"+udf4+"|"+udf5+"|"+salt);
+
+        paymentParam.setMerchantHash(serverCalculatedHash);
+
+        PayUmoneySdkInitilizer.startPaymentActivityForResult(MyActivity.this, paymentParam);*/
+
     }
 
     public static String hashCal(String str) {

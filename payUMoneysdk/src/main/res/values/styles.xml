@@ -9,6 +9,10 @@
         <item name="android:background">#6ac451</item>
     </style>
 
+    <style name="MyTheme.AppCompat" parent="@style/Theme.AppCompat.Light.NoActionBar" tools:ignore="NewApi">
+
+    </style>
+
 
     <style name="ProgressDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFullscreen">true</item>

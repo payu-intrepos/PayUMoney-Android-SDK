@@ -74,13 +74,14 @@ public class SdkSignUpFragment extends Fragment implements Validator.ValidationL
         mPhone = (AutoCompleteTextView) view.findViewById(R.id.phone_number);
         mPassword = (EditText) view.findViewById(R.id.password);
 
-        Account[] accounts = AccountManager.get(getActivity()).getAccounts();
+        /*Account[] accounts = AccountManager.get(getActivity()).getAccounts();
         Set<String> emailSet = new HashSet<String>();
         for (Account account : accounts) {
             if (SdkConstants.EMAIL_PATTERN.matcher(account.name).matches()) {
                 emailSet.add(account.name);
             }
-        }
+        }*/
+        Set<String> emailSet = new HashSet<String>();
         mEmail.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, new ArrayList<String>(emailSet)));
         mEmail.setOnTouchListener(new View.OnTouchListener() {
             @Override

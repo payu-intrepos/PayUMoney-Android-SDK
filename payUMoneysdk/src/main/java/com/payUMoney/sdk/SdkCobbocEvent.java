@@ -26,6 +26,7 @@ public class SdkCobbocEvent {
     public static final int SEND_OTP_TO_USER = 50;
     public static final int CREATE_WALLET = 51;
     public static final int NET_BANKING_STATUS = 52;
+    public static final int POST_BACK_PARAM = 53;
 
 
     private boolean STATUS;

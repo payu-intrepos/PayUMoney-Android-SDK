@@ -1193,6 +1193,36 @@ public class SdkSession {
         }, Request.Method.POST);
     }
 
+    public void updatePostBackParamDetails(Map postBackParamMap) {
+
+        final Map p = postBackParamMap;
+
+        Task task1 = new Task() {
+            @Override
+            public void onSuccess(JSONObject object) {
+
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.POST_BACK_PARAM, true));
+
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.POST_BACK_PARAM, true));
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                eventBus.post(new SdkCobbocEvent(SdkCobbocEvent.POST_BACK_PARAM, false));
+            }
+
+            @Override
+            public void onProgress(int percent) {
+                SdkLogger.d(SdkConstants.TAG, "entered progress");
+            }
+        };
+        postFetch("/payment/app/processP2Response", p, task1, Request.Method.POST);
+
+    }
     public void notifyUserCancelledTransaction(String paymentId, String userCancelled) {
 
         final Map<String, String> p = new HashMap<>();

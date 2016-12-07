@@ -2,42 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.payUMoney.sdk" >
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <!--
 
-
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"accounts />
-    <uses-permission android:name="android.permission.READ_PROFILE"contacts />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" phone/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"contacts />
-
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" accounts/>-->
-    <!--<uses-permission android:name="android.permission.VIBRATE" />-->
-
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-
-
-    <!-- Create and manage accounts on device -->
-    <!--<uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />-->
-
-    <!--
-    <permission
-        android:name="com.payUMoney.sdk.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-
-    <uses-permission android:name="com.payUMoney.sdk.permission.C2D_MESSAGE" />
-    -->
-    <!-- App receives GCM messages. -->
-    <!--<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />-->
-    <!-- Keeps the processor from sleeping when a message is received. -->
-    <!-- Extract device IEMI number -->
-
-    <!-- Access Wifi State -->
 
 
     <uses-feature
@@ -50,7 +17,7 @@
         android:windowSoftInputMode="adjustPan" >
         <activity
             android:name=".SdkWebViewActivityNew"
-            android:label="@string/app_name"
+            android:theme="@style/MyTheme.AppCompat"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>

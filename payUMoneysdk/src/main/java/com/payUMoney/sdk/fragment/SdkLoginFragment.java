@@ -88,7 +88,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
     private Pattern otpPattern = Pattern.compile("(|^)\\d{6}");
     private EditText mOtpEditText = null;
     private BroadcastReceiver receiver = null;
-    private Account[] acc;
+//    private Account[] acc;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -98,7 +98,7 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
         c = getActivity();
 
         mAccountManager = AccountManager.get(getActivity().getApplicationContext());
-        acc = mAccountManager.getAccountsByType(SdkConstants.ARG_ACCOUNT_TYPE);
+//        acc = mAccountManager.getAccountsByType(SdkConstants.ARG_ACCOUNT_TYPE);
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
 
@@ -107,13 +107,14 @@ public class SdkLoginFragment extends Fragment implements Validator.ValidationLi
         mOtpEditText = (EditText) view.findViewById(R.id.otpEditText);
         mLogin = (Button) view.findViewById(R.id.login);
         mLogin.setEnabled(false);
-        Account[] accounts = AccountManager.get(getActivity()).getAccounts();
+        /*Account[] accounts = AccountManager.get(getActivity()).getAccounts();
         Set<String> emailSet = new HashSet<String>();
         for (Account account : accounts) {
             if (SdkConstants.EMAIL_PATTERN.matcher(account.name).matches()) {
                 emailSet.add(account.name);
             }
-        }
+        }*/
+        Set<String> emailSet = new HashSet<String>();
         mEmail.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, new ArrayList<String>(emailSet)));
         //showPassword = (ImageView) view.findViewById(R.id.show_password_eye);
         otpProgress = view.findViewById(R.id.otpProgress);
