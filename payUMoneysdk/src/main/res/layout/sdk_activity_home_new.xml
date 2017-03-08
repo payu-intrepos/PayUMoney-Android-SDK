@@ -112,6 +112,9 @@
                     android:layout_height="wrap_content"
                     android:button="@drawable/checkbox_green"
                     android:text="Use Wallet"
+                    android:drawablePadding="5dp"
+                    android:padding="5dp"
+                    android:drawableRight="@drawable/rbl_bank_logo"
                     android:textColor="#6ac451"
                      />
 
